@@ -91,10 +91,17 @@ public class GameLoop extends AnimationTimer {
 
 
     public void checkWin() {
+        //Hardcoded for testing
         Rectangle2D winZone = tm.getObjectLayer("Win layer").getObject("winZone").getRectangle();
-        if(winZone.intersects(gol.get(0).getBounds())) {
+        if(winZone.intersects(gol.get(1).getBounds())) {
             System.out.println("YOURE IN THE WINZONE!!");
         }
+        Rectangle2D killZone = tm.getObjectLayer("Win layer").getObject("killZone").getRectangle();
+        if(killZone.intersects(gol.get(1).getBounds())) {
+            System.out.println("YOURE IN THE KILLZONE!!");
+            this.stop();
+            System.exit(0);
+     }
 
     }
 
