@@ -5,6 +5,7 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.*;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.map.ImageMap;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
@@ -150,10 +151,11 @@ public class SoftwareInvader extends Game {
 
         GameLoop gl = new GameLoop(canvas, true);
 
-
-
-
         GameObject ship = new MainPlayer(700,500,50, 50, new Image("ship.png"));
+
+        ImageMap map = new ImageMap("gamebg.jpg");
+
+        gl.addMap(map);
         gl.addGameObject(ship);
 
 
