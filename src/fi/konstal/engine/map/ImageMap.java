@@ -23,8 +23,8 @@ public class ImageMap implements Map {
     @Override
     public void draw(GraphicsContext gc, Camera c) {
         gc.drawImage(map,
-                c.getxOffset(),
-                c.getyOffset(),
+                -c.getxOffset(),
+                -c.getyOffset(),
                 map.getWidth(),
                 map.getHeight()
         );
