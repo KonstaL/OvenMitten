@@ -1,10 +1,11 @@
 package fi.konstal.engine.core;
 
 import fi.konstal.engine.GameObjects.Enemy;
+import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.GameObject;
 import fi.konstal.engine.GameObjects.MainPlayer;
-import fi.konstal.engine.tiled.TiledMap;
+import fi.konstal.engine.map.tiled.TiledMap;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
@@ -22,7 +23,7 @@ public class GameLoop extends AnimationTimer {
     private int fps;
     private long fpsStart;
     private boolean showFps;
-    private static TiledMap tm;
+    private static Map map;
     public static Camera camera;
 
     public GameLoop(Canvas canvas, boolean showFps) {
@@ -47,14 +48,19 @@ public class GameLoop extends AnimationTimer {
         //Clear the canvas
         mainCanvas.getGraphicsContext2D().clearRect(0,0,mainCanvas.getWidth(), mainCanvas.getHeight());
 
+        if(map != null) {
+            //draw background map
+            map.draw(mainCanvas.getGraphicsContext2D(), camera);
+        }
 
-        //draw background map
-        tm.draw(mainCanvas.getGraphicsContext2D(), camera);
 
 
         //Draw the actual image
         for(GameObject go : gol) {
             go.move();
+            System.out.println(go.getX());
+            System.out.println(go.getY());
+
             //TESTING
             if (go instanceof Enemy) {
                 Enemy e = (Enemy) go;
@@ -72,7 +78,7 @@ public class GameLoop extends AnimationTimer {
         camera.center();
 
         //Check win
-        checkWin();
+        //checkWin();
 
 
 
@@ -91,18 +97,17 @@ public class GameLoop extends AnimationTimer {
 
 
     public void checkWin() {
-        //Hardcoded for testing
-        Rectangle2D winZone = tm.getObjectLayer("Win layer").getObject("winZone").getRectangle();
-        if(winZone.intersects(gol.get(1).getBounds())) {
-            System.out.println("YOURE IN THE WINZONE!!");
-        }
-        Rectangle2D killZone = tm.getObjectLayer("Win layer").getObject("killZone").getRectangle();
-        if(killZone.intersects(gol.get(1).getBounds())) {
-            System.out.println("YOURE IN THE KILLZONE!!");
-            this.stop();
-            System.exit(0);
-     }
-
+//        //Hardcoded for testing
+//        Rectangle2D winZone = tm.getObjectLayer("Win layer").getObject("winZone").getRectangle();
+//        if(winZone.intersects(gol.get(1).getBounds())) {
+//            System.out.println("YOURE IN THE WINZONE!!");
+//        }
+//        Rectangle2D killZone = tm.getObjectLayer("Win layer").getObject("killZone").getRectangle();
+//        if(killZone.intersects(gol.get(1).getBounds())) {
+//            System.out.println("YOURE IN THE KILLZONE!!");
+//            this.stop();
+//            System.exit(0);
+//        }
     }
 
     public void addGameObject(GameObject go) {
@@ -112,9 +117,8 @@ public class GameLoop extends AnimationTimer {
         }
     }
 
-    public static void addTiledMap(TiledMap tiledMap) {
-
-        tm = tiledMap;
+    public void addMap(Map map) {
+        this.map = map;
     }
 
     public void setCamera(Camera c) {

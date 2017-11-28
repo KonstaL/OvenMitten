@@ -1,4 +1,4 @@
-package fi.konstal.engine.tiled;
+package fi.konstal.engine.map.tiled;
 
 import java.util.ArrayList;
 import java.util.List;

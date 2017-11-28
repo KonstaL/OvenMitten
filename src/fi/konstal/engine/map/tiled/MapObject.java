@@ -1,4 +1,4 @@
-package fi.konstal.engine.tiled;
+package fi.konstal.engine.map.tiled;
 
 import javafx.geometry.Rectangle2D;
 

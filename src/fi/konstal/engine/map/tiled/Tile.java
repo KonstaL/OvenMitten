@@ -1,4 +1,4 @@
-package fi.konstal.engine.tiled;
+package fi.konstal.engine.map.tiled;
 
 /**
  * Created by e4klehti on 19.11.2017.

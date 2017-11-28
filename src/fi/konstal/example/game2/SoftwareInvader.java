@@ -1,12 +1,11 @@
-package fi.konstal.example.game1;
+package fi.konstal.example.game2;
+
+
 
 import fi.konstal.engine.*;
-import fi.konstal.engine.GameObjects.Enemy;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.KeyboardInput;
-import fi.konstal.engine.util.SpriteSheet;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
 import javafx.animation.*;
@@ -27,21 +26,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
-
 import java.util.Arrays;
 import java.util.List;
 
 
-/**
- * Created by e4klehti on 14.11.2017.
- */
-public class SpaceDestroyer2000 extends Game {
+public class SoftwareInvader extends Game {
 
     @Override
     public void showMainMenu(Stage primaryStage) {
         //Final size for the window
-        final int WIDTH = 1280;
-        final int HEIGHT = 720;
+        final int WIDTH = 720;
+        final int HEIGHT = 1000;
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
                 new Pair<String, Runnable>("Start Game", ()-> runGame(primaryStage)),
@@ -59,8 +54,9 @@ public class SpaceDestroyer2000 extends Game {
 
 
 
+
         //Set the title text
-        Text text = new Text("O  V  E  N  M  I  T  T  E  N\nE  N  G  I  N  E");
+        Text text = new Text("S O F T W A R E   I N V I D E R");
         text.setFont(new Font(40));
         text.setX(WIDTH/2  - text.getBoundsInLocal().getWidth()/2 );
         text.setY(HEIGHT/3.5);
@@ -82,11 +78,11 @@ public class SpaceDestroyer2000 extends Game {
         menuBox.setTranslateX(WIDTH/3+5);
         menuBox.setTranslateY(HEIGHT/3+50);
         menuData.forEach(data -> {
-                    MenuItem item = new MenuItem(data.getKey());
-                    item.setOnAction(data.getValue());
+            MenuItem item = new MenuItem(data.getKey());
+            item.setOnAction(data.getValue());
 
-                    menuBox.getChildren().addAll(item);
-                });
+            menuBox.getChildren().addAll(item);
+        });
 
         //Add an awesome explosion gif
         Image img = new Image("supernova2.gif");
@@ -154,29 +150,6 @@ public class SpaceDestroyer2000 extends Game {
 
         GameLoop gl = new GameLoop(canvas, true);
 
-        TiledMap tm = new TiledMap("src/fi/konstal/example/game1/resources/testTMX.tmx", "src/fi/konstal/example/game1/resources/");
-
-        gl.addMap(tm);
-
-
-
-        //testing
-        //============================================
-         int ROWS  =   4;
-         int PER_ROW    =  6;
-         //int OFFSET_X =  18;
-         //int OFFSET_Y =  25;
-         int WIDTH    = 256;
-         int HEIGHT   = 256;
-         int CYCLEDURATION = 5;
-
-        SpriteSheet sp = new SpriteSheet("src/fi/konstal/example/game1/resources/trump_run.png",
-                                            ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
-        GameObject enemy = new Enemy(400, 400, 300, 300);
-        enemy.setSp(sp);
-        gl.addGameObject(enemy);
-        //============================================
-
 
 
 
@@ -204,7 +177,8 @@ public class SpaceDestroyer2000 extends Game {
     }
 
 
-    public void launchThis() {
-        super.launch();
-    }
+        public void launchThis() {
+            super.launch();
+        }
 }
+

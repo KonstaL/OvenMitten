@@ -1,5 +1,6 @@
-package fi.konstal.engine.tiled;
+package fi.konstal.engine.map.tiled;
 
+import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.core.GameLoop;
 import javafx.embed.swing.SwingFXUtils;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TiledMap {
+public class TiledMap implements Map {
     private Document doc;
     private NodeList layerNodes;
     private NodeList objectNodes;
@@ -82,8 +83,6 @@ public class TiledMap {
         createTilesetImage();
         createLayers();
         createObjectLayers();
-
-        GameLoop.addTiledMap(this);
     }
 
     /**
