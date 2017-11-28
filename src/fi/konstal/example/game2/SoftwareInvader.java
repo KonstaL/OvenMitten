@@ -5,8 +5,6 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.*;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.map.ImageMap;
-import fi.konstal.engine.map.NoMap;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
@@ -156,6 +154,7 @@ public class SoftwareInvader extends Game {
 
         //ImageMap map = new ImageMap("gamebg.jpg");
         NoMap map = new NoMap();
+        map.setLineAmount(100);
         gl.addMap(map);
         gl.addGameObject(ship);
 
