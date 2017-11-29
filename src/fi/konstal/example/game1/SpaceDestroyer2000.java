@@ -170,7 +170,7 @@ public class SpaceDestroyer2000 extends Game {
 
         SpriteSheet sp = new SpriteSheet("src/fi/konstal/example/game1/resources/trump_run.png",
                                             ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
-        GameObject enemy = new Enemy(400, 400, 300, 300);
+        GameActor enemy = new Enemy(400, 400, 300, 300);
         enemy.setSp(sp);
 
         //============================================
@@ -178,7 +178,7 @@ public class SpaceDestroyer2000 extends Game {
 
 
 
-        GameObject ship = new MainPlayer(700,500,50, 50, new Image("ship.png"));
+        GameActor ship = new MainPlayer(700,500,50, 50, new Image("ship.png"));
 
 
         FollowCamera fc = new FollowCamera(ship, canvas);

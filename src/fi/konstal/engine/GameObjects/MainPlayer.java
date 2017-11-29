@@ -1,6 +1,6 @@
 package fi.konstal.engine.GameObjects;
 
-import fi.konstal.engine.GameObject;
+import fi.konstal.engine.GameActor;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 /**
  * Created by e4klehti on 18.11.2017.
  */
-    public class MainPlayer extends GameObject {
+    public class MainPlayer extends GameActor {
     public MainPlayer(int x, int y, int width, int height, Image image) {
         super(x, y, width, height, image);
     }

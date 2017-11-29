@@ -1,18 +1,17 @@
 package fi.konstal.engine.util;
 
 
-import fi.konstal.engine.Game;
-import fi.konstal.engine.GameObject;
+import fi.konstal.engine.GameActor;
 import javafx.scene.canvas.Canvas;
 
 /**
  * Created by e4klehti on 19.11.2017.
  */
 public class FollowCamera extends BareCamera {
-    private GameObject go; //center on this
+    private GameActor go; //center on this
     private Canvas mainCanvas;
 
-    public FollowCamera(GameObject go, Canvas mainCanvas) {
+    public FollowCamera(GameActor go, Canvas mainCanvas) {
         this.go = go;
         this.mainCanvas = mainCanvas;
         setxOffset(0);
@@ -31,11 +30,11 @@ public class FollowCamera extends BareCamera {
 
 
 
-    public GameObject getGameObject() {
+    public GameActor getGameObject() {
         return go;
     }
 
-    public void setGameObject(GameObject go) {
+    public void setGameObject(GameActor go) {
         this.go = go;
     }
 }

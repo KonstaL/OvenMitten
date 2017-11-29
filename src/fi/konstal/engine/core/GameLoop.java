@@ -3,9 +3,7 @@ package fi.konstal.engine.core;
 import fi.konstal.engine.GameObjects.Enemy;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
-import fi.konstal.engine.util.FollowCamera;
-import fi.konstal.engine.GameObject;
-import fi.konstal.engine.GameObjects.MainPlayer;
+import fi.konstal.engine.GameActor;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 
@@ -17,7 +15,7 @@ import java.util.ArrayList;
  */
 public class GameLoop extends AnimationTimer {
     int counter = 0;
-    private ArrayList<GameObject> gol;
+    private ArrayList<GameActor> gol;
     private Canvas mainCanvas;
     private int fps;
     private long fpsStart;
@@ -56,7 +54,7 @@ public class GameLoop extends AnimationTimer {
 
 
         //Draw the actual image
-        for(GameObject go : gol) {
+        for(GameActor go : gol) {
             go.update(mainCanvas);
             go.move();
 
@@ -112,7 +110,7 @@ public class GameLoop extends AnimationTimer {
 //        }
     }
 
-    public void addGameObject(GameObject go) {
+    public void addGameObject(GameActor go) {
         gol.add(go);
     }
 

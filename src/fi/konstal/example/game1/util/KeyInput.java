@@ -1,6 +1,6 @@
 package fi.konstal.example.game1.util;
 
-import fi.konstal.engine.GameObject;
+import fi.konstal.engine.GameActor;
 import fi.konstal.engine.util.KeyboardInput;
 import javafx.scene.input.KeyCode;
 
@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
  */
 public class KeyInput extends KeyboardInput {
 
-    public KeyInput(GameObject go) {
+    public KeyInput(GameActor go) {
         super(go);
     }
 

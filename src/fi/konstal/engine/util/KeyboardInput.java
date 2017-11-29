@@ -1,6 +1,6 @@
 package fi.konstal.engine.util;
 
-import fi.konstal.engine.GameObject;
+import fi.konstal.engine.GameActor;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,12 +12,12 @@ import java.util.ArrayList;
  */
 public abstract class KeyboardInput implements EventHandler<KeyEvent>{
     private ArrayList<KeyCode> inputs;
-    private GameObject go;
+    private GameActor go;
     private boolean restrictMovement;
     private boolean showInputs;
 
 
-    public KeyboardInput(GameObject go) {
+    public KeyboardInput(GameActor go) {
         this.go = go;
         inputs = new ArrayList<>();
         this.restrictMovement = false;
@@ -57,7 +57,7 @@ public abstract class KeyboardInput implements EventHandler<KeyEvent>{
     public abstract void restrictedUpdate();
 
 
-    public GameObject getGameObject() {
+    public GameActor getGameObject() {
         return go;
     }
 
@@ -70,11 +70,11 @@ public abstract class KeyboardInput implements EventHandler<KeyEvent>{
         return inputs;
     }
 
-    public GameObject getGo() {
+    public GameActor getGo() {
         return go;
     }
 
-    public void setGo(GameObject go) {
+    public void setGo(GameActor go) {
         this.go = go;
     }
 }
