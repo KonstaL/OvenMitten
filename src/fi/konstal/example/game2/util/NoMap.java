@@ -1,4 +1,4 @@
-package fi.konstal.example.game2;
+package fi.konstal.example.game2.util;
 
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
@@ -53,8 +53,8 @@ public class NoMap implements Map {
             y += speed;
 
             //If spaceline is out of bounds, set it back to top
-            if(y > 700) {
-                y = -700;
+            if(y > 1100) {
+                y = -500;
             }
         }
     }

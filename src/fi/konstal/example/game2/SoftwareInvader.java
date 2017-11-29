@@ -5,10 +5,11 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.*;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.util.FollowCamera;
+import fi.konstal.engine.util.BareCamera;
 import fi.konstal.engine.util.KeyboardInput;
-import fi.konstal.example.game1.util.KeyInput;
-import fi.konstal.example.game1.util.MenuItem;
+import fi.konstal.example.game2.util.KeyInput;
+import fi.konstal.example.game2.util.MenuItem;
+import fi.konstal.example.game2.util.NoMap;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -149,15 +150,15 @@ public class SoftwareInvader extends Game {
         root.getChildren().add(canvas);
 
 
-        GameObject ship = new MainPlayer(100,100,50, 50, new Image("ship.png"));
+        GameObject ship = new MainPlayer(355, 700, 50, 50, new Image("ship.png"));
 
         //ImageMap map = new ImageMap("gamebg.jpg");
         NoMap map = new NoMap();
         map.setLineAmount(100);
 
-        FollowCamera fc = new FollowCamera(ship, canvas);
+        BareCamera bc = new BareCamera();
 
-        GameLoop gl = new GameLoop(canvas, map, fc, true);
+        GameLoop gl = new GameLoop(canvas, map, bc, true);
         gl.addGameObject(ship);
 
 
