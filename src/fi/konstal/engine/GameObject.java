@@ -3,6 +3,7 @@ package fi.konstal.engine;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.engine.util.SpriteSheet;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
 
@@ -46,7 +47,7 @@ public abstract class GameObject {
 
     abstract public void move();
     abstract public void getInput();
-    abstract public void update();
+    abstract public void update(Canvas c);
 
     public int getX() {
         return x;

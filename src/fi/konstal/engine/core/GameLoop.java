@@ -57,6 +57,7 @@ public class GameLoop extends AnimationTimer {
 
         //Draw the actual image
         for(GameObject go : gol) {
+            go.update(mainCanvas);
             go.move();
 
 //            System.out.println(go.getX());

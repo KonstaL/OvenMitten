@@ -1,6 +1,7 @@
 package fi.konstal.engine.GameObjects;
 
 import fi.konstal.engine.GameObject;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
 /**
@@ -25,7 +26,7 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public void update() {
+    public void update(Canvas c) {
 
     }
 }

@@ -150,7 +150,7 @@ public class SoftwareInvader extends Game {
         root.getChildren().add(canvas);
 
 
-        GameObject ship = new MainPlayer(355, 700, 50, 50, new Image("ship.png"));
+        GameObject ship = new MainPlayer(355, 700, 73, 110, new Image("ship.png"));
 
         //ImageMap map = new ImageMap("gamebg.jpg");
         NoMap map = new NoMap();
