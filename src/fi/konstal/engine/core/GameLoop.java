@@ -3,11 +3,10 @@ package fi.konstal.engine.core;
 import fi.konstal.engine.GameObjects.Enemy;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.util.FollowCamera;
 import fi.konstal.engine.GameObject;
 import fi.konstal.engine.GameObjects.MainPlayer;
-import fi.konstal.engine.map.tiled.TiledMap;
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 
 
@@ -24,13 +23,14 @@ public class GameLoop extends AnimationTimer {
     private long fpsStart;
     private boolean showFps;
     private static Map map;
-    public static Camera camera;
+    private Camera camera;
 
-    public GameLoop(Canvas canvas, boolean showFps) {
-        mainCanvas = canvas;
+    public GameLoop(Canvas canvas, Map map, Camera camera, boolean showFps) {
+        this.mainCanvas = canvas;
+        this.map = map;
         this.showFps = showFps;
-        gol = new ArrayList<>();
-        camera = new Camera(mainCanvas);
+        this.gol = new ArrayList<>();
+        this.camera = camera;
     }
 
 
@@ -58,8 +58,9 @@ public class GameLoop extends AnimationTimer {
         //Draw the actual image
         for(GameObject go : gol) {
             go.move();
-            System.out.println(go.getX());
-            System.out.println(go.getY());
+
+//            System.out.println(go.getX());
+//            System.out.println(go.getY());
 
             //TESTING
             if (go instanceof Enemy) {
@@ -75,7 +76,7 @@ public class GameLoop extends AnimationTimer {
         }
 
         //Center viewport
-        camera.center();
+        camera.move(0,0);
 
         //Check win
         //checkWin();
@@ -112,17 +113,10 @@ public class GameLoop extends AnimationTimer {
 
     public void addGameObject(GameObject go) {
         gol.add(go);
-        if(go instanceof MainPlayer) {
-            camera.setGameObject(go);
-        }
     }
 
     public void addMap(Map map) {
         this.map = map;
-    }
-
-    public void setCamera(Camera c) {
-        this.camera = c;
     }
 }
 

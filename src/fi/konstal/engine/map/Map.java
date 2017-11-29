@@ -9,5 +9,4 @@ import javafx.scene.canvas.GraphicsContext;
 public interface Map {
     void draw(GraphicsContext gc, Camera c);
 
-
 }

@@ -5,6 +5,7 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.*;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.util.FollowCamera;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
@@ -144,18 +145,19 @@ public class SoftwareInvader extends Game {
 
 
 
-        Canvas canvas = new Canvas(primaryStage.getScene().getWidth(),
-                primaryStage.getScene().getHeight());
+        Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
         root.getChildren().add(canvas);
 
-        GameLoop gl = new GameLoop(canvas, true);
 
         GameObject ship = new MainPlayer(100,100,50, 50, new Image("ship.png"));
 
         //ImageMap map = new ImageMap("gamebg.jpg");
         NoMap map = new NoMap();
         map.setLineAmount(100);
-        gl.addMap(map);
+
+        FollowCamera fc = new FollowCamera(ship, canvas);
+
+        GameLoop gl = new GameLoop(canvas, map, fc, true);
         gl.addGameObject(ship);
 
 

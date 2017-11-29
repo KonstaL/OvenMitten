@@ -2,6 +2,7 @@ package fi.konstal.example.game2;
 
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.util.FollowCamera;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 

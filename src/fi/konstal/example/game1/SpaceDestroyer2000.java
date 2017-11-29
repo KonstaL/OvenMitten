@@ -5,6 +5,7 @@ import fi.konstal.engine.GameObjects.Enemy;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.map.tiled.TiledMap;
+import fi.konstal.engine.util.FollowCamera;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.engine.util.SpriteSheet;
 import fi.konstal.example.game1.util.KeyInput;
@@ -148,15 +149,12 @@ public class SpaceDestroyer2000 extends Game {
 
 
 
-        Canvas canvas = new Canvas(primaryStage.getScene().getWidth(),
-                primaryStage.getScene().getHeight());
+        Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
         root.getChildren().add(canvas);
 
-        GameLoop gl = new GameLoop(canvas, true);
 
         TiledMap tm = new TiledMap("src/fi/konstal/example/game1/resources/testTMX.tmx", "src/fi/konstal/example/game1/resources/");
 
-        gl.addMap(tm);
 
 
 
@@ -174,14 +172,21 @@ public class SpaceDestroyer2000 extends Game {
                                             ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
         GameObject enemy = new Enemy(400, 400, 300, 300);
         enemy.setSp(sp);
-        gl.addGameObject(enemy);
+
         //============================================
 
 
 
 
         GameObject ship = new MainPlayer(700,500,50, 50, new Image("ship.png"));
+
+
+        FollowCamera fc = new FollowCamera(ship, canvas);
+
+        GameLoop gl = new GameLoop(canvas, tm, fc, true);
+
         gl.addGameObject(ship);
+        gl.addGameObject(enemy);
 
 
         KeyboardInput input = new KeyInput(ship);

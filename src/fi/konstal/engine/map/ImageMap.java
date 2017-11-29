@@ -1,10 +1,9 @@
 package fi.konstal.engine.map;
 
 import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.util.FollowCamera;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 /**
  * Created by konka on 28.11.2017.
