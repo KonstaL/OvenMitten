@@ -1,8 +1,6 @@
 package fi.konstal.engine.util;
 
-import fi.konstal.engine.GameObjects.Sprite;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -16,9 +14,9 @@ import java.util.ArrayList;
 /**
  * Created by e4klehti on 22.11.2017.
  */
-public class SpriteSheet {
+public class Animation {
     private ImageView sheet;
-    private ArrayList<Image> animation;
+    private ArrayList<Image> images;
     private Image currentFrame;
     private int cycleDuration;
     private int rows;
@@ -28,8 +26,8 @@ public class SpriteSheet {
     private int counter;
 
 
-    public SpriteSheet(String path, int rows, int amount, int width, int height, int cycleDuration) {
-        animation = new ArrayList<>();
+    public Animation(String path, int rows, int amount, int width, int height, int cycleDuration) {
+        images = new ArrayList<>();
         counter = 0;
 
         this.rows = rows;
@@ -60,21 +58,21 @@ public class SpriteSheet {
         if(img != null) {
             for(int i = 0; i < rows; i++) {
                 for (int y = 0; y < amount; y++) {
-                    animation.add( SwingFXUtils.toFXImage(img.getSubimage(width * y , height * i, width, height), null));
+                    images.add( SwingFXUtils.toFXImage(img.getSubimage(width * y , height * i, width, height), null));
                 }
             }
-            currentFrame = animation.get(1);
-            System.out.println("DONE!");
+            currentFrame = images.get(1);
+            System.out.println("Animointi spritesheet tehty!");
         }
 
     }
 
     public Image cycleAnimation() {
         if(counter >= cycleDuration) {
-            if(animation.size()-1  <= animation.indexOf(currentFrame)) {
-                currentFrame = animation.get(0);
+            if(images.size()-1  <= images.indexOf(currentFrame)) {
+                currentFrame = images.get(0);
             } else {
-                currentFrame = animation.get(animation.indexOf(currentFrame) + 1);
+                currentFrame = images.get(images.indexOf(currentFrame) + 1);
             }
             counter = 0;
         }

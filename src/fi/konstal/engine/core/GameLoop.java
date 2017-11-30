@@ -70,7 +70,7 @@ public class GameLoop extends AnimationTimer {
 
             } else {
                 mainCanvas.getGraphicsContext2D().drawImage(go.getImage(),
-                        go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset());
+                        go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
             }
         }
 

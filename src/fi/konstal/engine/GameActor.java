@@ -1,7 +1,7 @@
 package fi.konstal.engine;
 
 import fi.konstal.engine.util.KeyboardInput;
-import fi.konstal.engine.util.SpriteSheet;
+import fi.konstal.engine.util.Animation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -22,7 +22,7 @@ public abstract class GameActor {
     private KeyboardInput keyboardInputListener;
     private Enum<Direction> direction;
     private Rectangle2D bounds;
-    public SpriteSheet sp;
+    public Animation sp;
 
     public GameActor(int x, int y, int width, int height, Image image) {
         this.x = x;
@@ -38,7 +38,7 @@ public abstract class GameActor {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.image = new Image("ship.png");
+        this.image = new Image("OvenMitten.jpeg");
         this.bounds = new Rectangle2D(x, y, width, height);
     }
 
@@ -121,11 +121,11 @@ public abstract class GameActor {
         this.bounds = bounds;
     }
 
-    public SpriteSheet getSp() {
+    public Animation getSp() {
         return sp;
     }
 
-    public void setSp(SpriteSheet sp) {
+    public void setSp(Animation sp) {
         this.sp = sp;
     }
 }

@@ -7,7 +7,7 @@ import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.FollowCamera;
 import fi.konstal.engine.util.KeyboardInput;
-import fi.konstal.engine.util.SpriteSheet;
+import fi.konstal.engine.util.Animation;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
 import javafx.animation.*;
@@ -168,7 +168,7 @@ public class SpaceDestroyer2000 extends Game {
          int HEIGHT   = 256;
          int CYCLEDURATION = 5;
 
-        SpriteSheet sp = new SpriteSheet("src/fi/konstal/example/game1/resources/trump_run.png",
+        Animation sp = new Animation("src/fi/konstal/example/game1/resources/trump_run.png",
                                             ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
         GameActor enemy = new Enemy(400, 400, 300, 300);
         enemy.setSp(sp);

@@ -1,7 +1,5 @@
 package fi.konstal.example.game2;
 
-
-
 import fi.konstal.engine.*;
 import fi.konstal.engine.GameObjects.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
@@ -150,7 +148,7 @@ public class SoftwareInvader extends Game {
         root.getChildren().add(canvas);
 
 
-        GameActor ship = new MainPlayer(355, 700, 73, 110, new Image("ship.png"));
+        GameActor ship = new MainPlayer(355, 700, 73, 110);
 
         //ImageMap map = new ImageMap("gamebg.jpg");
         NoMap map = new NoMap();

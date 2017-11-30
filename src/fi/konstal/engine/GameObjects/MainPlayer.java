@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
     public MainPlayer(int x, int y, int width, int height, Image image) {
         super(x, y, width, height, image);
     }
+    public MainPlayer(int x, int y, int width, int height) { super(x, y, width, height); }
 
     @Override
     public void move() {

@@ -9,7 +9,9 @@ import javafx.scene.image.Image;
  */
 public class Projectile extends GameActor {
 
-
+    public Projectile(int x, int y, int width, int height, Image image) {
+        super(x, y, width, height, image);
+    }
 
     @Override
     public void move() {
