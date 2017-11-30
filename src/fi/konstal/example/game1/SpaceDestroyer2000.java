@@ -183,7 +183,7 @@ public class SpaceDestroyer2000 extends Game {
 
         FollowCamera fc = new FollowCamera(ship, canvas);
 
-        GameLoop gl = new GameLoop(canvas, tm, fc, true);
+        GameLoop gl = new GameLoop(canvas, tm, fc, true, true);
 
         gl.addGameObject(ship);
         gl.addGameObject(enemy);

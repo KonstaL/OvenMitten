@@ -148,15 +148,14 @@ public class SoftwareInvader extends Game {
         root.getChildren().add(canvas);
 
 
-        GameActor ship = new MainPlayer(355, 700, 73, 110);
+        GameActor ship = new MainPlayer(355, 700, 73, 110, new Image("ship.png"));
 
-        //ImageMap map = new ImageMap("gamebg.jpg");
         NoMap map = new NoMap();
         map.setLineAmount(100);
 
         BareCamera bc = new BareCamera();
 
-        GameLoop gl = new GameLoop(canvas, map, bc, true);
+        GameLoop gl = new GameLoop(canvas, map, bc, true, true);
         gl.addGameObject(ship);
 
 

@@ -6,6 +6,7 @@ import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.GameActor;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
 
 
 import java.util.ArrayList;
@@ -20,12 +21,14 @@ public class GameLoop extends AnimationTimer {
     private int fps;
     private long fpsStart;
     private boolean showFps;
+    private boolean showHitbox;
     private static Map map;
     private Camera camera;
 
-    public GameLoop(Canvas canvas, Map map, Camera camera, boolean showFps) {
+    public GameLoop(Canvas canvas, Map map, Camera camera, boolean showHitbox, boolean showFps) {
         this.mainCanvas = canvas;
         this.map = map;
+        this.showHitbox = showHitbox;
         this.showFps = showFps;
         this.gol = new ArrayList<>();
         this.camera = camera;
@@ -58,8 +61,6 @@ public class GameLoop extends AnimationTimer {
             go.update(mainCanvas);
             go.move();
 
-//            System.out.println(go.getX());
-//            System.out.println(go.getY());
 
             //TESTING
             if (go instanceof Enemy) {
@@ -71,6 +72,13 @@ public class GameLoop extends AnimationTimer {
             } else {
                 mainCanvas.getGraphicsContext2D().drawImage(go.getImage(),
                         go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
+
+
+                if(showHitbox)  {
+                    mainCanvas.getGraphicsContext2D().setStroke(Color.RED);
+                    mainCanvas.getGraphicsContext2D().strokeRect(go.getX()- camera.getxOffset(),
+                            go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
+                }
             }
         }
 
