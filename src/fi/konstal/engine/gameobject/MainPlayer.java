@@ -1,6 +1,7 @@
 package fi.konstal.engine.gameobject;
 
 import fi.konstal.engine.GameActor;
+import fi.konstal.engine.gameobject.collider.Rectangle;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -18,7 +19,7 @@ import javafx.scene.image.Image;
     public void move() {
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
-        setBounds(new Rectangle2D(getX(), getY(), getWidth(), getHeight()));
+        getCollider().update(getX(), getY());
     }
 
     @Override

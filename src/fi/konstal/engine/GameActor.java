@@ -1,12 +1,17 @@
 package fi.konstal.engine;
 
+import fi.konstal.engine.gameobject.collider.*;
+import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.engine.util.Animation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -23,7 +28,7 @@ public abstract class GameActor {
     private int yVelocity;
     private KeyboardInput keyboardInputListener;
     private Enum<Direction> direction;
-    private List<Rectangle2D> bounds;
+    private Collider collider;
     public Animation sp;
 
     public GameActor(int x, int y, int width, int height, Image image) {
@@ -31,10 +36,7 @@ public abstract class GameActor {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.image = image;
-        this.bounds = new ArrayList<>();
-
-        bounds.add(new Rectangle2D(x, y, width, height));
+        this.image = image;;
     }
 
     public GameActor(int x, int y, int width, int height) {
@@ -43,12 +45,7 @@ public abstract class GameActor {
         this.width = width;
         this.height = height;
         this.image = new Image("OvenMitten.jpeg");
-        this.bounds = new ArrayList<>();
-
-        bounds.add(new Rectangle2D(x, y, width, height));
     }
-
-
 
 
     abstract public void move();
@@ -119,19 +116,6 @@ public abstract class GameActor {
         this.yVelocity = yVelocity;
     }
 
-    public List<Rectangle2D> getBounds() {
-        return bounds;
-    }
-
-//    public void setBounds(List<Rectangle2D> bounds) {
-//        this.bounds = bounds;
-//    }
-//
-//    public void updateBounds() {
-//        for(Rectangle2D re : bounds) {
-//            re.
-//        }
-//    }
 
     public Animation getSp() {
         return sp;
@@ -139,6 +123,58 @@ public abstract class GameActor {
 
     public void setSp(Animation sp) {
         this.sp = sp;
+    }
+
+    public Collider getCollider() {
+        return collider;
+    }
+
+    public void setCollider(Collider collider) {
+        this.collider = collider;
+    }
+    public void renderCollider(GraphicsContext gc, Camera camera) {
+
+        if(collider instanceof Rectangle) {
+            gc.strokeRect(
+                    getX()- camera.getxOffset(),
+                    getY() - camera.getyOffset(),
+                    getWidth(),
+                    getHeight());
+        } else if(collider instanceof Ellipse || collider instanceof Circle) {
+            gc.strokeOval(
+                    getX()- camera.getxOffset(),
+                    getY() - camera.getyOffset(),
+                    getWidth(),
+                    getHeight());
+        } else if(collider instanceof Polygon) {
+            List<Double> points = ((Polygon) collider).getPoints();
+            double[] xCoord = new double[(points.size())/2];
+            double[] yCoord = new double[(points.size())/2];
+
+            //TODO: Reformat this away
+            int yCounter = 0;
+            int xCounter = 0;
+
+
+            for(int i = 0; i < points.size(); i++) {
+                if(i%2 == 0) {
+                    xCoord[xCounter] = points.get(i);
+                    xCounter++;
+                } else {
+                    yCoord[yCounter] = points.get(i);
+                    yCounter++;
+                }
+            }
+
+            gc.setStroke(Color.RED);
+            gc.strokePolygon(
+                    xCoord,
+                    yCoord,
+                    points.size()/2);
+        } else {
+            throw new RuntimeException("Colliders rendering is not implemented!");
+        }
+
     }
 }
 

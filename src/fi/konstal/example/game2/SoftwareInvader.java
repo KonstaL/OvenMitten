@@ -3,6 +3,8 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.*;
 import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.gameobject.collider.Polygon;
+import fi.konstal.engine.gameobject.collider.Rectangle;
 import fi.konstal.engine.util.BareCamera;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.example.game2.util.KeyInput;
@@ -149,6 +151,17 @@ public class SoftwareInvader extends Game {
 
 
         GameActor ship = new MainPlayer(355, 700, 73, 110, new Image("ship.png"));
+        ship.setCollider(new Polygon(
+                ship.getX(),
+                ship.getY(),
+                20.0,
+                20.0,
+                ship.getWidth(),
+                0.0,
+                ship.getWidth(),
+                ship.getHeight(),
+                0.0,
+                ship.getHeight()));
 
         NoMap map = new NoMap();
         map.setLineAmount(100);

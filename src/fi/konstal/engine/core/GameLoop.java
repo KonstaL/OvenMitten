@@ -75,9 +75,11 @@ public class GameLoop extends AnimationTimer {
 
 
                 if(showHitbox)  {
-                    mainCanvas.getGraphicsContext2D().setStroke(Color.RED);
-                    mainCanvas.getGraphicsContext2D().strokeRect(go.getX()- camera.getxOffset(),
-                            go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
+                    go.renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+
+//                    mainCanvas.getGraphicsContext2D().setStroke(Color.RED);
+//                    mainCanvas.getGraphicsContext2D().strokeRect(go.getX()- camera.getxOffset(),
+//                            go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
                 }
             }
         }
