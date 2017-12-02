@@ -1,8 +1,8 @@
 package fi.konstal.example.game1;
 
 import fi.konstal.engine.*;
-import fi.konstal.engine.GameObjects.Enemy;
-import fi.konstal.engine.GameObjects.MainPlayer;
+import fi.konstal.engine.gameobject.Enemy;
+import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.FollowCamera;

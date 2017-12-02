@@ -1,4 +1,4 @@
-package fi.konstal.engine.GameObjects;
+package fi.konstal.engine.gameobject;
 
 import fi.konstal.engine.GameActor;
 import javafx.geometry.Rectangle2D;

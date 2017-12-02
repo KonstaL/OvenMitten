@@ -1,7 +1,7 @@
 package fi.konstal.example.game2;
 
 import fi.konstal.engine.*;
-import fi.konstal.engine.GameObjects.MainPlayer;
+import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.util.BareCamera;
 import fi.konstal.engine.util.KeyboardInput;

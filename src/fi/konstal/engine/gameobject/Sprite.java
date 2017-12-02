@@ -1,4 +1,4 @@
-package fi.konstal.engine.GameObjects;
+package fi.konstal.engine.gameobject;
 
 import java.util.ArrayList;
 import java.util.List;

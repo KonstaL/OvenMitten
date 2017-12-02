@@ -1,6 +1,6 @@
 package fi.konstal.engine.core;
 
-import fi.konstal.engine.GameObjects.Enemy;
+import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.GameActor;

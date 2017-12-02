@@ -6,6 +6,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,7 +23,7 @@ public abstract class GameActor {
     private int yVelocity;
     private KeyboardInput keyboardInputListener;
     private Enum<Direction> direction;
-    private Rectangle2D bounds;
+    private List<Rectangle2D> bounds;
     public Animation sp;
 
     public GameActor(int x, int y, int width, int height, Image image) {
@@ -30,7 +32,9 @@ public abstract class GameActor {
         this.width = width;
         this.height = height;
         this.image = image;
-        this.bounds = new Rectangle2D(x, y, width, height);
+        this.bounds = new ArrayList<>();
+
+        bounds.add(new Rectangle2D(x, y, width, height));
     }
 
     public GameActor(int x, int y, int width, int height) {
@@ -39,7 +43,9 @@ public abstract class GameActor {
         this.width = width;
         this.height = height;
         this.image = new Image("OvenMitten.jpeg");
-        this.bounds = new Rectangle2D(x, y, width, height);
+        this.bounds = new ArrayList<>();
+
+        bounds.add(new Rectangle2D(x, y, width, height));
     }
 
 
@@ -113,13 +119,19 @@ public abstract class GameActor {
         this.yVelocity = yVelocity;
     }
 
-    public Rectangle2D getBounds() {
+    public List<Rectangle2D> getBounds() {
         return bounds;
     }
 
-    public void setBounds(Rectangle2D bounds) {
-        this.bounds = bounds;
-    }
+//    public void setBounds(List<Rectangle2D> bounds) {
+//        this.bounds = bounds;
+//    }
+//
+//    public void updateBounds() {
+//        for(Rectangle2D re : bounds) {
+//            re.
+//        }
+//    }
 
     public Animation getSp() {
         return sp;
