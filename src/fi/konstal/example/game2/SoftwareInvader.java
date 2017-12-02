@@ -1,15 +1,12 @@
 package fi.konstal.example.game2;
 
 import fi.konstal.engine.*;
-import fi.konstal.engine.gameobject.MainPlayer;
-import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.gameobject.collider.Polygon;
-import fi.konstal.engine.gameobject.collider.Rectangle;
-import fi.konstal.engine.util.BareCamera;
-import fi.konstal.engine.util.KeyboardInput;
-import fi.konstal.example.game2.util.KeyInput;
-import fi.konstal.example.game2.util.MenuItem;
-import fi.konstal.example.game2.util.NoMap;
+import fi.konstal.engine.gameobject.*;
+import fi.konstal.engine.core.*;
+import fi.konstal.engine.gameobject.collider.*;
+import fi.konstal.engine.util.*;
+import fi.konstal.example.game2.util.*;
+
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -155,13 +152,22 @@ public class SoftwareInvader extends Game {
                 ship.getX(),
                 ship.getY(),
                 20.0,
-                20.0,
-                ship.getWidth(),
+                40.0,
+                30.0,
                 0.0,
+                45.0,
+                0.0,
+                60.0,
+                40.0,
+                ship.getWidth(),
+                40.0,
                 ship.getWidth(),
                 ship.getHeight(),
                 0.0,
-                ship.getHeight()));
+                ship.getHeight(),
+                0.0,
+                40.0));
+
 
         NoMap map = new NoMap();
         map.setLineAmount(100);

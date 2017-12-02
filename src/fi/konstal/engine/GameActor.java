@@ -132,20 +132,36 @@ public abstract class GameActor {
     public void setCollider(Collider collider) {
         this.collider = collider;
     }
+
     public void renderCollider(GraphicsContext gc, Camera camera) {
+        gc.setStroke(Color.RED);
 
         if(collider instanceof Rectangle) {
+            Rectangle re = (Rectangle) collider;
             gc.strokeRect(
                     getX()- camera.getxOffset(),
                     getY() - camera.getyOffset(),
-                    getWidth(),
-                    getHeight());
-        } else if(collider instanceof Ellipse || collider instanceof Circle) {
+                    re.getWidth(),
+                    re.getHeight()
+            );
+        } else if(collider instanceof Circle) {
+            Circle ci = (Circle) collider;
+            gc.strokeOval(
+                    getX() - camera.getxOffset(),
+                    getY() - camera.getyOffset(),
+                    ci.getRadius(),
+                    ci.getRadius()
+            );
+
+        } else if(collider instanceof Ellipse ) {
+            Ellipse el = (Ellipse) collider;
             gc.strokeOval(
                     getX()- camera.getxOffset(),
                     getY() - camera.getyOffset(),
-                    getWidth(),
-                    getHeight());
+                    el.getRadiusX(),
+                    el.getRadiusY()
+            );
+
         } else if(collider instanceof Polygon) {
             List<Double> points = ((Polygon) collider).getPoints();
             double[] xCoord = new double[(points.size())/2];
@@ -154,7 +170,6 @@ public abstract class GameActor {
             //TODO: Reformat this away
             int yCounter = 0;
             int xCounter = 0;
-
 
             for(int i = 0; i < points.size(); i++) {
                 if(i%2 == 0) {
@@ -166,7 +181,6 @@ public abstract class GameActor {
                 }
             }
 
-            gc.setStroke(Color.RED);
             gc.strokePolygon(
                     xCoord,
                     yCoord,
