@@ -40,25 +40,23 @@ public class GameLoop extends AnimationTimer {
         counter++;
 
 
-
         //If the time has been reset, get current time
-        if(fpsStart == 0 && showFps) {
+        if (fpsStart == 0 && showFps) {
             fpsStart = System.nanoTime();
         }
 
         //Clear the canvas
-        mainCanvas.getGraphicsContext2D().clearRect(0,0,mainCanvas.getWidth(), mainCanvas.getHeight());
+        mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
-        if(map != null) {
+        if (map != null) {
             //draw background map
             map.draw(mainCanvas.getGraphicsContext2D(), camera);
         }
 
 
-
         //Draw the actual image
-        for(GameActor go : gol) {
-            go.update(mainCanvas);
+        for (GameActor go : gol) {
+            go.update(map);
             go.move();
 
 
@@ -74,34 +72,29 @@ public class GameLoop extends AnimationTimer {
                         go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
 
 
-                if(showHitbox)  {
+                if (showHitbox) {
                     go.renderCollider(mainCanvas.getGraphicsContext2D(), camera);
-
-//                    mainCanvas.getGraphicsContext2D().setStroke(Color.RED);
-//                    mainCanvas.getGraphicsContext2D().strokeRect(go.getX()- camera.getxOffset(),
-//                            go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
                 }
             }
-        }
 
-        //Center viewport
-        camera.move(0,0);
+            //Center viewport
+            camera.move(0, 0);
 
-        //Check win
-        //checkWin();
-
+            //Check win
+            //checkWin();
 
 
-        //If it's been over a second since last fps print, print fps and clear values
-        if(System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
-            System.out.println("FPS: " + fps);
-            fpsStart = 0;
-            fps = 0;
-        }
+            //If it's been over a second since last fps print, print fps and clear values
+            if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
+                System.out.println("FPS: " + fps);
+                fpsStart = 0;
+                fps = 0;
+            }
 
-        //Add fps per loop
-        if(showFps){
-            fps++;
+            //Add fps per loop
+            if (showFps) {
+                fps++;
+            }
         }
     }
 

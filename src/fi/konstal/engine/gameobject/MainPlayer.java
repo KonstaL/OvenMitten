@@ -2,6 +2,7 @@ package fi.konstal.engine.gameobject;
 
 import fi.konstal.engine.GameActor;
 import fi.konstal.engine.gameobject.collider.Rectangle;
+import fi.konstal.engine.map.Map;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -28,7 +29,7 @@ import javafx.scene.image.Image;
     }
 
     @Override
-    public void update(Canvas c) {
+    public void update(Map c) {
         if(getX()+getxVelocity() > c.getWidth() || getX()+getxVelocity() < 0 ||
                 getX()+getWidth()+getxVelocity() > c.getWidth() || getX()+getxVelocity()+getWidth() < 0) {
             System.out.println("Yli x!");

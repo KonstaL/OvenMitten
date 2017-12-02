@@ -11,6 +11,12 @@ import javafx.scene.paint.Color;
  */
 public class NoMap implements Map {
     private SpaceLine[] spaceLines;
+    private double width, height; //TODO: impelment these
+
+    public NoMap(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
 
 
     public void setLineAmount(int amount) {
@@ -23,27 +29,38 @@ public class NoMap implements Map {
 
     @Override
     public void draw(GraphicsContext gc, Camera c) {
-        gc.setStroke(Color.WHITE);
+        gc.setFill(Color.WHITE);
         for(SpaceLine sp : spaceLines) {
-           gc.strokeRect(sp.x- c.getxOffset(),
+           gc.fillRect(sp.x- c.getxOffset(),
                    sp.y - c.getyOffset(),
-                   sp.width,
-                   sp.height);
+                   sp.lineWidth,
+                   sp.lineHeight);
            sp.move();
        }
+    }
+
+    @Override
+    public double getWidth() {
+        return width;
+    }
+
+    @Override
+    public double getHeight() {
+        return height;
     }
 
     class SpaceLine {
         private int x;
         private int y;
-        private int width;
-        private int height;
+        private int lineWidth;
+        private int lineHeight;
         private int speed;
 
         public SpaceLine() {
-            this.x = (int) (Math.random() *700);
-            this.y = (int) (Math.random()*700);this.width = (int) (Math.random()*2) +1;
-            this.height = (int) (Math.random()*10 +10) +1;
+            this.x = (int) (Math.random() * width);
+            this.y = (int) (Math.random()*height);
+            this.lineHeight = (int) (Math.random()*10 +10) +1;
+            this.lineWidth = (int) (Math.random()*3) +1;
             this.speed = (int) (Math.random() *20) +1;
         }
 

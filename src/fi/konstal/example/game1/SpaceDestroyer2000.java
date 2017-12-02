@@ -4,6 +4,8 @@ import fi.konstal.engine.*;
 import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.gameobject.collider.Rectangle;
+import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.FollowCamera;
 import fi.konstal.engine.util.KeyboardInput;
@@ -37,12 +39,12 @@ import java.util.List;
  * Created by e4klehti on 14.11.2017.
  */
 public class SpaceDestroyer2000 extends Game {
+    //Final size for the window
+    final int WIDTH = 1280;
+    final int HEIGHT = 720;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
-        //Final size for the window
-        final int WIDTH = 1280;
-        final int HEIGHT = 720;
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
                 new Pair<String, Runnable>("Start Game", ()-> runGame(primaryStage)),
@@ -147,15 +149,12 @@ public class SpaceDestroyer2000 extends Game {
         Scene theScene = new Scene( root );
 
 
-
-
         Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
         root.getChildren().add(canvas);
 
 
-        TiledMap tm = new TiledMap("src/fi/konstal/example/game1/resources/testTMX.tmx", "src/fi/konstal/example/game1/resources/");
-
-
+        Map map = new TiledMap("src/fi/konstal/example/game1/resources/testTMX.tmx",
+                "src/fi/konstal/example/game1/resources/");
 
 
         //testing
@@ -179,11 +178,12 @@ public class SpaceDestroyer2000 extends Game {
 
 
         GameActor ship = new MainPlayer(700,500,50, 50, new Image("ship.png"));
+        ship.setCollider(new Rectangle(ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight()));
 
 
         FollowCamera fc = new FollowCamera(ship, canvas);
 
-        GameLoop gl = new GameLoop(canvas, tm, fc, true, true);
+        GameLoop gl = new GameLoop(canvas, map, fc, true, true);
 
         gl.addGameObject(ship);
         gl.addGameObject(enemy);

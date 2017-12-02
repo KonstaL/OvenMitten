@@ -299,5 +299,13 @@ public class TiledMap implements Map {
         }
     }
 
+    @Override
+    public double getWidth() {
+        return pixelWidth;
+    }
 
+    @Override
+    public double getHeight() {
+        return pixelHeight;
+    }
 }

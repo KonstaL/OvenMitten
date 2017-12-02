@@ -1,6 +1,7 @@
 package fi.konstal.engine;
 
 import fi.konstal.engine.gameobject.collider.*;
+import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.util.KeyboardInput;
 import fi.konstal.engine.util.Animation;
@@ -50,7 +51,7 @@ public abstract class GameActor {
 
     abstract public void move();
     abstract public void getInput();
-    abstract public void update(Canvas c);
+    abstract public void update(Map c);
 
     public int getX() {
         return x;

@@ -29,4 +29,14 @@ public class ImageMap implements Map {
                 map.getHeight()
         );
     }
+
+    @Override
+    public double getWidth() {
+        return map.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return map.getHeight();
+    }
 }

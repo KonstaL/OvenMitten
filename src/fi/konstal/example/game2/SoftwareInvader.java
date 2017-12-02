@@ -30,12 +30,13 @@ import java.util.List;
 
 
 public class SoftwareInvader extends Game {
+    final int WIDTH = 720;
+    final int HEIGHT = 1000;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
         //Final size for the window
-        final int WIDTH = 720;
-        final int HEIGHT = 1000;
+
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
                 new Pair<String, Runnable>("Start Game", ()-> runGame(primaryStage)),
@@ -169,7 +170,7 @@ public class SoftwareInvader extends Game {
                 40.0));
 
 
-        NoMap map = new NoMap();
+        NoMap map = new NoMap(WIDTH, HEIGHT);
         map.setLineAmount(100);
 
         BareCamera bc = new BareCamera();
