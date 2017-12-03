@@ -1,4 +1,10 @@
-package fi.konstal.engine;
+package fi.konstal.engine.gameobject;
+
+import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.map.Map;
+import fi.konstal.engine.util.Camera;
+
+import java.util.List;
 
 /**
  * Created by konka on 29.11.2017.
@@ -15,9 +21,6 @@ public abstract class GameObject {
         this.width = width;
         this.height = height;
     }
-
-    abstract void update();
-
 
     public int getX() {
         return x;

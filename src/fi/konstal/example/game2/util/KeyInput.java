@@ -1,6 +1,6 @@
 package fi.konstal.example.game2.util;
 
-import fi.konstal.engine.GameActor;
+import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.util.KeyboardInput;
 import javafx.scene.input.KeyCode;
 

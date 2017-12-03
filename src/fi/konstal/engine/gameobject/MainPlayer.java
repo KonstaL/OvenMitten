@@ -1,11 +1,13 @@
 package fi.konstal.engine.gameobject;
 
-import fi.konstal.engine.GameActor;
-import fi.konstal.engine.gameobject.collider.Rectangle;
+import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.map.Map;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.Canvas;
+import fi.konstal.engine.util.Camera;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+
+import java.util.List;
 
 /**
  * Created by e4klehti on 18.11.2017.
@@ -14,10 +16,25 @@ import javafx.scene.image.Image;
     public MainPlayer(int x, int y, int width, int height, Image image) {
         super(x, y, width, height, image);
     }
-    public MainPlayer(int x, int y, int width, int height) { super(x, y, width, height); }
+
+    public MainPlayer(int x, int y, int width, int height) {
+        super(x, y, width, height);
+    }
 
     @Override
-    public void move() {
+    public void move(Map map) {
+        if (getX() + getxVelocity() > map.getWidth() || getX() + getxVelocity() < 0 ||
+                getX() + getWidth() + getxVelocity() > map.getWidth() || getX() + getxVelocity() + getWidth() < 0) {
+            System.out.println("Yli x!");
+            setxVelocity(0);
+        }
+
+        if (getY() + getyVelocity() > map.getHeight() || getY() + getyVelocity() < 0 ||
+                getY() + getHeight() + getyVelocity() > map.getHeight() || getY() + getyVelocity() + getHeight() < 0) {
+            setyVelocity(0);
+            System.out.println("Yli y!");
+        }
+
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
         getCollider().update(getX(), getY());
@@ -27,25 +44,5 @@ import javafx.scene.image.Image;
     public void getInput() {
         getInputlistener().update();
     }
-
-    @Override
-    public void update(Map c) {
-        if(getX()+getxVelocity() > c.getWidth() || getX()+getxVelocity() < 0 ||
-                getX()+getWidth()+getxVelocity() > c.getWidth() || getX()+getxVelocity()+getWidth() < 0) {
-            System.out.println("Yli x!");
-            setxVelocity(0);
-        }
-
-        if( getY()+getyVelocity() > c.getHeight() || getY()+getyVelocity() < 0 ||
-                getY()+getHeight()+getyVelocity() > c.getHeight() || getY()+getyVelocity()+getHeight() < 0) {
-            setyVelocity(0);
-            System.out.println("Yli y!");
-        }
-
-        //        getInput();
-        //        move();
-
-    }
-
 
 }

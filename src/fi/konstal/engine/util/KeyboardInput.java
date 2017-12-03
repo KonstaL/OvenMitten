@@ -1,6 +1,6 @@
 package fi.konstal.engine.util;
 
-import fi.konstal.engine.GameActor;
+import fi.konstal.engine.gameobject.GameActor;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

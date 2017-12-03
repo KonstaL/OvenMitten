@@ -1,8 +1,6 @@
 package fi.konstal.engine.gameobject;
 
-import fi.konstal.engine.GameActor;
 import fi.konstal.engine.map.Map;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
 /**
@@ -17,7 +15,7 @@ public class Enemy extends GameActor {
     }
 
     @Override
-    public void move() {
+    public void move(Map map) {
 
     }
 
@@ -26,8 +24,4 @@ public class Enemy extends GameActor {
 
     }
 
-    @Override
-    public void update(Map c) {
-
-    }
 }

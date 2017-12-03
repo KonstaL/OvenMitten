@@ -1,12 +1,10 @@
 package fi.konstal.engine.core;
 
-import fi.konstal.engine.gameobject.Enemy;
+import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
-import fi.konstal.engine.GameActor;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
 
 
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
  */
 public class GameLoop extends AnimationTimer {
     int counter = 0;
-    private ArrayList<GameActor> gol;
+    private ArrayList<GameObject> gol;
     private Canvas mainCanvas;
     private int fps;
     private long fpsStart;
@@ -48,34 +46,38 @@ public class GameLoop extends AnimationTimer {
         //Clear the canvas
         mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
-        if (map != null) {
-            //draw background map
-            map.draw(mainCanvas.getGraphicsContext2D(), camera);
-        }
+
+        //draw background map
+        map.draw(mainCanvas.getGraphicsContext2D(), camera);
+
 
 
         //Draw the actual image
-        for (GameActor go : gol) {
-            go.update(map);
-            go.move();
+        for (GameObject go : gol) {
+            if(go instanceof Decoration) {
 
-
-            //TESTING
-            if (go instanceof Enemy) {
-                Enemy e = (Enemy) go;
-
-                mainCanvas.getGraphicsContext2D().drawImage(go.getSp().cycleAnimation(),
-                        go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset());
-
-            } else {
-                mainCanvas.getGraphicsContext2D().drawImage(go.getImage(),
+                mainCanvas.getGraphicsContext2D().drawImage(((Decoration) go).getSprite(),
                         go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
 
+            } else if (go instanceof Zone) {
 
                 if (showHitbox) {
-                    go.renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+                    ((Zone) go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+                }
+
+                if (go instanceof GameActor) {
+                    ((GameActor) go).move(map);
+                    if (go instanceof Enemy) {
+
+                        mainCanvas.getGraphicsContext2D().drawImage(((Enemy) go).getSp().cycleAnimation(),
+                                go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset());
+                    } else {
+                        mainCanvas.getGraphicsContext2D().drawImage(((GameActor) go).getImage(),
+                                go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
+                    }
                 }
             }
+        }
 
             //Center viewport
             camera.move(0, 0);
@@ -95,7 +97,7 @@ public class GameLoop extends AnimationTimer {
             if (showFps) {
                 fps++;
             }
-        }
+
     }
 
 
@@ -113,12 +115,49 @@ public class GameLoop extends AnimationTimer {
 //        }
     }
 
-    public void addGameObject(GameActor go) {
+    public void addGameObject(GameObject go) {
         gol.add(go);
     }
 
-    public void addMap(Map map) {
-        this.map = map;
+
+    public ArrayList<GameObject> getGol() {
+        return gol;
+    }
+
+    public void setGol(ArrayList<GameObject> gol) {
+        this.gol = gol;
+    }
+
+    public Canvas getMainCanvas() {
+        return mainCanvas;
+    }
+
+    public void setMainCanvas(Canvas mainCanvas) {
+        this.mainCanvas = mainCanvas;
+    }
+
+    public boolean isShowHitbox() {
+        return showHitbox;
+    }
+
+    public void setShowHitbox(boolean showHitbox) {
+        this.showHitbox = showHitbox;
+    }
+
+    public static Map getMap() {
+        return map;
+    }
+
+    public static void setMap(Map map) {
+        GameLoop.map = map;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 }
 

@@ -1,7 +1,9 @@
 package fi.konstal.example.game1;
 
 import fi.konstal.engine.*;
+import fi.konstal.engine.gameobject.Decoration;
 import fi.konstal.engine.gameobject.Enemy;
+import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.collider.Rectangle;
@@ -145,8 +147,10 @@ public class SpaceDestroyer2000 extends Game {
 
     @Override
     public void runGame(Stage primaryStage) {
+
         Group root = new Group();
         Scene theScene = new Scene( root );
+        theScene.setFill(Color.BLACK);
 
 
         Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
@@ -172,6 +176,7 @@ public class SpaceDestroyer2000 extends Game {
         GameActor enemy = new Enemy(400, 400, 300, 300);
         enemy.setSp(sp);
 
+        Decoration om = new Decoration(500, 1500, 100, 50);
         //============================================
 
 
@@ -187,6 +192,7 @@ public class SpaceDestroyer2000 extends Game {
 
         gl.addGameObject(ship);
         gl.addGameObject(enemy);
+        gl.addGameObject(om);
 
 
         KeyboardInput input = new KeyInput(ship);

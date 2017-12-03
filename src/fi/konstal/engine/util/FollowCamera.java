@@ -1,7 +1,7 @@
 package fi.konstal.engine.util;
 
 
-import fi.konstal.engine.GameActor;
+import fi.konstal.engine.gameobject.GameActor;
 import javafx.scene.canvas.Canvas;
 
 /**

@@ -41,9 +41,6 @@ public class Animation {
 
 
 
-
-
-
     public void parseSheet(String path) {
         File file = new File(path);
         BufferedImage img = null;

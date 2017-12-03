@@ -1,8 +1,7 @@
 package fi.konstal.engine.util;
 
-import fi.konstal.engine.GameActor;
+import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.map.Map;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
 /**
@@ -15,17 +14,16 @@ public class Projectile extends GameActor {
     }
 
     @Override
-    public void move() {
+    public void move(Map map) {
 
     }
+
 
     @Override
     public void getInput() {
 
     }
 
-    @Override
-    public void update(Map c) {
 
-    }
+
 }
