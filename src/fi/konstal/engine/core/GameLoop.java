@@ -67,17 +67,13 @@ public class GameLoop extends AnimationTimer {
 
                 if (go instanceof GameActor) {
                     ((GameActor) go).move(map);
-                    if (go instanceof Enemy) {
 
-                        mainCanvas.getGraphicsContext2D().drawImage(((Enemy) go).getSp().cycleAnimation(),
-                                go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset());
-                    } else {
-                        mainCanvas.getGraphicsContext2D().drawImage(((GameActor) go).getImage(),
-                                go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
+                    mainCanvas.getGraphicsContext2D().drawImage(((GameActor) go).getSprite().getImage(),
+                            go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
                     }
                 }
             }
-        }
+
 
             //Center viewport
             camera.move(0, 0);

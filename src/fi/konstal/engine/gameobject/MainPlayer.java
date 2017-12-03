@@ -1,20 +1,16 @@
 package fi.konstal.engine.gameobject;
 
-import fi.konstal.engine.gameobject.collider.*;
-import fi.konstal.engine.map.Map;
-import fi.konstal.engine.util.Camera;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
-import java.util.List;
+import fi.konstal.engine.map.Map;
+import fi.konstal.engine.util.Sprite;
+
 
 /**
  * Created by e4klehti on 18.11.2017.
  */
     public class MainPlayer extends GameActor {
-    public MainPlayer(int x, int y, int width, int height, Image image) {
-        super(x, y, width, height, image);
+    public MainPlayer(int x, int y, int width, int height, Sprite sprite) {
+        super(x, y, width, height, sprite);
     }
 
     public MainPlayer(int x, int y, int width, int height) {

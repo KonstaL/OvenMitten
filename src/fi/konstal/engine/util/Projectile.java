@@ -9,8 +9,8 @@ import javafx.scene.image.Image;
  */
 public class Projectile extends GameActor {
 
-    public Projectile(int x, int y, int width, int height, Image image) {
-        super(x, y, width, height, image);
+    public Projectile(int x, int y, int width, int height, Sprite sprite) {
+        super(x, y, width, height, sprite);
     }
 
     @Override

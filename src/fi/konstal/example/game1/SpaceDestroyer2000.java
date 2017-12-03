@@ -9,9 +9,7 @@ import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.collider.Rectangle;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
-import fi.konstal.engine.util.FollowCamera;
-import fi.konstal.engine.util.KeyboardInput;
-import fi.konstal.engine.util.Animation;
+import fi.konstal.engine.util.*;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
 import javafx.animation.*;
@@ -171,10 +169,10 @@ public class SpaceDestroyer2000 extends Game {
          int HEIGHT   = 256;
          int CYCLEDURATION = 5;
 
-        Animation sp = new Animation("src/fi/konstal/example/game1/resources/trump_run.png",
+        Sprite sp = new SpriteAnimation("src/fi/konstal/example/game1/resources/trump_run.png",
                                             ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
         GameActor enemy = new Enemy(400, 400, 300, 300);
-        enemy.setSp(sp);
+        enemy.setSprite(sp);
 
         Decoration om = new Decoration(500, 1500, 100, 50);
         //============================================
@@ -182,7 +180,7 @@ public class SpaceDestroyer2000 extends Game {
 
 
 
-        GameActor ship = new MainPlayer(700,500,50, 50, new Image("ship.png"));
+        GameActor ship = new MainPlayer(700,500,50, 50, new SpriteImage("ship.png"));
         ship.setCollider(new Rectangle(ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight()));
 
 

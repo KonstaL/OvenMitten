@@ -14,6 +14,10 @@ public class SpriteImage extends Image implements Sprite {
         super(is);
     }
 
+    public SpriteImage() {
+        super("OvenMitten.jpeg");
+    }
+
 
     @Override
     public Image getImage() {
