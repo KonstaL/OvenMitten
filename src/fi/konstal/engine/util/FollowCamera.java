@@ -9,11 +9,11 @@ import javafx.scene.canvas.Canvas;
  * Created by e4klehti on 19.11.2017.
  */
 public class FollowCamera extends BareCamera {
-    private GameObject go; //centers on this
+    private GameActor go; //centers on this
     private Canvas mainCanvas;
     private int mapW, mapH;
 
-    public FollowCamera(GameObject go, Canvas mainCanvas, int mapW, int mapH) {
+    public FollowCamera(GameActor go, Canvas mainCanvas, int mapW, int mapH) {
         this.go = go;
         this.mainCanvas = mainCanvas;
         this.mapH = mapH;
@@ -31,7 +31,7 @@ public class FollowCamera extends BareCamera {
         float xOffset = (float) mainCanvas.getWidth()/2 + go.getWidth()/2;
         float yOffset = (float) mainCanvas.getHeight()/2 + go.getHeight()/2;
 
-        //Checks that Camera doesnt go over map and show whitespace
+        //Checks that Camera doesn't go over map and show whitespace
         if((go.getX() - xOffset) > 0 && go.getX() + xOffset< mapW) {
             setxOffset(go.getX() - xOffset);
         }
@@ -42,7 +42,7 @@ public class FollowCamera extends BareCamera {
 
 
 
-    public GameObject getGameObject() {
+    public GameActor getGameObject() {
         return go;
     }
 

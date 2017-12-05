@@ -1,6 +1,7 @@
 package fi.konstal.engine.core;
 
 import fi.konstal.engine.gameobject.*;
+import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
 import javafx.animation.AnimationTimer;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
  * Created by e4klehti on 14.11.2017.
  */
 public class GameLoop extends AnimationTimer {
-    int counter = 0;
     private ArrayList<GameObject> gol;
     private Canvas mainCanvas;
     private int fps;
@@ -35,9 +35,6 @@ public class GameLoop extends AnimationTimer {
 
     @Override
     public void handle(long startTime) {
-        counter++;
-
-
         //If the time has been reset, get current time
         if (fpsStart == 0 && showFps) {
             fpsStart = System.nanoTime();
@@ -50,61 +47,70 @@ public class GameLoop extends AnimationTimer {
         //draw background map
         map.draw(mainCanvas.getGraphicsContext2D(), camera);
 
+        //Center viewport
+        camera.move(0, 0);
 
 
         //Draw the actual image
         for (GameObject go : gol) {
-            if(go instanceof Decoration) {
+            renderGameObject(go);
+        }
 
-                mainCanvas.getGraphicsContext2D().drawImage(((Decoration) go).getSprite(),
-                        go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
 
-            } else if (go instanceof Zone) {
+        //Check win
+        //checkWin();
 
-                if (showHitbox) {
-                    ((Zone) go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
-                }
 
-                if (go instanceof GameActor) {
-                    ((GameActor) go).move(map);
+        //If it's been over a second since last fps print, print fps and clear values
+        if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
+            System.out.println("FPS: " + fps);
+            fpsStart = 0;
+            fps = 0;
+        }
 
-                    mainCanvas.getGraphicsContext2D().drawImage(((GameActor) go).getSprite().getImage(),
-                            go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
-                    if (go instanceof MainPlayer) {
-                        for(GameObject go2 : gol) {
-                            if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
-                                if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
-                                    ((MainPlayer) go).onCollision();
-                                }
+        //Add fps per loop
+        if (showFps) {
+            fps++;
+        }
+
+    }
+
+    public void renderGameObject(GameObject go) {
+        if(go instanceof Decoration) {
+            mainCanvas.getGraphicsContext2D().drawImage(
+                    ((Decoration) go).getSprite(),
+                    go.getX() - camera.getxOffset(),
+                    go.getY() - camera.getyOffset(),
+                    go.getWidth(),
+                    go.getHeight());
+
+        } else if (go instanceof Zone) {
+
+            if (go instanceof GameActor) {
+                ((GameActor) go).move(map);
+                mainCanvas.getGraphicsContext2D().drawImage(
+                        ((GameActor) go).getSprite().getImage(),
+                        go.getX() - camera.getxOffset(),
+                        go.getY() - camera.getyOffset(),
+                        go.getWidth(),
+                        go.getHeight());
+
+                if (go instanceof MainPlayer) {
+                    //((MainPlayer)go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+                    for(GameObject go2 : gol) {
+                        if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
+                            if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
+                                ((MainPlayer) go).onCollision();
                             }
                         }
                     }
                 }
             }
+            if (showHitbox) {
+                ((Zone) go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+            }
         }
-
-
-            //Center viewport
-            camera.move(0, 0);
-
-            //Check win
-            //checkWin();
-
-
-            //If it's been over a second since last fps print, print fps and clear values
-            if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
-                System.out.println("FPS: " + fps);
-                fpsStart = 0;
-                fps = 0;
-            }
-
-            //Add fps per loop
-            if (showFps) {
-                fps++;
-            }
-
     }
-
 
     public void checkWin() {
 //        //Hardcoded for testing
