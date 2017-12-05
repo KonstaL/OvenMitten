@@ -2,6 +2,7 @@ package fi.konstal.example.game2.util;
 
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.util.KeyboardInput;
+import fi.konstal.example.game2.SpaceShip;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -30,6 +31,11 @@ public class KeyInput extends KeyboardInput {
         if(getInputs().contains(KeyCode.D)) {
             getGameObject().setxVelocity(2);
         }
+        if (getInputs().contains(KeyCode.SHIFT)) {
+            ((SpaceShip)getGameObject()).setShooting(true);
+        } else {
+            ((SpaceShip)getGameObject()).setShooting(false);
+        }
 
         //If input contains opposite directions
         if (!getInputs().contains(KeyCode.W) && !getInputs().contains(KeyCode.S) ||
@@ -44,29 +50,6 @@ public class KeyInput extends KeyboardInput {
 
     @Override
     public void restrictedUpdate() {
-        getGameObject().setxVelocity(0);
-        getGameObject().setyVelocity(0);
-
-        if (getInputs().size() != 0) {
-            KeyCode lastInput = getInputs().get(getInputs().size() - 1);
-            switch (lastInput) {
-                case W:
-                    getGameObject().setyVelocity(-2);
-                    break;
-                case S:
-                    getGameObject().setyVelocity(2);
-                    break;
-                case A:
-                    getGameObject().setxVelocity(-2);
-                    break;
-                case D:
-                    getGameObject().setxVelocity(2);
-                    break;
-                default:
-                    getGameObject().setxVelocity(0);
-                    getGameObject().setyVelocity(0);
-                    break;
-            }
-        }
+        System.out.println("No restricted update set in KeyInput");
     }
 }

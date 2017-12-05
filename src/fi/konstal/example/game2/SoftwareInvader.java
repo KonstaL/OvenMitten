@@ -148,7 +148,7 @@ public class SoftwareInvader extends Game {
         root.getChildren().add(canvas);
 
 
-        GameActor ship = new MainPlayer(355, 700, 73, 110, new SpriteImage("ship.png"));
+        GameActor ship = new SpaceShip(355, 700, 73, 110, new SpriteImage("ship.png"));
         ship.setCollider(new Polygon(
                 ship.getX(),
                 ship.getY(),

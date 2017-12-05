@@ -37,6 +37,7 @@ import fi.konstal.engine.util.Sprite;
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
         getCollider().update(getX(), getY());
+
     }
 
     @Override
@@ -47,5 +48,10 @@ import fi.konstal.engine.util.Sprite;
     @Override
     public void onCollision() {
         System.out.println("MainPlayer collison");
+    }
+
+    @Override
+    public void update() {
+
     }
 }

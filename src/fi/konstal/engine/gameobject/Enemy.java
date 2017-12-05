@@ -21,6 +21,11 @@ public class Enemy extends GameActor {
     }
 
     @Override
+    public void update() {
+
+    }
+
+    @Override
     public void getInput() {
 
     }

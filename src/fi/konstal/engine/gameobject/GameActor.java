@@ -14,6 +14,7 @@ import java.util.List;
  * Created by konka on 15.11.2017.
  */
 public abstract class GameActor extends Zone {
+    private int hp;
     private int xVelocity;
     private int yVelocity;
     private Sprite sprite;
@@ -62,7 +63,6 @@ public abstract class GameActor extends Zone {
         this.yVelocity = yVelocity;
     }
 
-
     public Sprite getSprite() {
         return sprite;
     }
@@ -71,9 +71,13 @@ public abstract class GameActor extends Zone {
         this.sprite = sprite;
     }
 
+    public int getHp() {
+        return hp;
+    }
 
-
-
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }
 
 enum Direction {

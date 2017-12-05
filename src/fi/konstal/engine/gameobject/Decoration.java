@@ -20,6 +20,15 @@ public class Decoration extends GameObject {
         this.sprite = sprite;
     }
 
+    @Override
+    public void update() {
+        //Do nothing
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
     public Image getSprite() {
         return sprite.getImage();
     }

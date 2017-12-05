@@ -4,6 +4,8 @@ import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.util.Projectile;
+import fi.konstal.example.game2.SpaceShip;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 
@@ -14,7 +16,7 @@ import java.util.ArrayList;
  * Created by e4klehti on 14.11.2017.
  */
 public class GameLoop extends AnimationTimer {
-    private ArrayList<GameObject> gol;
+    private static ArrayList<GameObject> gol;
     private Canvas mainCanvas;
     private int fps;
     private long fpsStart;
@@ -76,6 +78,8 @@ public class GameLoop extends AnimationTimer {
     }
 
     public void renderGameObject(GameObject go) {
+        go.update();
+
         if(go instanceof Decoration) {
             mainCanvas.getGraphicsContext2D().drawImage(
                     ((Decoration) go).getSprite(),
@@ -105,6 +109,23 @@ public class GameLoop extends AnimationTimer {
                         }
                     }
                 }
+                //Testing
+                if(go instanceof SpaceShip) {
+                    for(Projectile pr : ((SpaceShip) go).getProjectiles()) {
+
+                        pr.move(map);
+
+
+                        mainCanvas.getGraphicsContext2D().drawImage(
+                                pr.getSprite().getImage(),
+                                pr.getX() - camera.getxOffset(),
+                                pr.getY() - camera.getyOffset(),
+                                pr.getWidth(),
+                                pr.getHeight());
+
+                    }
+                }
+
             }
             if (showHitbox) {
                 ((Zone) go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);

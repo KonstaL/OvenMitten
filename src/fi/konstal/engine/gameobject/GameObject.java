@@ -22,9 +22,9 @@ public abstract class GameObject {
         this.height = height;
     }
 
-    public int getX() {
-        return x;
-    }
+    public abstract void update();
+
+    public int getX() { return x; }
 
     public void setX(int x) {
         this.x = x;
