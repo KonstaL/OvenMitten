@@ -203,7 +203,7 @@ public class SpaceDestroyer2000 extends Game {
                 40.0));
 
 
-        FollowCamera fc = new FollowCamera(ship, canvas);
+        FollowCamera fc = new FollowCamera(ship, canvas, (int) map.getWidth(), (int) map.getHeight());
 
         GameLoop gl = new GameLoop(canvas, map, fc, true, true);
 

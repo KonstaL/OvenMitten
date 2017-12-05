@@ -2,18 +2,22 @@ package fi.konstal.engine.util;
 
 
 import fi.konstal.engine.gameobject.GameActor;
+import fi.konstal.engine.gameobject.GameObject;
 import javafx.scene.canvas.Canvas;
 
 /**
  * Created by e4klehti on 19.11.2017.
  */
 public class FollowCamera extends BareCamera {
-    private GameActor go; //center on this
+    private GameObject go; //centers on this
     private Canvas mainCanvas;
+    private int mapW, mapH;
 
-    public FollowCamera(GameActor go, Canvas mainCanvas) {
+    public FollowCamera(GameObject go, Canvas mainCanvas, int mapW, int mapH) {
         this.go = go;
         this.mainCanvas = mainCanvas;
+        this.mapH = mapH;
+        this.mapW = mapW;
         setxOffset(0);
         setyOffset(0);
     }
@@ -24,13 +28,21 @@ public class FollowCamera extends BareCamera {
     }
 
     public void center() {
-        setxOffset(go.getX() - (float) mainCanvas.getWidth()/2 + go.getWidth()/2);
-        setyOffset(go.getY() - (float) mainCanvas.getHeight()/2 + go.getHeight()/2);
+        float xOffset = (float) mainCanvas.getWidth()/2 + go.getWidth()/2;
+        float yOffset = (float) mainCanvas.getHeight()/2 + go.getHeight()/2;
+
+        //Checks that Camera doesnt go over map and show whitespace
+        if((go.getX() - xOffset) > 0 && go.getX() + xOffset< mapW) {
+            setxOffset(go.getX() - xOffset);
+        }
+        if(go.getY() - yOffset > 0 && go.getY() + yOffset < mapH) {
+            setyOffset(go.getY() - yOffset);
+        }
     }
 
 
 
-    public GameActor getGameObject() {
+    public GameObject getGameObject() {
         return go;
     }
 
