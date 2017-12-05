@@ -25,8 +25,11 @@ public class Polygon extends javafx.scene.shape.Polygon implements Collider{
         //Add x and y coordinate values to all points
         List<Double> updatedPoints = new ArrayList<>();
         for(int i = 0; i < origPoints.length; i++) {
+            //X Point
             if(i%2 == 0) {
                 updatedPoints.add(origPoints[i] + x);
+
+            //Y point
             } else {
                 updatedPoints.add(origPoints[i] + y);
             }

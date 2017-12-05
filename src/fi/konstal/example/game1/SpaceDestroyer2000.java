@@ -6,6 +6,7 @@ import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.gameobject.collider.Rectangle;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
@@ -181,7 +182,25 @@ public class SpaceDestroyer2000 extends Game {
 
 
         GameActor ship = new MainPlayer(700,500,50, 50, new SpriteImage("ship.png"));
-        ship.setCollider(new Rectangle(ship.getX(), ship.getY(), ship.getWidth(), ship.getHeight()));
+        ship.setCollider(new Polygon(
+                ship.getX(),
+                ship.getY(),
+                20.0,
+                40.0,
+                30.0,
+                0.0,
+                45.0,
+                0.0,
+                60.0,
+                40.0,
+                ship.getWidth(),
+                40.0,
+                ship.getWidth(),
+                ship.getHeight(),
+                0.0,
+                ship.getHeight(),
+                0.0,
+                40.0));
 
 
         FollowCamera fc = new FollowCamera(ship, canvas);

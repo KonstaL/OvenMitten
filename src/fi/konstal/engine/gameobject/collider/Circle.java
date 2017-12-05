@@ -1,5 +1,7 @@
 package fi.konstal.engine.gameobject.collider;
 
+import fi.konstal.engine.util.Camera;
+
 public class Circle extends javafx.scene.shape.Circle implements Collider {
 
     public Circle(double centerX, double centerY, double radius) {

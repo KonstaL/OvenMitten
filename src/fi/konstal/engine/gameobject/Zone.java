@@ -67,10 +67,10 @@ public abstract class Zone extends GameObject {
 
             for(int i = 0; i < points.size(); i++) {
                 if(i%2 == 0) {
-                    xCoord[xCounter] = points.get(i);
+                    xCoord[xCounter] = points.get(i) - camera.getxOffset();
                     xCounter++;
                 } else {
-                    yCoord[yCounter] = points.get(i);
+                    yCoord[yCounter] = points.get(i) - camera.getyOffset();
                     yCounter++;
                 }
             }

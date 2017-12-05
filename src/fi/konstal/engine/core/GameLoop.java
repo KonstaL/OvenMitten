@@ -74,7 +74,6 @@ public class GameLoop extends AnimationTimer {
                         for(GameObject go2 : gol) {
                             if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
                                 if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
-                                    System.out.println(go.getX() + " " + go.getY());
                                     ((MainPlayer) go).onCollision();
                                 }
                             }
