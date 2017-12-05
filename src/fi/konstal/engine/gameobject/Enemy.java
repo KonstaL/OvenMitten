@@ -31,7 +31,7 @@ public class Enemy extends GameActor {
     }
 
     @Override
-    public void onCollision() {
+    public void handleCollision() {
         System.out.println("collision on enemy class");
 
         setHp(getHp()-1);

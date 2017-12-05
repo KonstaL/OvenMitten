@@ -1,18 +1,18 @@
 package fi.konstal.engine.core;
 
 import fi.konstal.engine.gameobject.*;
-import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.util.Projectile;
-import fi.konstal.example.game2.SpaceShip;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by e4klehti on 14.11.2017.
@@ -34,8 +34,8 @@ public class GameLoop extends AnimationTimer {
         this.showHitbox = showHitbox;
         this.showFps = showFps;
         this.camera = camera;
-        this.gol = new ArrayList<>();
-        this.projectiles = new ArrayList<>();
+        this.gol = new CopyOnWriteArrayList();
+        this.projectiles = new CopyOnWriteArrayList();
     }
 
 
@@ -53,7 +53,7 @@ public class GameLoop extends AnimationTimer {
         removeDeadGameActors();
 
         //Remove any dead projectiles
-        removeDeadProjectiles();
+        //removeDeadProjectiles();
 
 
 
@@ -66,26 +66,29 @@ public class GameLoop extends AnimationTimer {
 
 
         //Draw the actual image
-        for (GameObject go : gol) {
-            renderGameObject(go);
-        }
-
-
-
-
-        //Update projectiles
-        for (Projectile pr : projectiles) {
-            pr.update();
-            renderGameObject(pr);
 
             for (GameObject go : gol) {
-                if(pr.collides(((GameActor)go).getCollider())) {
-                    ((GameActor) go).onCollision();
-                    pr.onCollision();
-                }
+                renderGameObject(go);
             }
-        }
 
+
+
+
+
+
+//        //Update projectiles
+//        for (Projectile pr : projectiles) {
+//            pr.update();
+//            renderGameObject(pr);
+//
+//            for (GameObject go : gol) {
+//                if(pr.collides(((GameActor)go).getCollider())) {
+//                    ((GameActor) go).handleCollision();
+//                    pr.handleCollision();
+//                }
+//            }
+//        }
+        //TODO: Clean this code
 
         //Check win
         //checkWin();
@@ -104,6 +107,8 @@ public class GameLoop extends AnimationTimer {
         }
 
     }
+
+
 
     public void renderGameObject(GameObject go) {
         go.update();
@@ -132,19 +137,31 @@ public class GameLoop extends AnimationTimer {
 //                    for(GameObject go2 : gol) {
 //                        if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
 //                            if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
-//                                ((MainPlayer) go).onCollision();
+//                                ((MainPlayer) go).handleCollision();
 //                            }
 //                        }
 //                    }
 //                }
                 //Testing
                 if(go instanceof Projectile) {
+
                     for(GameObject go2 : gol) {
+
                         if(go2 instanceof GameActor && !(go2 instanceof Projectile)) {
-                            if(((Projectile) go).collides(((GameActor) go2).getCollider())) {
-                                ((Projectile) go).onCollision();
-                                ((GameActor) go2).onCollision();
+                            if(((Projectile) go).getParent().isPresent()) {
+                                if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
+                                        !(((Projectile) go).getParent().get() == go2.getClass())) {
+                                    ((Projectile) go).handleCollision();
+                                    ((GameActor) go2).handleCollision();
+                                }
+                            } else {
+                                if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
+
+                                    ((Projectile) go).handleCollision();
+                                    ((GameActor) go2).handleCollision();
+                                }
                             }
+
                         }
                     }
 
@@ -189,13 +206,23 @@ public class GameLoop extends AnimationTimer {
     }
 
     public static void removeDeadGameActors() {
-        for(Iterator it = gol.iterator(); it.hasNext();) {
-            GameActor pr = (GameActor) it.next();
+//        //for normal List
+//        for(Iterator it = gol.iterator(); it.hasNext();) {
+//            GameActor pr = (GameActor) it.next();
+//
+//            if (!pr.isAlive()) {
+//                it.remove();
+//            }
+//        }
 
-            if (!pr.isAlive()) {
-                it.remove();
+        //For CopyOnWriteArraylist
+        for(GameObject go: gol) {
+            if(!((GameActor)go).isAlive()) {
+                gol.remove(go);
             }
         }
+
+
     }
 
 

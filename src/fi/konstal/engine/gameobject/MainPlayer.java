@@ -46,7 +46,7 @@ import fi.konstal.engine.util.Sprite;
     }
 
     @Override
-    public void onCollision() {
+    public void handleCollision() {
         System.out.println("MainPlayer collison");
     }
 

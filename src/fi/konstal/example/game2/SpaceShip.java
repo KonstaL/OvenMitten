@@ -94,7 +94,7 @@ public class SpaceShip extends GameActor {
     }
 
     @Override
-    public void onCollision() {
+    public void handleCollision() {
         System.out.println("SpaceShip hit");
     }
 

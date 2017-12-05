@@ -17,7 +17,7 @@ public class Missile extends Projectile {
     }
 
     @Override
-    public void onCollision() {
+    public void handleCollision() {
         setAlive(false);
     }
 

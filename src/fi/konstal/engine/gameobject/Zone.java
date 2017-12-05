@@ -85,7 +85,7 @@ public abstract class Zone extends GameObject {
 
     }
 
-    public abstract void onCollision();
+    public abstract void handleCollision();
 
     public boolean collides(Collider c) {
         Shape sh = Shape.intersect((Shape)this.collider, (Shape) c);

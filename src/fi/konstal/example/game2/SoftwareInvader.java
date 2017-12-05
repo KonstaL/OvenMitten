@@ -169,7 +169,8 @@ public class SoftwareInvader extends Game {
                 0.0,
                 40.0));
 
-        Enemy carrier = new Enemy(355, 100, 70, 70, new SpriteImage("carrier.png"), 40);
+
+
 
 
         NoMap map = new NoMap(WIDTH, HEIGHT);
@@ -179,8 +180,14 @@ public class SoftwareInvader extends Game {
 
         GameLoop gl = new GameLoop(canvas, map, bc, true, true);
         gl.addGameObject(ship);
-        gl.addGameObject(carrier);
 
+        for(int i = 0; i < 5; i++) {
+            for(int y = 0; y < 4; y++) {
+                EnemyCarrier carrier = new EnemyCarrier(150*i, 100*y, 70, 70, new SpriteImage("carrier.png"), 20);
+                gl.addGameObject(carrier);
+            }
+
+        }
 
         KeyboardInput input = new KeyInput(ship);
         input.showInputs(true);
