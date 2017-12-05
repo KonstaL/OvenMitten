@@ -11,4 +11,14 @@ public class Ellipse extends javafx.scene.shape.Ellipse implements Collider {
         setCenterX(x);
         setCenterY(y);
     }
+
+    @Override
+    public double getX() {
+        return getCenterX();
+    }
+
+    @Override
+    public double getY() {
+        return getCenterY();
+    }
 }

@@ -7,11 +7,11 @@ import javafx.scene.image.Image;
 /**
  * Created by konka on 29.11.2017.
  */
-public class Projectile extends GameActor {
+public abstract class Projectile extends GameActor {
     int damage;
 
-    public Projectile(int x, int y, int width, int height, Sprite sprite, int damage) {
-        super(x, y, width, height, sprite);
+    public Projectile(int x, int y, int width, int height, Sprite sprite, int hp, int damage) {
+        super(x, y, width, height, sprite, hp);
         this.damage = damage;
     }
 
@@ -19,22 +19,7 @@ public class Projectile extends GameActor {
     public void move(Map map) {
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
-    }
-
-
-    @Override
-    public void getInput() {
-
-    }
-
-    @Override
-    public void update() {
-        //Do nothing
-    }
-
-    @Override
-    public void onCollision() {
-        System.out.println("Collision on projectile class");
+        getCollider().update(getX(), getY());
     }
 
     public int getDamage() {

@@ -28,7 +28,6 @@ public class Polygon extends javafx.scene.shape.Polygon implements Collider{
             //X Point
             if(i%2 == 0) {
                 updatedPoints.add(origPoints[i] + x);
-
             //Y point
             } else {
                 updatedPoints.add(origPoints[i] + y);
@@ -38,7 +37,7 @@ public class Polygon extends javafx.scene.shape.Polygon implements Collider{
         getPoints().addAll(updatedPoints);
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -46,7 +45,7 @@ public class Polygon extends javafx.scene.shape.Polygon implements Collider{
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 

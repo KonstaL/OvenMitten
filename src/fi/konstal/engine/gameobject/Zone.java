@@ -33,16 +33,16 @@ public abstract class Zone extends GameObject {
         if(collider instanceof Rectangle) {
             Rectangle re = (Rectangle) collider;
             gc.strokeRect(
-                    getX()- camera.getxOffset(),
-                    getY() - camera.getyOffset(),
+                    re.getX()- camera.getxOffset(),
+                    re.getY() - camera.getyOffset(),
                     re.getWidth(),
                     re.getHeight()
             );
         } else if(collider instanceof Circle) {
             Circle ci = (Circle) collider;
             gc.strokeOval(
-                    getX() - camera.getxOffset(),
-                    getY() - camera.getyOffset(),
+                    ci.getX() - camera.getxOffset(),
+                    ci.getY() - camera.getyOffset(),
                     ci.getRadius(),
                     ci.getRadius()
             );
@@ -50,8 +50,8 @@ public abstract class Zone extends GameObject {
         } else if(collider instanceof Ellipse ) {
             Ellipse el = (Ellipse) collider;
             gc.strokeOval(
-                    getX()- camera.getxOffset(),
-                    getY() - camera.getyOffset(),
+                    el.getX()- camera.getxOffset(),
+                    el.getY() - camera.getyOffset(),
                     el.getRadiusX(),
                     el.getRadiusY()
             );

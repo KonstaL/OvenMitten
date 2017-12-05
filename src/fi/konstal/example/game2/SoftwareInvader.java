@@ -148,7 +148,7 @@ public class SoftwareInvader extends Game {
         root.getChildren().add(canvas);
 
 
-        GameActor ship = new SpaceShip(355, 700, 73, 110, new SpriteImage("ship.png"));
+        GameActor ship = new SpaceShip(355, 700, 73, 110, new SpriteImage("ship.png"), 50);
         ship.setCollider(new Polygon(
                 ship.getX(),
                 ship.getY(),
@@ -169,6 +169,8 @@ public class SoftwareInvader extends Game {
                 0.0,
                 40.0));
 
+        Enemy carrier = new Enemy(355, 100, 70, 70, new SpriteImage("carrier.png"), 40);
+
 
         NoMap map = new NoMap(WIDTH, HEIGHT);
         map.setLineAmount(100);
@@ -177,6 +179,7 @@ public class SoftwareInvader extends Game {
 
         GameLoop gl = new GameLoop(canvas, map, bc, true, true);
         gl.addGameObject(ship);
+        gl.addGameObject(carrier);
 
 
         KeyboardInput input = new KeyInput(ship);

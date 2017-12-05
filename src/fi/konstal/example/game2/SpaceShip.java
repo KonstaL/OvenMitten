@@ -1,5 +1,6 @@
 package fi.konstal.example.game2;
 
+import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Projectile;
@@ -16,8 +17,8 @@ public class SpaceShip extends GameActor {
     private List<Projectile> projectiles;
     private Sprite missileSprite;
 
-    public SpaceShip(int x, int y, int width, int height, Sprite sprite) {
-        super(x, y, width, height, sprite);
+    public SpaceShip(int x, int y, int width, int height, Sprite sprite, int hp) {
+        super(x, y, width, height, sprite, hp);
         projectiles = new ArrayList<>();
         missileSprite = new SpriteAnimation(
                 "src/fi/konstal/example/game2/resources/missile.png",
@@ -55,14 +56,15 @@ public class SpaceShip extends GameActor {
     public void fireMissile() {
         Missile temp = new Missile(
                 getX() + getWidth()/2 -20,
-                getY() -30,
+                getY() -50,
                 40,
                 50,
                 missileSprite,
                 10
         );
         temp.setyVelocity(-5);
-        projectiles.add(temp);
+        //projectiles.add(temp);
+        GameLoop.addGameObject(temp);
     }
 
     @Override

@@ -10,12 +10,12 @@ import fi.konstal.engine.util.Sprite;
  * Created by e4klehti on 18.11.2017.
  */
     public class MainPlayer extends GameActor {
-    public MainPlayer(int x, int y, int width, int height, Sprite sprite) {
-        super(x, y, width, height, sprite);
+    public MainPlayer(int x, int y, int width, int height, Sprite sprite, int hp) {
+        super(x, y, width, height, sprite, hp);
     }
 
-    public MainPlayer(int x, int y, int width, int height) {
-        super(x, y, width, height);
+    public MainPlayer(int x, int y, int width, int height, int hp) {
+        super(x, y, width, height, hp);
     }
 
     @Override

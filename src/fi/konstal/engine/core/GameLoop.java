@@ -11,12 +11,15 @@ import javafx.scene.canvas.Canvas;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by e4klehti on 14.11.2017.
  */
 public class GameLoop extends AnimationTimer {
-    private static ArrayList<GameObject> gol;
+    private static List<GameObject> gol;
+    private static List <Projectile> projectiles;
     private Canvas mainCanvas;
     private int fps;
     private long fpsStart;
@@ -30,8 +33,9 @@ public class GameLoop extends AnimationTimer {
         this.map = map;
         this.showHitbox = showHitbox;
         this.showFps = showFps;
-        this.gol = new ArrayList<>();
         this.camera = camera;
+        this.gol = new ArrayList<>();
+        this.projectiles = new ArrayList<>();
     }
 
 
@@ -45,6 +49,13 @@ public class GameLoop extends AnimationTimer {
         //Clear the canvas
         mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
+        //Remove dead Game_actors
+        removeDeadGameActors();
+
+        //Remove any dead projectiles
+        removeDeadProjectiles();
+
+
 
         //draw background map
         map.draw(mainCanvas.getGraphicsContext2D(), camera);
@@ -53,9 +64,26 @@ public class GameLoop extends AnimationTimer {
         camera.move(0, 0);
 
 
+
         //Draw the actual image
         for (GameObject go : gol) {
             renderGameObject(go);
+        }
+
+
+
+
+        //Update projectiles
+        for (Projectile pr : projectiles) {
+            pr.update();
+            renderGameObject(pr);
+
+            for (GameObject go : gol) {
+                if(pr.collides(((GameActor)go).getCollider())) {
+                    ((GameActor) go).onCollision();
+                    pr.onCollision();
+                }
+            }
         }
 
 
@@ -99,34 +127,31 @@ public class GameLoop extends AnimationTimer {
                         go.getWidth(),
                         go.getHeight());
 
-                if (go instanceof MainPlayer) {
-                    //((MainPlayer)go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+//                if (go instanceof MainPlayer) {
+//                    //((MainPlayer)go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
+//                    for(GameObject go2 : gol) {
+//                        if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
+//                            if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
+//                                ((MainPlayer) go).onCollision();
+//                            }
+//                        }
+//                    }
+//                }
+                //Testing
+                if(go instanceof Projectile) {
                     for(GameObject go2 : gol) {
-                        if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
-                            if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
-                                ((MainPlayer) go).onCollision();
+                        if(go2 instanceof GameActor && !(go2 instanceof Projectile)) {
+                            if(((Projectile) go).collides(((GameActor) go2).getCollider())) {
+                                ((Projectile) go).onCollision();
+                                ((GameActor) go2).onCollision();
                             }
                         }
                     }
-                }
-                //Testing
-                if(go instanceof SpaceShip) {
-                    for(Projectile pr : ((SpaceShip) go).getProjectiles()) {
 
-                        pr.move(map);
-
-
-                        mainCanvas.getGraphicsContext2D().drawImage(
-                                pr.getSprite().getImage(),
-                                pr.getX() - camera.getxOffset(),
-                                pr.getY() - camera.getyOffset(),
-                                pr.getWidth(),
-                                pr.getHeight());
-
-                    }
                 }
 
             }
+
             if (showHitbox) {
                 ((Zone) go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
             }
@@ -147,12 +172,34 @@ public class GameLoop extends AnimationTimer {
 //        }
     }
 
-    public void addGameObject(GameObject go) {
+    public static void addGameObject(GameObject go) {
         gol.add(go);
+    }
+    public static void addProjectile(Projectile pr) {
+        projectiles.add(pr);
+    }
+    public static void removeDeadProjectiles() {
+        for(Iterator it = projectiles.iterator(); it.hasNext();) {
+            Projectile pr = (Projectile) it.next();
+
+            if (!pr.isAlive()) {
+                it.remove();
+            }
+        }
+    }
+
+    public static void removeDeadGameActors() {
+        for(Iterator it = gol.iterator(); it.hasNext();) {
+            GameActor pr = (GameActor) it.next();
+
+            if (!pr.isAlive()) {
+                it.remove();
+            }
+        }
     }
 
 
-    public ArrayList<GameObject> getGol() {
+    public List<GameObject> getGol() {
         return gol;
     }
 

@@ -14,4 +14,14 @@ public class Circle extends javafx.scene.shape.Circle implements Collider {
         setCenterX(x);
         setCenterX(y);
     }
+
+    @Override
+    public double getX() {
+        return getCenterX();
+    }
+
+    @Override
+    public double getY() {
+        return getCenterY();
+    }
 }

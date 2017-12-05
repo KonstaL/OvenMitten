@@ -15,6 +15,7 @@ import java.util.List;
  */
 public abstract class GameActor extends Zone {
     private int hp;
+    private boolean isAlive;
     private int xVelocity;
     private int yVelocity;
     private Sprite sprite;
@@ -22,14 +23,18 @@ public abstract class GameActor extends Zone {
     private Enum<Direction> direction;
 
 
-    public GameActor(int x, int y, int width, int height, Sprite sprite) {
+    public GameActor(int x, int y, int width, int height, Sprite sprite, int hp) {
         super(x, y, width, height);
+        this.hp = hp;
         this.sprite = sprite;
+        this.isAlive = true;
     }
 
-    public GameActor(int x, int y, int width, int height) {
+    public GameActor(int x, int y, int width, int height, int hp) {
         super(x, y, width, height);
+        this.hp = hp;
         this.sprite = new SpriteImage();
+        this.isAlive = true;
     }
 
 
@@ -77,6 +82,14 @@ public abstract class GameActor extends Zone {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }
 

@@ -172,7 +172,7 @@ public class SpaceDestroyer2000 extends Game {
 
         Sprite sp = new SpriteAnimation("src/fi/konstal/example/game1/resources/trump_run.png",
                                             ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
-        GameActor enemy = new Enemy(400, 400, 300, 300);
+        GameActor enemy = new Enemy(400, 400, 300, 300, 40);
         enemy.setSprite(sp);
 
         Decoration om = new Decoration(500, 1500, 100, 50);
@@ -181,7 +181,7 @@ public class SpaceDestroyer2000 extends Game {
 
 
 
-        GameActor ship = new MainPlayer(700,500,50, 50, new SpriteImage("ship.png"));
+        GameActor ship = new MainPlayer(700,500,50, 50, new SpriteImage("ship.png"), 30);
         ship.setCollider(new Polygon(
                 ship.getX(),
                 ship.getY(),
