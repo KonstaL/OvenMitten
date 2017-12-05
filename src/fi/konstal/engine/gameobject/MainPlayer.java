@@ -41,4 +41,8 @@ import fi.konstal.engine.util.Sprite;
         getInputlistener().update();
     }
 
+    @Override
+    public void onCollision() {
+        System.out.println("MainPlayer collison");
+    }
 }

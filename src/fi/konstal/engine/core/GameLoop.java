@@ -70,9 +70,19 @@ public class GameLoop extends AnimationTimer {
 
                     mainCanvas.getGraphicsContext2D().drawImage(((GameActor) go).getSprite().getImage(),
                             go.getX() - camera.getxOffset(), go.getY() - camera.getyOffset(), go.getWidth(), go.getHeight());
+                    if (go instanceof MainPlayer) {
+                        for(GameObject go2 : gol) {
+                            if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
+                                if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
+                                    System.out.println(go.getX() + " " + go.getY());
+                                    ((MainPlayer) go).onCollision();
+                                }
+                            }
+                        }
                     }
                 }
             }
+        }
 
 
             //Center viewport

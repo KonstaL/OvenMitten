@@ -4,6 +4,8 @@ import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.util.Camera;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.Path;
 
 import java.util.Calendar;
 import java.util.List;
@@ -83,8 +85,13 @@ public abstract class Zone extends GameObject {
 
     }
 
+    public abstract void onCollision();
+
     public boolean collides(Collider c) {
-        //TODO: IMPLEMENT THIS
-        return true;
+        Shape sh = Shape.intersect((Shape)this.collider, (Shape) c);
+        if(((Path)sh).getElements().size() != 0) {
+            return true;
+        }
+        return false;
     }
 }

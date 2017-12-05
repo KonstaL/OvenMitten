@@ -24,6 +24,8 @@ public class Projectile extends GameActor {
 
     }
 
-
-
+    @Override
+    public void onCollision() {
+        System.out.println("Collision on projectile class");
+    }
 }

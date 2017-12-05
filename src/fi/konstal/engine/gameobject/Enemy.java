@@ -25,4 +25,8 @@ public class Enemy extends GameActor {
 
     }
 
+    @Override
+    public void onCollision() {
+        System.out.println("collision on enemy class");
+    }
 }
