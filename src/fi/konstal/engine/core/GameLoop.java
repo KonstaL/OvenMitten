@@ -6,7 +6,7 @@ import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.util.GameObservable;
 import fi.konstal.engine.util.GameObserver;
 import fi.konstal.engine.util.Projectile;
-import fi.konstal.example.game2.util.GameState;
+import fi.konstal.engine.util.StateMessage;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -16,9 +16,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by e4klehti on 14.11.2017.
  */
-public class GameLoop extends AnimationTimer implements GameObservable{
+public class GameLoop extends AnimationTimer implements GameObservable, GameObserver{
     private static List<GameObject> gol;
     private static List <GameObserver> observers = new ArrayList<>(); //temp testing
+    private List<Level> levels;         //Not implemented
+    private Level currentLevel;         //Not implemented
     private Canvas mainCanvas;
     private int fps;
     private long fpsStart;
@@ -34,8 +36,10 @@ public class GameLoop extends AnimationTimer implements GameObservable{
         this.showHitbox = showHitbox;
         this.showFps = showFps;
         this.camera = camera;
+
         this.gol = new CopyOnWriteArrayList();
-        isRunning = true;
+        this.levels = new ArrayList<>();
+        this.isRunning = true;
     }
 
 
@@ -145,7 +149,7 @@ public class GameLoop extends AnimationTimer implements GameObservable{
     public void checkWin() {
         //TempoKrary
         if(gol.size() ==1) {
-            notifyObservers(GameState.WON);
+            notifyObservers(StateMessage.WON);
         }
     }
 
@@ -212,6 +216,14 @@ public class GameLoop extends AnimationTimer implements GameObservable{
         this.camera = camera;
     }
 
+    public LinkedList<Level> getLevels() {
+        return levels;
+    }
+
+    public void addLevel(Level level) {
+        levels.add(level);
+    }
+
     @Override
     public void addObserver(GameObserver o) {
         observers.add(o);
@@ -223,9 +235,30 @@ public class GameLoop extends AnimationTimer implements GameObservable{
     }
 
     @Override
-    public void notifyObservers(Object arg) {
+    public void notifyObservers(StateMessage arg) {
         for(GameObserver o : observers) {
             o.update(this, arg);
+        }
+    }
+
+    @Override
+    public void update(GameObservable o, StateMessage arg) {
+        notifyObservers(arg);
+//        switch (arg) {
+//            case LEVEL_CLEARED:
+//                nextLevel()
+//        }
+
+    }
+
+    public void nextLevel() {
+        int levelIndex = levels.indexOf(currentLevel);
+        Level nextLevel = levels.get((levelIndex + 1));
+        if (nextLevel != null) {
+            currentLevel = nextLevel;
+            notifyObservers(StateMessage.PLAYING);
+        } else {
+            notifyObservers(StateMessage.WON);
         }
     }
 }

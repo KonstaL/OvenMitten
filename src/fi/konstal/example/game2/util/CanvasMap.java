@@ -11,11 +11,13 @@ import javafx.scene.paint.Color;
  */
 public class CanvasMap implements Map {
     private SpaceLine[] spaceLines;
-    private double width, height; //TODO: impelment these
+    private double width, height;
+    private Color fillColor;
 
-    public CanvasMap(double width, double height) {
+    public CanvasMap(double width, double height, Color color) {
         this.width = width;
         this.height = height;
+        this.fillColor = color;
     }
 
 
@@ -29,7 +31,7 @@ public class CanvasMap implements Map {
 
     @Override
     public void draw(GraphicsContext gc, Camera c) {
-        gc.setFill(Color.WHITE);
+        gc.setFill(fillColor);
         for(SpaceLine sp : spaceLines) {
            gc.fillRect(sp.x- c.getxOffset(),
                    sp.y - c.getyOffset(),

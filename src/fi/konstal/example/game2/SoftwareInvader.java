@@ -1,7 +1,6 @@
 package fi.konstal.example.game2;
 
 import fi.konstal.engine.*;
-import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.core.*;
 import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.util.*;
@@ -9,7 +8,6 @@ import fi.konstal.example.game2.util.*;
 
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -148,7 +146,7 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
         root.getChildren().add(canvas);
 
 
-        CanvasMap map = new CanvasMap(WIDTH, HEIGHT);
+        CanvasMap map = new CanvasMap(WIDTH, HEIGHT, Color.ROYALBLUE);
         map.setLineAmount(100);
 
         BareCamera bc = new BareCamera();
@@ -175,7 +173,7 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
                 ship.getHeight(),
                 0.0,
                 40.0));
-        ship.addObserver(this);
+        ship.addObserver(gameLoop);
         gameLoop.addObserver(this);
         gameLoop.addGameObject(ship);
 
@@ -214,9 +212,9 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
         }
 
     @Override
-    public void update(GameObservable o, Object arg) {
-        if(arg instanceof GameState) {
-            switch ((GameState) arg) {
+    public void update(GameObservable o, StateMessage arg) {
+        if(arg instanceof StateMessage) {
+            switch ((StateMessage) arg) {
                 case LOST:
                     this.gameLoop.stop();
                     this.gameLoop = null;

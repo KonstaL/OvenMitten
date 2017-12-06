@@ -5,13 +5,11 @@ import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.*;
-import fi.konstal.example.game2.util.GameState;
-import javafx.beans.Observable;
+import fi.konstal.engine.util.StateMessage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observer;
 
 public class SpaceShip extends GameActor implements GameObservable {
     private List<GameObserver> observers;
@@ -101,7 +99,7 @@ public class SpaceShip extends GameActor implements GameObservable {
 
         if(getHp() <= 0) {
             setAlive(false);
-            notifyObservers(GameState.LOST);
+            notifyObservers(StateMessage.LOST);
         }
     }
 
@@ -120,7 +118,7 @@ public class SpaceShip extends GameActor implements GameObservable {
     }
 
     @Override
-    public void notifyObservers(Object arg) {
+    public void notifyObservers(StateMessage arg) {
         for(GameObserver o : observers) {
             o.update(this, arg);
         }

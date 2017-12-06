@@ -1,5 +1,5 @@
 package fi.konstal.engine.util;
 
 public interface GameObserver {
-    void update(GameObservable o, Object arg);
+    void update(GameObservable o, StateMessage arg);
 }
