@@ -9,11 +9,11 @@ import javafx.scene.paint.Color;
 /**
  * Created by konka on 28.11.2017.
  */
-public class NoMap implements Map {
+public class CanvasMap implements Map {
     private SpaceLine[] spaceLines;
     private double width, height; //TODO: impelment these
 
-    public NoMap(double width, double height) {
+    public CanvasMap(double width, double height) {
         this.width = width;
         this.height = height;
     }

@@ -173,7 +173,7 @@ public class SoftwareInvader extends Game {
 
 
 
-        NoMap map = new NoMap(WIDTH, HEIGHT);
+        CanvasMap map = new CanvasMap(WIDTH, HEIGHT);
         map.setLineAmount(100);
 
         BareCamera bc = new BareCamera();
