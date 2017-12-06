@@ -6,8 +6,8 @@ import fi.konstal.engine.util.Camera;
 import fi.konstal.engine.util.GameObservable;
 import fi.konstal.engine.util.GameObserver;
 import fi.konstal.engine.util.Projectile;
-
 import fi.konstal.example.game2.util.GameState;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import java.util.*;
@@ -165,7 +165,7 @@ public class GameLoop extends AnimationTimer implements GameObservable{
 
         //For CopyOnWriteArraylist
         for(GameObject go: gol) {
-            if(!((GameActor)go).isAlive()) {
+            if(go instanceof GameActor && !((GameActor)go).isAlive()) {
                 gol.remove(go);
             }
         }

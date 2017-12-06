@@ -221,12 +221,13 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
                     this.gameLoop.stop();
                     this.gameLoop = null;
                     showMainMenu(primaryStage);
+                    System.out.println("You DIED!");
                     break;
                 case WON:
                     this.gameLoop.stop();
                     this.gameLoop = null;
                     showMainMenu(primaryStage);
-                    System.out.println("You won!!");
+                    System.out.println("You WON!!");
                 default:
                     break;
             }
