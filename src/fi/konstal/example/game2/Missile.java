@@ -1,6 +1,7 @@
 package fi.konstal.example.game2;
 
 import fi.konstal.engine.core.GameLoop;
+import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.util.Projectile;
 import fi.konstal.engine.util.Sprite;
 
@@ -12,18 +13,13 @@ public class Missile extends Projectile {
     }
 
     @Override
-    public void getInput() {
-
-    }
-
-    @Override
-    public void handleCollision() {
+    public void handleCollision(Zone z) {
         setAlive(false);
     }
 
     @Override
     public void update() {
-        if (getY() < -50) {
+        if (getY() < -50 || getY() > 1000) {
             //GameLoop.removeProjectile(this);
             setAlive(false);
         }

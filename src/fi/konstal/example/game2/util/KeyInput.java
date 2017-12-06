@@ -20,16 +20,16 @@ public class KeyInput extends KeyboardInput {
     public void update() {
         //set velocity according to pressed buttons
         if(getInputs().contains(KeyCode.W)) {
-            getGameObject().setyVelocity(-2);
+            getGameObject().setyVelocity(-4);
         }
         if(getInputs().contains(KeyCode.S)) {
-            getGameObject().setyVelocity(2);
+            getGameObject().setyVelocity(4);
         }
         if(getInputs().contains(KeyCode.A)) {
-            getGameObject().setxVelocity(-2);
+            getGameObject().setxVelocity(-4);
         }
         if(getInputs().contains(KeyCode.D)) {
-            getGameObject().setxVelocity(2);
+            getGameObject().setxVelocity(4);
         }
         if (getInputs().contains(KeyCode.SHIFT)) {
             ((SpaceShip)getGameObject()).setShooting(true);

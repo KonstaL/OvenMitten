@@ -39,7 +39,6 @@ public abstract class GameActor extends Zone {
 
 
     abstract public void move(Map map);
-    abstract public void getInput();
 
 
 

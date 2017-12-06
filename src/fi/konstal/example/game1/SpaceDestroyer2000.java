@@ -7,7 +7,6 @@ import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.collider.Polygon;
-import fi.konstal.engine.gameobject.collider.Rectangle;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.*;
@@ -39,7 +38,7 @@ import java.util.List;
 /**
  * Created by e4klehti on 14.11.2017.
  */
-public class SpaceDestroyer2000 extends Game {
+public class SpaceDestroyer2000 extends GameWindow {
     //Final size for the window
     final int WIDTH = 1280;
     final int HEIGHT = 720;
@@ -48,8 +47,8 @@ public class SpaceDestroyer2000 extends Game {
     public void showMainMenu(Stage primaryStage) {
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
-                new Pair<String, Runnable>("Start Game", ()-> runGame(primaryStage)),
-                new Pair<String, Runnable>("Load Game", this::load),
+                new Pair<String, Runnable>("Start GameWindow", ()-> runGame(primaryStage)),
+                new Pair<String, Runnable>("Load GameWindow", this::load),
                 new Pair<String, Runnable>("Quit to Desktop", Platform::exit)
         );
 

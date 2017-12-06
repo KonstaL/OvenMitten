@@ -3,7 +3,9 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameActor;
+import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.util.Projectile;
 import fi.konstal.engine.util.Sprite;
 import fi.konstal.engine.util.SpriteAnimation;
 
@@ -29,22 +31,18 @@ public class EnemyCarrier extends GameActor {
         getCollider().update(getX(), getY());
     }
 
-    @Override
-    public void getInput() {
-
-    }
 
     @Override
-    public void handleCollision() {
-        System.out.println("collision on enemy class");
+    public void handleCollision(Zone c) {
+        if(c instanceof Projectile) {
+            setHp(getHp() - ((Projectile) c).getDamage());
 
-        setHp(getHp()-1);
+            if(getHp() <= 0) {
+                setAlive(false);
+            }
 
-        if(getHp() <= 0) {
-            setAlive(false);
         }
-
-
+        System.out.println("collision on enemy class");
     }
 
     public void fireProjectile() {
@@ -68,7 +66,7 @@ public class EnemyCarrier extends GameActor {
             setxVelocity((int)(Math.random()*30)-15);
             setyVelocity((int)(Math.random()*6)+1);
 
-            if((int)(Math.random()*10) > 8) {
+            if((int)(Math.random()*10) > 7) {
                 fireProjectile();
             }
             counter = 0;

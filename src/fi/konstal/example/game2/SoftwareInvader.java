@@ -9,6 +9,7 @@ import fi.konstal.example.game2.util.*;
 
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -29,18 +30,19 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class SoftwareInvader extends Game {
+public class SoftwareInvader extends GameWindow implements GameObserver {
     final int WIDTH = 720;
     final int HEIGHT = 1000;
+    private Stage primaryStage;
+    private GameLoop gameLoop;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
-        //Final size for the window
-
+        this.primaryStage = primaryStage;
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
-                new Pair<String, Runnable>("Start Game", ()-> runGame(primaryStage)),
-                new Pair<String, Runnable>("Load Game", this::load),
+                new Pair<String, Runnable>("Start GameWindow", ()-> runGame(primaryStage)),
+                new Pair<String, Runnable>("Load GameWindow", this::load),
                 new Pair<String, Runnable>("Quit to Desktop", Platform::exit)
         );
 
@@ -139,27 +141,32 @@ public class SoftwareInvader extends Game {
     @Override
     public void runGame(Stage primaryStage) {
         Group root = new Group();
-        Scene theScene = new Scene( root, Color.BLACK );
-
-
+        Scene gameScene = new Scene( root, Color.BLACK );
 
 
         Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
         root.getChildren().add(canvas);
 
 
-        GameActor ship = new SpaceShip(355, 700, 73, 110, new SpriteImage("ship.png"), 50);
+        CanvasMap map = new CanvasMap(WIDTH, HEIGHT);
+        map.setLineAmount(100);
+
+        BareCamera bc = new BareCamera();
+
+        this.gameLoop = new GameLoop(canvas, map, bc, true, true);
+
+        SpaceShip ship = new SpaceShip(355, 700, 50, 80, new SpriteImage("ship.png"), 50);
         ship.setCollider(new Polygon(
                 ship.getX(),
                 ship.getY(),
+                13.0,
+                30.0,
                 20.0,
-                40.0,
+                0.0,
                 30.0,
                 0.0,
-                45.0,
-                0.0,
-                60.0,
-                40.0,
+                35.0,
+                20.0,
                 ship.getWidth(),
                 40.0,
                 ship.getWidth(),
@@ -168,23 +175,14 @@ public class SoftwareInvader extends Game {
                 ship.getHeight(),
                 0.0,
                 40.0));
-
-
-
-
-
-        CanvasMap map = new CanvasMap(WIDTH, HEIGHT);
-        map.setLineAmount(100);
-
-        BareCamera bc = new BareCamera();
-
-        GameLoop gl = new GameLoop(canvas, map, bc, true, true);
-        gl.addGameObject(ship);
+        ship.addObserver(this);
+        gameLoop.addObserver(this);
+        gameLoop.addGameObject(ship);
 
         for(int i = 0; i < 5; i++) {
             for(int y = 0; y < 4; y++) {
                 EnemyCarrier carrier = new EnemyCarrier(150*i, 100*y, 70, 70, new SpriteImage("carrier.png"), 20);
-                gl.addGameObject(carrier);
+                gameLoop.addGameObject(carrier);
             }
 
         }
@@ -193,13 +191,15 @@ public class SoftwareInvader extends Game {
         input.showInputs(true);
         input.setRestrictedMovement(false);
 
-        theScene.setOnKeyPressed(input);
-        theScene.setOnKeyReleased(input);
+        gameScene.setOnKeyPressed(input);
+        gameScene.setOnKeyReleased(input);
 
 
-        primaryStage.setScene( theScene );
+        primaryStage.setScene( gameScene );
         primaryStage.show();
-        gl.start();
+
+
+        gameLoop.start();
     }
 
     @Override
@@ -209,8 +209,28 @@ public class SoftwareInvader extends Game {
     }
 
 
-        public void launchThis() {
+    public void launchThis() {
             super.launch();
         }
+
+    @Override
+    public void update(GameObservable o, Object arg) {
+        if(arg instanceof GameState) {
+            switch ((GameState) arg) {
+                case LOST:
+                    this.gameLoop.stop();
+                    this.gameLoop = null;
+                    showMainMenu(primaryStage);
+                    break;
+                case WON:
+                    this.gameLoop.stop();
+                    this.gameLoop = null;
+                    showMainMenu(primaryStage);
+                    System.out.println("You won!!");
+                default:
+                    break;
+            }
+        }
+    }
 }
 

@@ -25,13 +25,9 @@ public class Enemy extends GameActor {
 
     }
 
-    @Override
-    public void getInput() {
-
-    }
 
     @Override
-    public void handleCollision() {
+    public void handleCollision(Zone c) {
         System.out.println("collision on enemy class");
 
         setHp(getHp()-1);

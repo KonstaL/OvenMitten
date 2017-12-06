@@ -3,28 +3,28 @@ package fi.konstal.engine.core;
 import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.util.GameObservable;
+import fi.konstal.engine.util.GameObserver;
 import fi.konstal.engine.util.Projectile;
+
+import fi.konstal.example.game2.util.GameState;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
-
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by e4klehti on 14.11.2017.
  */
-public class GameLoop extends AnimationTimer {
+public class GameLoop extends AnimationTimer implements GameObservable{
     private static List<GameObject> gol;
-    private static List <Projectile> projectiles;
+    private static List <GameObserver> observers = new ArrayList<>(); //temp testing
     private Canvas mainCanvas;
     private int fps;
     private long fpsStart;
     private boolean showFps;
     private boolean showHitbox;
+    private boolean isRunning;
     private static Map map;
     private Camera camera;
 
@@ -35,7 +35,7 @@ public class GameLoop extends AnimationTimer {
         this.showFps = showFps;
         this.camera = camera;
         this.gol = new CopyOnWriteArrayList();
-        this.projectiles = new CopyOnWriteArrayList();
+        isRunning = true;
     }
 
 
@@ -52,10 +52,6 @@ public class GameLoop extends AnimationTimer {
         //Remove dead Game_actors
         removeDeadGameActors();
 
-        //Remove any dead projectiles
-        //removeDeadProjectiles();
-
-
 
         //draw background map
         map.draw(mainCanvas.getGraphicsContext2D(), camera);
@@ -65,33 +61,16 @@ public class GameLoop extends AnimationTimer {
 
 
 
-        //Draw the actual image
-
-            for (GameObject go : gol) {
-                renderGameObject(go);
-            }
-
+        //Draw and update GameObjects
+        for (GameObject go : gol) {
+            renderGameObject(go);
+        }
 
 
-
-
-
-//        //Update projectiles
-//        for (Projectile pr : projectiles) {
-//            pr.update();
-//            renderGameObject(pr);
-//
-//            for (GameObject go : gol) {
-//                if(pr.collides(((GameActor)go).getCollider())) {
-//                    ((GameActor) go).handleCollision();
-//                    pr.handleCollision();
-//                }
-//            }
-//        }
         //TODO: Clean this code
 
         //Check win
-        //checkWin();
+        checkWin();
 
 
         //If it's been over a second since last fps print, print fps and clear values
@@ -132,16 +111,6 @@ public class GameLoop extends AnimationTimer {
                         go.getWidth(),
                         go.getHeight());
 
-//                if (go instanceof MainPlayer) {
-//                    //((MainPlayer)go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
-//                    for(GameObject go2 : gol) {
-//                        if(!(go2 instanceof MainPlayer) && !(go2 instanceof Decoration)) {
-//                            if(((MainPlayer) go).collides(((GameActor)go2).getCollider())) {
-//                                ((MainPlayer) go).handleCollision();
-//                            }
-//                        }
-//                    }
-//                }
                 //Testing
                 if(go instanceof Projectile) {
 
@@ -151,22 +120,20 @@ public class GameLoop extends AnimationTimer {
                             if(((Projectile) go).getParent().isPresent()) {
                                 if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
                                         !(((Projectile) go).getParent().get() == go2.getClass())) {
-                                    ((Projectile) go).handleCollision();
-                                    ((GameActor) go2).handleCollision();
+                                    ((Projectile) go).handleCollision((Zone)go2);
+                                    ((GameActor) go2).handleCollision((Zone)go);
                                 }
                             } else {
                                 if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
 
-                                    ((Projectile) go).handleCollision();
-                                    ((GameActor) go2).handleCollision();
+                                    ((Projectile) go).handleCollision((Zone)go2);
+                                    ((GameActor) go2).handleCollision((Zone)go);
                                 }
                             }
 
                         }
                     }
-
                 }
-
             }
 
             if (showHitbox) {
@@ -176,33 +143,14 @@ public class GameLoop extends AnimationTimer {
     }
 
     public void checkWin() {
-//        //Hardcoded for testing
-//        Rectangle2D winZone = tm.getObjectLayer("Win layer").getObject("winZone").getRectangle();
-//        if(winZone.intersects(gol.get(1).getBounds())) {
-//            System.out.println("YOURE IN THE WINZONE!!");
-//        }
-//        Rectangle2D killZone = tm.getObjectLayer("Win layer").getObject("killZone").getRectangle();
-//        if(killZone.intersects(gol.get(1).getBounds())) {
-//            System.out.println("YOURE IN THE KILLZONE!!");
-//            this.stop();
-//            System.exit(0);
-//        }
+        //TempoKrary
+        if(gol.size() ==1) {
+            notifyObservers(GameState.WON);
+        }
     }
 
     public static void addGameObject(GameObject go) {
         gol.add(go);
-    }
-    public static void addProjectile(Projectile pr) {
-        projectiles.add(pr);
-    }
-    public static void removeDeadProjectiles() {
-        for(Iterator it = projectiles.iterator(); it.hasNext();) {
-            Projectile pr = (Projectile) it.next();
-
-            if (!pr.isAlive()) {
-                it.remove();
-            }
-        }
     }
 
     public static void removeDeadGameActors() {
@@ -221,8 +169,6 @@ public class GameLoop extends AnimationTimer {
                 gol.remove(go);
             }
         }
-
-
     }
 
 
@@ -264,6 +210,23 @@ public class GameLoop extends AnimationTimer {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
+    }
+
+    @Override
+    public void addObserver(GameObserver o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(GameObserver o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(Object arg) {
+        for(GameObserver o : observers) {
+            o.update(this, arg);
+        }
     }
 }
 

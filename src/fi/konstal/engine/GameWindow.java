@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 /**
  * Created by konka on 21.11.2017.
  */
-public abstract class Game extends Application {
+public abstract class GameWindow extends Application {
 
     public abstract void showMainMenu(Stage primaryStage);
     public abstract void runGame(Stage primaryStage);
