@@ -216,7 +216,7 @@ public class GameLoop extends AnimationTimer implements GameObservable, GameObse
         this.camera = camera;
     }
 
-    public LinkedList<Level> getLevels() {
+    public List<Level> getLevels() {
         return levels;
     }
 
