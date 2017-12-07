@@ -12,7 +12,7 @@ import fi.konstal.engine.util.SpriteAnimation;
 public class EnemyCarrier extends GameActor {
     private int counter;
     private Sprite missileSprite = new SpriteAnimation(
-                "src/fi/konstal/example/game2/resources/enemyMissile.png",
+                "enemyMissile.png",
                         1,
                         5,
                         60,

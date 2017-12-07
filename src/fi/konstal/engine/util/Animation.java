@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -41,14 +43,13 @@ public class Animation {
 
 
 
-    public void parseSheet(String path) {
-        File file = new File(path);
+    public void parseSheet(String filename) {
         BufferedImage img = null;
 
-        try (FileInputStream fis = new FileInputStream(file)) {
-            img = ImageIO.read(fis);
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
+           img = ImageIO.read(is);
         } catch (IOException e) {
-            System.out.println("Could not load sprite sheet image: " + path);
+            System.out.println("Could not load sprite sheet image: " + filename);
             e.printStackTrace();
         }
 
@@ -60,6 +61,9 @@ public class Animation {
             }
             currentFrame = images.get(1);
             System.out.println("Animointi spritesheet tehty!");
+        } else {
+            System.out.println("Could not load sprite sheet image: " + filename);
+
         }
 
     }

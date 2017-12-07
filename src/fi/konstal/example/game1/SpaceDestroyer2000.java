@@ -169,7 +169,7 @@ public class SpaceDestroyer2000 extends GameWindow {
          int HEIGHT   = 256;
          int CYCLEDURATION = 5;
 
-        Sprite sp = new SpriteAnimation("src/fi/konstal/example/game1/resources/trump_run.png",
+        Sprite sp = new SpriteAnimation("trump_run.png",
                                             ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
         GameActor enemy = new Enemy(400, 400, 300, 300, 40);
         enemy.setSprite(sp);

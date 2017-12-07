@@ -23,7 +23,7 @@ public class SpaceShip extends GameActor implements GameObservable {
         projectiles = new ArrayList<>();
         observers = new ArrayList<>();
         missileSprite = new SpriteAnimation(
-                "src/fi/konstal/example/game2/resources/missile.png",
+                "missile.png",
                 1,
                 5,
                 60,

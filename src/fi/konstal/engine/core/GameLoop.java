@@ -147,7 +147,7 @@ public class GameLoop extends AnimationTimer implements GameObservable, GameObse
     }
 
     public void checkWin() {
-        //TempoKrary
+
         if(gol.size() ==1) {
             notifyObservers(StateMessage.WON);
         }
