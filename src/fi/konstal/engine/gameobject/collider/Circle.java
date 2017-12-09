@@ -24,4 +24,6 @@ public class Circle extends javafx.scene.shape.Circle implements Collider {
     public double getY() {
         return getCenterY();
     }
+
+
 }

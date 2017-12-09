@@ -1,6 +1,7 @@
 package fi.konstal.example.game1;
 
 import fi.konstal.engine.*;
+import fi.konstal.engine.core.Level;
 import fi.konstal.engine.gameobject.Decoration;
 import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameActor;
@@ -10,6 +11,7 @@ import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.*;
+import fi.konstal.example.game1.util.Hero;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
 import javafx.animation.*;
@@ -103,40 +105,8 @@ public class SpaceDestroyer2000 extends GameWindow {
 
 
         Scene sc = new Scene(root);
+
         primaryStage.setScene(sc);
-
-
-        //link explosion to mouseclick
-        sc.addEventFilter(MouseEvent.MOUSE_CLICKED, (event)-> {
-
-            ImageView temp = new ImageView(img);
-            temp.setX(event.getX() - temp.getLayoutBounds().getWidth()/2);
-            temp.setY(event.getY() - temp.getLayoutBounds().getHeight()/2);
-            temp.setRotate(Math.random()*360);
-            ColorAdjust ca = new ColorAdjust();
-            ca.setBrightness(-0.4);
-            ca.setInput(new GaussianBlur());
-            temp.setEffect(ca);
-
-
-            root.getChildren().add(temp);
-
-            //for removing the animation
-            Timeline timeline = new Timeline();
-            timeline.setCycleCount(1);
-            //KeyValue kv = root.getChildren().add(temp);
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000)));
-            timeline.setOnFinished(a-> {
-                root.getChildren().remove(root.getChildren().indexOf(temp));
-
-                //for refreshing the screen
-                root.setEffect(new Bloom(0.7));
-            });
-            timeline.play();
-        });
-
-
-
         primaryStage.setResizable(false);
         primaryStage.sizeToScene(); //Prevent extra whitespace caused from setResizable(false);
 
@@ -159,64 +129,13 @@ public class SpaceDestroyer2000 extends GameWindow {
                 "src/fi/konstal/example/game1/resources/");
 
 
-        //testing
-        //============================================
-         int ROWS  =   4;
-         int PER_ROW    =  6;
-         //int OFFSET_X =  18;
-         //int OFFSET_Y =  25;
-         int WIDTH    = 256;
-         int HEIGHT   = 256;
-         int CYCLEDURATION = 5;
+        Level level = new Level_1(map);
 
-        Sprite sp = new SpriteAnimation("trump_run.png",
-                                            ROWS, PER_ROW, WIDTH, HEIGHT, CYCLEDURATION);
-        GameActor enemy = new Enemy(400, 400, 300, 300, 40);
-        enemy.setSprite(sp);
 
-        Decoration om = new Decoration(500, 1500, 100, 50);
-        //============================================
+        GameLoop gl = new GameLoop(canvas, level, true, true);
 
 
 
-
-        GameActor ship = new MainPlayer(700,500,50, 50, new SpriteImage("ship.png"), 30);
-        ship.setCollider(new Polygon(
-                ship.getX(),
-                ship.getY(),
-                20.0,
-                40.0,
-                30.0,
-                0.0,
-                45.0,
-                0.0,
-                60.0,
-                40.0,
-                ship.getWidth(),
-                40.0,
-                ship.getWidth(),
-                ship.getHeight(),
-                0.0,
-                ship.getHeight(),
-                0.0,
-                40.0));
-
-
-        FollowCamera fc = new FollowCamera(ship, canvas, (int) map.getWidth(), (int) map.getHeight());
-
-        GameLoop gl = new GameLoop(canvas, map, fc, true, true);
-
-        gl.addGameObject(ship);
-        gl.addGameObject(enemy);
-        gl.addGameObject(om);
-
-
-        KeyboardInput input = new KeyInput(ship);
-        input.showInputs(true);
-        input.setRestrictedMovement(false);
-
-        theScene.setOnKeyPressed(input);
-        theScene.setOnKeyReleased(input);
 
 
         primaryStage.setScene( theScene );

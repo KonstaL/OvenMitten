@@ -4,6 +4,7 @@ import fi.konstal.engine.*;
 import fi.konstal.engine.core.*;
 import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.util.*;
+import fi.konstal.example.game1.Level_1;
 import fi.konstal.example.game2.util.*;
 
 import javafx.animation.*;
@@ -151,7 +152,9 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
 
         BareCamera bc = new BareCamera();
 
-        this.gameLoop = new GameLoop(canvas, map, bc, true, true);
+        Level level = new Level_1(map);
+
+        this.gameLoop = new GameLoop(canvas, level, true, true);
 
         SpaceShip ship = new SpaceShip(355, 700, 50, 80, new SpriteImage("ship.png"), 50);
         ship.setCollider(new Polygon(

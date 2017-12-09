@@ -1,20 +1,23 @@
 package fi.konstal.engine.map.tiled;
 
+import fi.konstal.engine.gameobject.Zone;
+import fi.konstal.engine.gameobject.collider.Collider;
+import fi.konstal.engine.gameobject.collider.Rectangle;
 import javafx.geometry.Rectangle2D;
 
 /**
  * Created by e4klehti on 21.11.2017.
  */
 public class MapObject {
-
-
     private String name;
     private int id;
     private int x;
     private int y;
     private int width;
     private int height;
-    private Rectangle2D rectangle;
+    private Collider collider;
+
+
 
 
     public MapObject(int id, String name, int x, int y,
@@ -25,7 +28,7 @@ public class MapObject {
         this.y = y;
         this.width = width;
         this.height = height;
-        rectangle = new Rectangle2D(x, y, width, height);
+        this.collider = new Rectangle(x, y, width, height);
     }
 
 
@@ -37,7 +40,6 @@ public class MapObject {
     public String getName() {
         return name;
     }
-
 
     public int getX() {
         return x;
@@ -58,8 +60,9 @@ public class MapObject {
         return height;
     }
 
-    public Rectangle2D getRectangle() {
-        return rectangle;
+    public Collider getCollider() {
+        return collider;
     }
+
 }
 

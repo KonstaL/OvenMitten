@@ -7,7 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Path;
 
-import java.util.Calendar;
 import java.util.List;
 
 public abstract class Zone extends GameObject {
@@ -33,16 +32,16 @@ public abstract class Zone extends GameObject {
         if(collider instanceof Rectangle) {
             Rectangle re = (Rectangle) collider;
             gc.strokeRect(
-                    re.getX()- camera.getxOffset(),
-                    re.getY() - camera.getyOffset(),
+                    re.getX()- camera.getXOffset(),
+                    re.getY() - camera.getYOffset(),
                     re.getWidth(),
                     re.getHeight()
             );
         } else if(collider instanceof Circle) {
             Circle ci = (Circle) collider;
             gc.strokeOval(
-                    ci.getX() - camera.getxOffset(),
-                    ci.getY() - camera.getyOffset(),
+                    ci.getX() - camera.getXOffset(),
+                    ci.getY() - camera.getYOffset(),
                     ci.getRadius(),
                     ci.getRadius()
             );
@@ -50,8 +49,8 @@ public abstract class Zone extends GameObject {
         } else if(collider instanceof Ellipse ) {
             Ellipse el = (Ellipse) collider;
             gc.strokeOval(
-                    el.getX()- camera.getxOffset(),
-                    el.getY() - camera.getyOffset(),
+                    el.getX()- camera.getXOffset(),
+                    el.getY() - camera.getYOffset(),
                     el.getRadiusX(),
                     el.getRadiusY()
             );
@@ -67,10 +66,10 @@ public abstract class Zone extends GameObject {
 
             for(int i = 0; i < points.size(); i++) {
                 if(i%2 == 0) {
-                    xCoord[xCounter] = points.get(i) - camera.getxOffset();
+                    xCoord[xCounter] = points.get(i) - camera.getXOffset();
                     xCounter++;
                 } else {
-                    yCoord[yCounter] = points.get(i) - camera.getyOffset();
+                    yCoord[yCounter] = points.get(i) - camera.getYOffset();
                     yCounter++;
                 }
             }

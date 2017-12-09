@@ -2,7 +2,6 @@ package fi.konstal.engine.map.tiled;
 
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
-import fi.konstal.engine.util.FollowCamera;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -290,8 +289,8 @@ public class TiledMap implements Map {
             for (int j = 0; j < layers.get(i).getTiles().size(); j++) {
                 gc.drawImage(
                         tileImages.get(layers.get(i).getTiles().get(j).getImageCoordinate()),
-                        layers.get(i).getTiles().get(j).getX() - c.getxOffset(),
-                        layers.get(i).getTiles().get(j).getY() - c.getyOffset(),
+                        layers.get(i).getTiles().get(j).getX() - c.getXOffset(),
+                        layers.get(i).getTiles().get(j).getY() - c.getYOffset(),
                         tileWidth,
                         tileHeight
                 );

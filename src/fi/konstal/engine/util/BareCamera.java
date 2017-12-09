@@ -17,19 +17,19 @@ public class BareCamera implements Camera{
         yOffset += yAmount;
     }
 
-    public float getxOffset() {
+    public float getXOffset() {
         return xOffset;
     }
 
-    public void setxOffset(float xOffset) {
+    public void setXOffset(float xOffset) {
         this.xOffset = xOffset;
     }
 
-    public float getyOffset() {
+    public float getYOffset() {
         return yOffset;
     }
 
-    public void setyOffset(float yOffset) {
+    public void setYOffset(float yOffset) {
         this.yOffset = yOffset;
     }
 }

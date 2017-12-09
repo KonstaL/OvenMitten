@@ -2,6 +2,7 @@ package fi.konstal.engine.gameobject;
 
 import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -20,7 +21,7 @@ public abstract class GameActor extends Zone {
     private int yVelocity;
     private Sprite sprite;
     private KeyboardInput keyboardInputListener;
-    private Enum<Direction> direction;
+
 
 
     public GameActor(int x, int y, int width, int height, Sprite sprite, int hp) {
@@ -38,7 +39,7 @@ public abstract class GameActor extends Zone {
     }
 
 
-    abstract public void move(Map map);
+    abstract public void move(Map map, List<MapObject> deniedZones);
 
 
 
@@ -90,8 +91,22 @@ public abstract class GameActor extends Zone {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-}
 
-enum Direction {
-    UP, DOWN, LEFT, RIGHT;
+    public boolean goingToCollideX(Collider c) {
+        getCollider().update(getX() + getxVelocity(), getY());
+
+        if (this.collides(c)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean goingToCollideY(Collider c) {
+        getCollider().update(getX(), getY()+ getyVelocity());
+
+        if (this.collides(c)) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -2,8 +2,10 @@ package fi.konstal.engine.util;
 
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.map.tiled.MapObject;
 import javafx.scene.image.Image;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,7 +22,7 @@ public abstract class Projectile extends GameActor {
     }
 
     @Override
-    public void move(Map map) {
+    public void move(Map map, List<MapObject> deniedZones) {
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
         getCollider().update(getX(), getY());

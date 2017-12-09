@@ -4,6 +4,7 @@ import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
 import fi.konstal.engine.util.StateMessage;
 
@@ -28,6 +29,8 @@ public class SpaceShip extends GameActor implements GameObservable {
                 5,
                 60,
                 112,
+                0,
+                0,
                 5
         );
     }
@@ -71,7 +74,7 @@ public class SpaceShip extends GameActor implements GameObservable {
     }
 
     @Override
-    public void move(Map map) {
+    public void move(Map map, List<MapObject> deniedZones) {
         //If its going out of map in X-axis
         if (getX() + getxVelocity() > map.getWidth() || getX() + getxVelocity() < 0 ||
                 getX() + getWidth() + getxVelocity() > map.getWidth() || getX() + getxVelocity() + getWidth() < 0) {

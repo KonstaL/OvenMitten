@@ -2,12 +2,11 @@ package fi.konstal.engine.core;
 
 import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
-import fi.konstal.engine.util.Camera;
-import fi.konstal.engine.util.GameObservable;
-import fi.konstal.engine.util.GameObserver;
-import fi.konstal.engine.util.Projectile;
-import fi.konstal.engine.util.StateMessage;
+import fi.konstal.engine.map.tiled.MapObject;
+import fi.konstal.engine.map.tiled.TiledMap;
+import fi.konstal.engine.util.*;
 
+import fi.konstal.example.game1.util.KeyInput;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import java.util.*;
@@ -19,9 +18,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameLoop extends AnimationTimer implements GameObservable, GameObserver{
     private static List<GameObject> gol;
     private static List <GameObserver> observers = new ArrayList<>(); //temp testing
-    private List<Level> levels;         //Not implemented
-    private Level currentLevel;         //Not implemented
+
+    private List<Level> levels;
+    private Level currentLevel;
     private Canvas mainCanvas;
+    private List<MapObject> deniedAreas;
     private int fps;
     private long fpsStart;
     private boolean showFps;
@@ -30,18 +31,36 @@ public class GameLoop extends AnimationTimer implements GameObservable, GameObse
     private static Map map;
     private Camera camera;
 
-    public GameLoop(Canvas canvas, Map map, Camera camera, boolean showHitbox, boolean showFps) {
+    public GameLoop(Canvas canvas, Level level, boolean showHitbox, boolean showFps) {
         this.mainCanvas = canvas;
-        this.map = map;
         this.showHitbox = showHitbox;
         this.showFps = showFps;
-        this.camera = camera;
-
-        this.gol = new CopyOnWriteArrayList();
         this.levels = new ArrayList<>();
-        this.isRunning = true;
+        this.gol = new CopyOnWriteArrayList();
+
+        levels.add(level);
+        currentLevel = level;
+        init();
     }
 
+    public void init() {
+        this.gol = currentLevel.getGameObjects();
+        this.map = currentLevel.getMap();
+        this.deniedAreas = ((TiledMap)map).getObjectLayer("Collision").getMapObjects();
+        this.camera = new FollowCamera(gol.get(0), mainCanvas, map);
+
+
+        KeyboardInput input = new KeyInput((GameActor)gol.get(0));
+        input.showInputs(true);
+        input.setRestrictedMovement(true);
+
+        mainCanvas.setOnKeyPressed(input);
+        mainCanvas.setOnKeyReleased(input);
+        mainCanvas.setFocusTraversable(true);
+
+
+        this.isRunning = true;
+    }
 
     @Override
     public void handle(long startTime) {
@@ -99,19 +118,19 @@ public class GameLoop extends AnimationTimer implements GameObservable, GameObse
         if(go instanceof Decoration) {
             mainCanvas.getGraphicsContext2D().drawImage(
                     ((Decoration) go).getSprite(),
-                    go.getX() - camera.getxOffset(),
-                    go.getY() - camera.getyOffset(),
+                    go.getX() - camera.getXOffset(),
+                    go.getY() - camera.getYOffset(),
                     go.getWidth(),
                     go.getHeight());
 
         } else if (go instanceof Zone) {
 
             if (go instanceof GameActor) {
-                ((GameActor) go).move(map);
+                ((GameActor) go).move(map, deniedAreas);
                 mainCanvas.getGraphicsContext2D().drawImage(
                         ((GameActor) go).getSprite().getImage(),
-                        go.getX() - camera.getxOffset(),
-                        go.getY() - camera.getyOffset(),
+                        go.getX() - camera.getXOffset(),
+                        go.getY() - camera.getYOffset(),
                         go.getWidth(),
                         go.getHeight());
 
@@ -129,7 +148,7 @@ public class GameLoop extends AnimationTimer implements GameObservable, GameObse
                                 }
                             } else {
                                 if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
-
+                                    System.out.println("Collision");
                                     ((Projectile) go).handleCollision((Zone)go2);
                                     ((GameActor) go2).handleCollision((Zone)go);
                                 }

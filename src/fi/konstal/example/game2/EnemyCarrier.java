@@ -5,9 +5,12 @@ import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.Projectile;
 import fi.konstal.engine.util.Sprite;
 import fi.konstal.engine.util.SpriteAnimation;
+
+import java.util.List;
 
 public class EnemyCarrier extends GameActor {
     private int counter;
@@ -25,7 +28,7 @@ public class EnemyCarrier extends GameActor {
     }
 
     @Override
-    public void move(Map map) {
+    public void move(Map map, List<MapObject> deniedZones) {
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
         getCollider().update(getX(), getY());

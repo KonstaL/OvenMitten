@@ -5,8 +5,8 @@ package fi.konstal.engine.util;
  */
 public interface Camera {
     void move(float xAmount, float yAmount);
-    float getxOffset();
-    float getyOffset();
-    void setxOffset(float xOffset);
-    void setyOffset(float yOffset);
+    float getXOffset();
+    float getYOffset();
+    void setXOffset(float xOffset);
+    void setYOffset(float yOffset);
 }

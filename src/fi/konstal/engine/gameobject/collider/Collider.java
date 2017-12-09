@@ -7,4 +7,5 @@ public interface Collider {
     void update(int x, int y);
     double getX();
     double getY();
+    Bounds getLayoutBounds();
 }

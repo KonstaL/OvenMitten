@@ -2,7 +2,6 @@ package fi.konstal.example.game2.util;
 
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
-import fi.konstal.engine.util.FollowCamera;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -33,8 +32,8 @@ public class CanvasMap implements Map {
     public void draw(GraphicsContext gc, Camera c) {
         gc.setFill(fillColor);
         for(SpaceLine sp : spaceLines) {
-           gc.fillRect(sp.x- c.getxOffset(),
-                   sp.y - c.getyOffset(),
+           gc.fillRect(sp.x- c.getXOffset(),
+                   sp.y - c.getYOffset(),
                    sp.lineWidth,
                    sp.lineHeight);
            sp.move();

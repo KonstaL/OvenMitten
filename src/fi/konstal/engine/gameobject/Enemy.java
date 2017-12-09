@@ -1,8 +1,11 @@
 package fi.konstal.engine.gameobject;
 
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.Sprite;
 import javafx.scene.image.Image;
+
+import java.util.List;
 
 /**
  * Created by e4klehti on 18.11.2017.
@@ -16,7 +19,7 @@ public class Enemy extends GameActor {
     }
 
     @Override
-    public void move(Map map) {
+    public void move(Map map, List<MapObject> deniedZones) {
 
     }
 

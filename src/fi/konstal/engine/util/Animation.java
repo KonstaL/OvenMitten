@@ -28,7 +28,8 @@ public class Animation {
     private int counter;
 
 
-    public Animation(String path, int rows, int amount, int width, int height, int cycleDuration) {
+    public Animation(String path, int rows, int amount, int width, int height,
+                     int xOffset, int yOffset, int cycleDuration) {
         images = new ArrayList<>();
         counter = 0;
 
@@ -38,12 +39,14 @@ public class Animation {
         this.height = height;
         this.cycleDuration = cycleDuration;
 
-        parseSheet(path);
+        parseSheet(path, xOffset, yOffset);
+        //int OFFSET_X =  18; //to implement
+        //int OFFSET_Y =  25;
     }
 
 
 
-    public void parseSheet(String filename) {
+    public void parseSheet(String filename, int xOffset, int yOffset) {
         BufferedImage img = null;
 
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
@@ -56,10 +59,10 @@ public class Animation {
         if(img != null) {
             for(int i = 0; i < rows; i++) {
                 for (int y = 0; y < amount; y++) {
-                    images.add( SwingFXUtils.toFXImage(img.getSubimage(width * y , height * i, width, height), null));
+                    images.add( SwingFXUtils.toFXImage(img.getSubimage(xOffset + (width * y) ,yOffset + (height * i), width, height), null));
                 }
             }
-            currentFrame = images.get(1);
+            currentFrame = images.get(0);
             System.out.println("Animointi spritesheet tehty!");
         } else {
             System.out.println("Could not load sprite sheet image: " + filename);
