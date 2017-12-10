@@ -51,24 +51,20 @@ public class KeyInput extends KeyboardInput {
             KeyCode lastInput = getInputs().get(getInputs().size() - 1);
             switch (lastInput) {
                 case UP:
-                    getGameObject().setyVelocity(-2);
+                    getGameObject().setyVelocity(-4);
                     ((Hero)getGameObject()).setDirection(DirectionState.UP);
                     break;
                 case DOWN:
-                    getGameObject().setyVelocity(2);
+                    getGameObject().setyVelocity(4);
                     ((Hero)getGameObject()).setDirection(DirectionState.DOWN);
                     break;
                 case LEFT:
-                    getGameObject().setxVelocity(-2);
+                    getGameObject().setxVelocity(-4);
                     ((Hero)getGameObject()).setDirection(DirectionState.LEFT);
                     break;
                 case RIGHT:
-                    getGameObject().setxVelocity(2);
+                    getGameObject().setxVelocity(4);
                     ((Hero)getGameObject()).setDirection(DirectionState.RIGHT);
-                    break;
-                default:
-                    getGameObject().setxVelocity(0);
-                    getGameObject().setyVelocity(0);
                     break;
             }
         }

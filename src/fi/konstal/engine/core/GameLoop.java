@@ -15,168 +15,40 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by e4klehti on 14.11.2017.
  */
-public class GameLoop extends AnimationTimer implements GameObservable, GameObserver{
-    private static List<GameObject> gol;
-    private static List <GameObserver> observers = new ArrayList<>(); //temp testing
+public interface GameLoop {
+    static List<GameObject> gameObjects = new CopyOnWriteArrayList<>();
 
-    private List<Level> levels;
-    private Level currentLevel;
-    private Canvas mainCanvas;
-    private List<MapObject> deniedAreas;
-    private int fps;
-    private long fpsStart;
-    private boolean showFps;
-    private boolean showHitbox;
-    private boolean isRunning;
-    private static Map map;
-    private Camera camera;
-
-    public GameLoop(Canvas canvas, Level level, boolean showHitbox, boolean showFps) {
-        this.mainCanvas = canvas;
-        this.showHitbox = showHitbox;
-        this.showFps = showFps;
-        this.levels = new ArrayList<>();
-        this.gol = new CopyOnWriteArrayList();
-
-        levels.add(level);
-        currentLevel = level;
-        init();
-    }
-
-    public void init() {
-        this.gol = currentLevel.getGameObjects();
-        this.map = currentLevel.getMap();
-        this.deniedAreas = ((TiledMap)map).getObjectLayer("Collision").getMapObjects();
-        this.camera = new FollowCamera(gol.get(0), mainCanvas, map);
-
-
-        KeyboardInput input = new KeyInput((GameActor)gol.get(0));
-        input.showInputs(true);
-        input.setRestrictedMovement(true);
-
-        mainCanvas.setOnKeyPressed(input);
-        mainCanvas.setOnKeyReleased(input);
-        mainCanvas.setFocusTraversable(true);
-
-
-        this.isRunning = true;
-    }
-
-    @Override
-    public void handle(long startTime) {
-        //If the time has been reset, get current time
-        if (fpsStart == 0 && showFps) {
-            fpsStart = System.nanoTime();
-        }
-
-        //Clear the canvas
-        mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
-
-        //Remove dead Game_actors
-        removeDeadGameActors();
-
-
-        //draw background map
-        map.draw(mainCanvas.getGraphicsContext2D(), camera);
-
-        //Center viewport
-        camera.move(0, 0);
+    void init(); //Handle level initialization
+    void handle(long startTime); // JavaFX Animationtimer uses this, extend your class from it
+    void renderGameObject(GameObject go);
+    void checkWin();
+    void setMainCanvas(Canvas mainCanvas);
+    void setShowHitbox(boolean showHitbox);
+    Camera getCamera();
+    void setCamera(Camera camera);
+    List<Level> getLevels();
+    void addLevel(Level level);
+    void removeLevel(Level level);
+    void switchLevel();
 
 
 
-        //Draw and update GameObjects
-        for (GameObject go : gol) {
-            renderGameObject(go);
-        }
-
-
-        //TODO: Clean this code
-
-        //Check win
-        checkWin();
-
-
-        //If it's been over a second since last fps print, print fps and clear values
-        if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
-            System.out.println("FPS: " + fps);
-            fpsStart = 0;
-            fps = 0;
-        }
-
-        //Add fps per loop
-        if (showFps) {
-            fps++;
-        }
-
-    }
+    //public List<GameObject> getGol();
+    //public void setGol(ArrayList<GameObject> gol);
+    //public Canvas getMainCanvas();
 
 
 
-    public void renderGameObject(GameObject go) {
-        go.update();
 
-        if(go instanceof Decoration) {
-            mainCanvas.getGraphicsContext2D().drawImage(
-                    ((Decoration) go).getSprite(),
-                    go.getX() - camera.getXOffset(),
-                    go.getY() - camera.getYOffset(),
-                    go.getWidth(),
-                    go.getHeight());
-
-        } else if (go instanceof Zone) {
-
-            if (go instanceof GameActor) {
-                ((GameActor) go).move(map, deniedAreas);
-                mainCanvas.getGraphicsContext2D().drawImage(
-                        ((GameActor) go).getSprite().getImage(),
-                        go.getX() - camera.getXOffset(),
-                        go.getY() - camera.getYOffset(),
-                        go.getWidth(),
-                        go.getHeight());
-
-                //Testing
-                if(go instanceof Projectile) {
-
-                    for(GameObject go2 : gol) {
-
-                        if(go2 instanceof GameActor && !(go2 instanceof Projectile)) {
-                            if(((Projectile) go).getParent().isPresent()) {
-                                if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
-                                        !(((Projectile) go).getParent().get() == go2.getClass())) {
-                                    ((Projectile) go).handleCollision((Zone)go2);
-                                    ((GameActor) go2).handleCollision((Zone)go);
-                                }
-                            } else {
-                                if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
-                                    System.out.println("Collision");
-                                    ((Projectile) go).handleCollision((Zone)go2);
-                                    ((GameActor) go2).handleCollision((Zone)go);
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            if (showHitbox) {
-                ((Zone) go).renderCollider(mainCanvas.getGraphicsContext2D(), camera);
-            }
+    static void addGameObject(GameObject... gos) {
+        for(GameObject go : gos){
+            gameObjects.add(go);
         }
     }
 
-    public void checkWin() {
 
-        if(gol.size() ==1) {
-            notifyObservers(StateMessage.WON);
-        }
-    }
 
-    public static void addGameObject(GameObject go) {
-        gol.add(go);
-    }
-
-    public static void removeDeadGameActors() {
+    static void removeDeadGameActors() {
 //        //for normal List
 //        for(Iterator it = gol.iterator(); it.hasNext();) {
 //            GameActor pr = (GameActor) it.next();
@@ -187,98 +59,19 @@ public class GameLoop extends AnimationTimer implements GameObservable, GameObse
 //        }
 
         //For CopyOnWriteArraylist
-        for(GameObject go: gol) {
+        for(GameObject go: gameObjects) {
+
             if(go instanceof GameActor && !((GameActor)go).isAlive()) {
-                gol.remove(go);
+                gameObjects.remove(go);
             }
         }
     }
 
-
-    public List<GameObject> getGol() {
-        return gol;
+    static List<GameObject> getGameObjects() {
+        return gameObjects;
     }
-
-    public void setGol(ArrayList<GameObject> gol) {
-        this.gol = gol;
-    }
-
-    public Canvas getMainCanvas() {
-        return mainCanvas;
-    }
-
-    public void setMainCanvas(Canvas mainCanvas) {
-        this.mainCanvas = mainCanvas;
-    }
-
-    public boolean isShowHitbox() {
-        return showHitbox;
-    }
-
-    public void setShowHitbox(boolean showHitbox) {
-        this.showHitbox = showHitbox;
-    }
-
-    public static Map getMap() {
-        return map;
-    }
-
-    public static void setMap(Map map) {
-        GameLoop.map = map;
-    }
-
-    public Camera getCamera() {
-        return camera;
-    }
-
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    public List<Level> getLevels() {
-        return levels;
-    }
-
-    public void addLevel(Level level) {
-        levels.add(level);
-    }
-
-    @Override
-    public void addObserver(GameObserver o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void removeObserver(GameObserver o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers(StateMessage arg) {
-        for(GameObserver o : observers) {
-            o.update(this, arg);
-        }
-    }
-
-    @Override
-    public void update(GameObservable o, StateMessage arg) {
-        notifyObservers(arg);
-//        switch (arg) {
-//            case LEVEL_CLEARED:
-//                nextLevel()
-//        }
-
-    }
-
-    public void nextLevel() {
-        int levelIndex = levels.indexOf(currentLevel);
-        Level nextLevel = levels.get((levelIndex + 1));
-        if (nextLevel != null) {
-            currentLevel = nextLevel;
-            notifyObservers(StateMessage.PLAYING);
-        } else {
-            notifyObservers(StateMessage.WON);
-        }
+    static void addAllGameObjects(List<GameObject> goList) {
+        gameObjects.addAll(goList);
     }
 }
 

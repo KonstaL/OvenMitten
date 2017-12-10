@@ -11,9 +11,11 @@ import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.*;
+import fi.konstal.example.game1.util.AdventureLoop;
 import fi.konstal.example.game1.util.Hero;
 import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
+import fi.konstal.example.game2.SpaceLoop;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -40,7 +42,7 @@ import java.util.List;
 /**
  * Created by e4klehti on 14.11.2017.
  */
-public class SpaceDestroyer2000 extends GameWindow {
+public class Menu extends GameWindow {
     //Final size for the window
     final int WIDTH = 1280;
     final int HEIGHT = 720;
@@ -93,8 +95,7 @@ public class SpaceDestroyer2000 extends GameWindow {
                     menuBox.getChildren().addAll(item);
                 });
 
-        //Add an awesome explosion gif
-        Image img = new Image("supernova2.gif");
+   k
 
 
         //add all the elements to the root Pane
@@ -132,7 +133,7 @@ public class SpaceDestroyer2000 extends GameWindow {
         Level level = new Level_1(map);
 
 
-        GameLoop gl = new GameLoop(canvas, level, true, true);
+        AdventureLoop gl = new AdventureLoop(canvas, level, true, true);
 
 
 

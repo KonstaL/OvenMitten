@@ -47,20 +47,27 @@ public class Trump extends Enemy {
         setyVelocity(0);
         setxVelocity(0);
 
-        if(target.getY() + target.getHeight()/2 < getY() + getHeight()/2) {
+        if(target.getY() + target.getHeight()/2 +1 == getY() + getHeight()/2) {
             setyVelocity(-1);
+            dir = DirectionState.UP;
+        } else if (target.getY() + target.getHeight()/2 < getY() + getHeight()/2) {
+            setyVelocity(-2);
             dir = DirectionState.UP;
         }
         if(target.getY() + target.getHeight()/2 > getY() + getHeight()/2) {
-            setyVelocity(1);
+            setyVelocity(2);
             dir = DirectionState.DOWN;
         }
-        if(target.getX() + target.getWidth()/2 < getX() + getWidth()/2) {
+        if(target.getX() + target.getWidth()/2 +1 == getX() + getWidth()/2) {
             setxVelocity(-1);
+            dir = DirectionState.LEFT;
+
+        } else if(target.getX() + target.getWidth()/2 < getX() + getWidth()/2) {
+            setxVelocity(-2);
             dir = DirectionState.LEFT;
         }
         if(target.getX() + target.getWidth()/2 > getX() + getWidth()/2) {
-            setxVelocity(1);
+            setxVelocity(2);
             dir = DirectionState.RIGHT;
         }
 

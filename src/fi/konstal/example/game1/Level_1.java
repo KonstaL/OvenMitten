@@ -5,17 +5,26 @@ import fi.konstal.engine.gameobject.Decoration;
 import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameObject;
 import fi.konstal.engine.map.Map;
+import fi.konstal.engine.util.Fileloader;
 import fi.konstal.engine.util.Sprite;
 import fi.konstal.engine.util.SpriteAnimation;
 import fi.konstal.example.game1.util.Hero;
 import fi.konstal.example.game1.util.Trump;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Level_1 implements Level {
     private List<? super GameObject> gameObjects;
     private Map map;
+    private MediaPlayer bgm;
 
     public Level_1(Map map) {
         this.map = map;
@@ -25,8 +34,9 @@ public class Level_1 implements Level {
 
     public void init() {
 
-        //int OFFSET_X =  18; //to implement
-        //int OFFSET_Y =  25;
+
+        Media pick = new Media(Fileloader.getFileLocation("bgm.mp3"));
+        bgm = new MediaPlayer(pick);
 
 
         Sprite sp0 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 0,  8);
@@ -56,6 +66,8 @@ public class Level_1 implements Level {
         gameObjects.add(hero);
         gameObjects.add(trump);
         gameObjects.add(mitten);
+
+
     }
 
     @Override
@@ -76,5 +88,15 @@ public class Level_1 implements Level {
     @Override
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    @Override
+    public MediaPlayer getBgm() {
+        return bgm;
+    }
+
+    @Override
+    public void setBgm(MediaPlayer bgm) {
+        this.bgm = bgm;
     }
 }

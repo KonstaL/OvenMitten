@@ -33,7 +33,7 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
     final int WIDTH = 720;
     final int HEIGHT = 1000;
     private Stage primaryStage;
-    private GameLoop gameLoop;
+    private SpaceLoop gameLoop;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
@@ -154,7 +154,7 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
 
         Level level = new Level_1(map);
 
-        this.gameLoop = new GameLoop(canvas, level, true, true);
+        this.gameLoop = new SpaceLoop(canvas, level, true, true);
 
         SpaceShip ship = new SpaceShip(355, 700, 50, 80, new SpriteImage("ship.png"), 50);
         ship.setCollider(new Polygon(
