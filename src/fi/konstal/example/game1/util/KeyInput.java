@@ -66,6 +66,9 @@ public class KeyInput extends KeyboardInput {
                     getGameObject().setxVelocity(4);
                     ((Hero)getGameObject()).setDirection(DirectionState.RIGHT);
                     break;
+                case SHIFT:
+                    ((Hero)getGameObject()).fire();
+                    break;
             }
         }
     }

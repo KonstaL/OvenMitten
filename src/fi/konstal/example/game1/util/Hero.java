@@ -50,7 +50,6 @@ public class Hero extends GameActor {
                 break;
         }
 
-
         if(getHp() <= 0) {
             setAlive(false);
         }
@@ -94,6 +93,10 @@ public class Hero extends GameActor {
             setHp(0);
             setAlive(false);
         }
+    }
+
+    public void fire() {
+        this
     }
 }
 

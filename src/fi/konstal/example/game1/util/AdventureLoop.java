@@ -57,6 +57,8 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         mainCanvas.setOnKeyReleased(input);
         mainCanvas.setFocusTraversable(true);
 
+        currentLevel.getBgm().play();
+
 
         this.isRunning = true;
     }

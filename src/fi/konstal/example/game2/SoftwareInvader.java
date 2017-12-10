@@ -85,9 +85,6 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
             menuBox.getChildren().addAll(item);
         });
 
-        //Add an awesome explosion gif
-        Image img = new Image("supernova2.gif");
-
 
         //add all the elements to the root Pane
         root.getChildren().add(imgv);
@@ -99,35 +96,6 @@ public class SoftwareInvader extends GameWindow implements GameObserver {
         Scene sc = new Scene(root);
         primaryStage.setScene(sc);
 
-
-        //link explosion to mouseclick
-        sc.addEventFilter(MouseEvent.MOUSE_CLICKED, (event)-> {
-
-            ImageView temp = new ImageView(img);
-            temp.setX(event.getX() - temp.getLayoutBounds().getWidth()/2);
-            temp.setY(event.getY() - temp.getLayoutBounds().getHeight()/2);
-            temp.setRotate(Math.random()*360);
-            ColorAdjust ca = new ColorAdjust();
-            ca.setBrightness(-0.4);
-            ca.setInput(new GaussianBlur());
-            temp.setEffect(ca);
-
-
-            root.getChildren().add(temp);
-
-            //for removing the animation
-            Timeline timeline = new Timeline();
-            timeline.setCycleCount(1);
-            //KeyValue kv = root.getChildren().add(temp);
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000)));
-            timeline.setOnFinished(a-> {
-                root.getChildren().remove(root.getChildren().indexOf(temp));
-
-                //for refreshing the screen
-                root.setEffect(new Bloom(0.7));
-            });
-            timeline.play();
-        });
 
 
 

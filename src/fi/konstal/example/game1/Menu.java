@@ -95,7 +95,7 @@ public class Menu extends GameWindow {
                     menuBox.getChildren().addAll(item);
                 });
 
-   k
+
 
 
         //add all the elements to the root Pane
