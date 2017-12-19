@@ -94,7 +94,7 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         //TODO: Clean this code
 
         //Check win
-        checkWin();
+        checkLevelWin();
 
 
         //If it's been over a second since last fps print, print fps and clear values
@@ -155,7 +155,7 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         }
     }
 
-    public void checkWin() {
+    public void checkLevelWin() {
 
         if(GameLoop.getGameObjects().size() ==1) {
             notifyObservers(StateMessage.WON);
@@ -248,6 +248,11 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
 
     @Override
     public void switchLevel() {
+
+    }
+
+    @Override
+    public void clear() {
 
     }
 }

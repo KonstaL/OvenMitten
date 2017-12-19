@@ -1,6 +1,6 @@
 package fi.konstal.example.game2;
 
-import fi.konstal.engine.core.GameLoop;
+
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
@@ -11,13 +11,20 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Missile extends Projectile {
-    public Missile(int x, int y, int width, int height, Sprite sprite, int damage) {
-        super(x, y, width, height, sprite, 0, damage);
+    public Missile(int x, int y, int width, int height, Sprite sprite, int hp, int damage) {
+        super(x, y, width, height, sprite, hp, damage);
     }
 
     @Override
     public void handleCollision(Zone z) {
-        setAlive(false);
+        if(z instanceof Projectile) {
+            setHp(getHp() - ((Projectile)z).getDamage());
+        } else {
+            setHp(0);
+        }
+        if(getHp() <= 0) {
+            setAlive(false);
+        }
     }
 
     @Override

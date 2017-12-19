@@ -2,12 +2,10 @@ package fi.konstal.example.game2;
 
 import fi.konstal.engine.*;
 import fi.konstal.engine.core.*;
-import fi.konstal.engine.gameobject.collider.*;
+
 import fi.konstal.engine.util.*;
-import fi.konstal.example.game1.Level_1;
 import fi.konstal.example.game2.util.*;
 
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -15,7 +13,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -23,7 +20,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.List;
@@ -115,59 +111,19 @@ public class MenuWindow extends GameWindow implements GameObserver {
         root.getChildren().add(canvas);
 
 
-        CanvasMap map = new CanvasMap(WIDTH, HEIGHT, Color.ROYALBLUE);
-        map.setLineAmount(100);
+        Level level1 = new Level_1();
+        Level level2 = new Level_2();
+        Level level3 = new Level_3();
 
-        BareCamera bc = new BareCamera();
-
-        Level level = new Level_1(map);
-
-        this.gameLoop = new SpaceLoop(canvas, level, true, true);
-
-        SpaceShip ship = new SpaceShip(355, 700, 50, 80, new SpriteImage("ship.png"), 50);
-        ship.setCollider(new Polygon(
-                ship.getX(),
-                ship.getY(),
-                13.0,
-                30.0,
-                20.0,
-                0.0,
-                30.0,
-                0.0,
-                35.0,
-                20.0,
-                ship.getWidth(),
-                40.0,
-                ship.getWidth(),
-                ship.getHeight(),
-                0.0,
-                ship.getHeight(),
-                0.0,
-                40.0));
-        ship.addObserver(gameLoop);
-        gameLoop.addObserver(this);
-        gameLoop.addGameObject(ship);
-
-        for(int i = 0; i < 5; i++) {
-            for(int y = 0; y < 4; y++) {
-                EnemyCarrier carrier = new EnemyCarrier(150*i, 100*y, 70, 70, new SpriteImage("carrier.png"), 20);
-                gameLoop.addGameObject(carrier);
-            }
-
-        }
-
-        KeyboardInput input = new KeyInput(ship);
-        input.showInputs(true);
-        input.setRestrictedMovement(false);
-
-        gameScene.setOnKeyPressed(input);
-        gameScene.setOnKeyReleased(input);
-
+        this.gameLoop = new SpaceLoop(canvas, level1, true, true);
+        this.gameLoop.addLevel(level2);
+        this.gameLoop.addLevel(level3);
 
         primaryStage.setScene( gameScene );
         primaryStage.show();
 
 
+        gameLoop.addObserver(this);
         gameLoop.start();
     }
 
@@ -185,15 +141,17 @@ public class MenuWindow extends GameWindow implements GameObserver {
     @Override
     public void update(GameObservable o, StateMessage arg) {
         if(arg instanceof StateMessage) {
-            switch ((StateMessage) arg) {
+            switch (arg) {
                 case LOST:
                     this.gameLoop.stop();
+                    this.gameLoop.clear();
                     this.gameLoop = null;
                     showMainMenu(primaryStage);
                     System.out.println("You DIED!");
                     break;
                 case WON:
                     this.gameLoop.stop();
+                    this.gameLoop.clear();
                     this.gameLoop = null;
                     showMainMenu(primaryStage);
                     System.out.println("You WON!!");

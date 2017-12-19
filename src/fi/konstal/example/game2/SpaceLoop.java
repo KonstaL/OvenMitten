@@ -5,15 +5,13 @@ import fi.konstal.engine.core.Level;
 import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.*;
 
-import fi.konstal.example.game1.util.KeyInput;
+import fi.konstal.example.game2.util.KeyInput;
 import javafx.animation.AnimationTimer;
 
 import javafx.scene.canvas.Canvas;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservable, GameObserver {
     private static List <GameObserver> observers = new ArrayList<>(); //temp testing
@@ -40,26 +38,31 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
 
         levels.add(level);
         currentLevel = level;
+        loadLevel();
         init();
     }
 
     public void init() {
-        this.gol = currentLevel.getGameObjects();
-        this.map = currentLevel.getMap();
-        this.deniedAreas = ((TiledMap)map).getObjectLayer("Collision").getMapObjects();
-        this.camera = new FollowCamera(gol.get(0), mainCanvas, map);
+        this.camera = new BareCamera();
 
 
         KeyboardInput input = new KeyInput((GameActor)gol.get(0));
-        input.showInputs(true);
-        input.setRestrictedMovement(true);
+        //input.setRestrictedMovement(false);
+        //input.showInputs(true);
 
         mainCanvas.setOnKeyPressed(input);
         mainCanvas.setOnKeyReleased(input);
         mainCanvas.setFocusTraversable(true);
 
-
+        ((SpaceShip)gol.get(0)).addObserver(this);
         this.isRunning = true;
+    }
+
+
+    public void loadLevel() {
+        this.gol.addAll(currentLevel.getGameObjects());
+        this.map = currentLevel.getMap();
+        currentLevel.getBgm().play();
     }
 
     @Override
@@ -93,7 +96,7 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
         //TODO: Clean this code
 
         //Check win
-        checkWin();
+        checkLevelWin();
 
 
         //If it's been over a second since last fps print, print fps and clear values
@@ -136,26 +139,8 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
 
                 //Testing
                 if(go instanceof Projectile) {
+                    checkCollision(go);
 
-                    for(GameObject go2 : gol) {
-
-                        if(go2 instanceof GameActor && !(go2 instanceof Projectile)) {
-                            if(((Projectile) go).getParent().isPresent()) {
-                                if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
-                                        !(((Projectile) go).getParent().get() == go2.getClass())) {
-                                    ((Projectile) go).handleCollision((Zone)go2);
-                                    ((GameActor) go2).handleCollision((Zone)go);
-                                }
-                            } else {
-                                if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
-                                    System.out.println("Collision");
-                                    ((Projectile) go).handleCollision((Zone)go2);
-                                    ((GameActor) go2).handleCollision((Zone)go);
-                                }
-                            }
-
-                        }
-                    }
                 }
             }
 
@@ -165,10 +150,42 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
         }
     }
 
-    public void checkWin() {
+    public void checkCollision(GameObject go) {
+        go = (Projectile)go;
+        for(GameObject go2 : gol) {
 
+            //If its collideable and isn't the projectile itself
+            if(go2 instanceof GameActor && !go2.equals(go)) {
+                //if it has a parent
+                if(((Projectile) go).getParent().isPresent()) {
+                    if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
+                            ((Projectile) go).getParent().get() != go2.getClass()) {
+
+                        if(go2 instanceof Projectile && ((Projectile) go).getParent().get() == ((Projectile)go2).getParent().get()) {
+                            //Do nothing
+                        } else {
+                            ((Projectile) go).handleCollision((Zone)go2);
+                            ((GameActor) go2).handleCollision((Zone)go);
+                        }
+
+
+
+                    }
+                } else {
+                    if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
+                        System.out.println("Collision");
+                        ((Projectile) go).handleCollision((Zone)go2);
+                        ((GameActor) go2).handleCollision((Zone)go);
+                    }
+                }
+
+            }
+        }
+    }
+
+    public void checkLevelWin() {
         if(gol.size() ==1) {
-            notifyObservers(StateMessage.WON);
+            switchLevel();
         }
     }
 
@@ -253,12 +270,20 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
     @Override
     public void switchLevel() {
         int levelIndex = levels.indexOf(currentLevel);
-        Level nextLevel = levels.get((levelIndex + 1));
-        if (nextLevel != null) {
-            currentLevel = nextLevel;
-            notifyObservers(StateMessage.PLAYING);
+        if (levels.size() > levelIndex+1) {
+            currentLevel.getBgm().stop();
+
+            currentLevel = levels.get((levelIndex + 1));
+            loadLevel();
+            notifyObservers(StateMessage.LEVEL_CLEARED);
         } else {
             notifyObservers(StateMessage.WON);
         }
+    }
+
+    @Override
+    public void clear() {
+        currentLevel.getBgm().stop();
+        gol.clear();
     }
 }

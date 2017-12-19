@@ -28,6 +28,10 @@ public class CanvasMap implements Map {
         }
     }
 
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
     @Override
     public void draw(GraphicsContext gc, Camera c) {
         gc.setFill(fillColor);

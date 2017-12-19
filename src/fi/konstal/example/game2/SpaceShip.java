@@ -3,6 +3,7 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
+import fi.konstal.engine.gameobject.collider.Rectangle;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
@@ -47,7 +48,7 @@ public class SpaceShip extends GameActor implements GameObservable {
         }
 
         //shoot a missile every 6 frames
-        if(isShooting && counter > 6) {
+        if(isShooting && counter > 4) {
             fireMissile();
             counter = 0;
         }
@@ -62,13 +63,16 @@ public class SpaceShip extends GameActor implements GameObservable {
         Missile temp = new Missile(
                 getX() + getWidth()/2 -20,
                 getY() -50,
+                30,
                 40,
-                50,
                 missileSprite,
-                10
+                1,
+                4
+
         );
-        temp.setyVelocity(-5);
+        temp.setyVelocity(-7);
         temp.setParent(this.getClass());
+
         //projectiles.add(temp);
         GameLoop.addGameObject(temp);
     }
@@ -86,6 +90,7 @@ public class SpaceShip extends GameActor implements GameObservable {
         if (getY() + getyVelocity() > map.getHeight() || getY() + getyVelocity() < 0 ||
                 getY() + getHeight() + getyVelocity() > map.getHeight() || getY() + getyVelocity() + getHeight() < 0) {
             setyVelocity(0);
+            System.out.println(map.getHeight());
             System.out.println("Yli y!");
         }
 

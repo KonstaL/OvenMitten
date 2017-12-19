@@ -21,7 +21,7 @@ public interface GameLoop {
     void init(); //Handle level initialization
     void handle(long startTime); // JavaFX Animationtimer uses this, extend your class from it
     void renderGameObject(GameObject go);
-    void checkWin();
+    void checkLevelWin();
     void setMainCanvas(Canvas mainCanvas);
     void setShowHitbox(boolean showHitbox);
     Camera getCamera();
@@ -30,6 +30,7 @@ public interface GameLoop {
     void addLevel(Level level);
     void removeLevel(Level level);
     void switchLevel();
+    void clear();
 
 
 

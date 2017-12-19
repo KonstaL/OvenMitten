@@ -29,6 +29,12 @@ public class EnemyCarrier extends GameActor {
 
     @Override
     public void move(Map map, List<MapObject> deniedZones) {
+        //Prevent from going over screen
+        if (getX() + getxVelocity()+ getWidth() > map.getWidth() || getX() + getxVelocity() < 0) {
+            setxVelocity(0);
+        }
+
+        //Update position and collider
         setX(getX() + getxVelocity());
         setY(getY() + getyVelocity());
         getCollider().update(getX(), getY());
@@ -39,11 +45,10 @@ public class EnemyCarrier extends GameActor {
     public void handleCollision(Zone c) {
         if(c instanceof Projectile) {
             setHp(getHp() - ((Projectile) c).getDamage());
+        }
 
-            if(getHp() <= 0) {
-                setAlive(false);
-            }
-
+        if(getHp() <= 0) {
+            setAlive(false);
         }
         System.out.println("collision on enemy class");
     }
@@ -55,18 +60,18 @@ public class EnemyCarrier extends GameActor {
                 40,
                 50,
                 missileSprite,
+                10,
                 10
         );
         temp.setyVelocity(5);
         temp.setParent(this.getClass());
-        //projectiles.add(temp);
         GameLoop.addGameObject(temp);
     }
 
     @Override
     public void update() {
         if(counter > 25) {
-            setxVelocity((int)(Math.random()*30)-15);
+            setxVelocity((int)(Math.random()*40)-20);
             setyVelocity((int)(Math.random()*6)+1);
 
             if((int)(Math.random()*10) > 7) {
@@ -78,9 +83,5 @@ public class EnemyCarrier extends GameActor {
             setyVelocity(0);
             counter++;
         }
-
-
-
-
     }
 }
