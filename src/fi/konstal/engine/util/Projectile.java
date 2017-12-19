@@ -21,11 +21,10 @@ public abstract class Projectile extends GameActor {
         this.parent = Optional.empty();
     }
 
-    @Override
-    public void move(Map map, List<MapObject> deniedZones) {
-        setX(getX() + getxVelocity());
-        setY(getY() + getyVelocity());
-        getCollider().update(getX(), getY());
+    public Projectile(int x, int y, int width, int height, int hp, int damage) {
+        super(x, y, width, height, hp);
+        this.damage = damage;
+        this.parent = Optional.empty();
     }
 
     public int getDamage() {

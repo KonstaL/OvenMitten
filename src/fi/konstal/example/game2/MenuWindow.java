@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class SoftwareInvader extends GameWindow implements GameObserver {
+public class MenuWindow extends GameWindow implements GameObserver {
     final int WIDTH = 720;
     final int HEIGHT = 1000;
     private Stage primaryStage;

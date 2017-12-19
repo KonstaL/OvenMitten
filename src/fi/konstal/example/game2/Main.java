@@ -5,7 +5,7 @@ package fi.konstal.example.game2;
  */
 public class Main {
     public static void main(String... args) {
-        SoftwareInvader si = new SoftwareInvader();
+        MenuWindow si = new MenuWindow();
         si.launchThis();
     }
 }

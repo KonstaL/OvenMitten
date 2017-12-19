@@ -116,10 +116,9 @@ public class Menu extends GameWindow {
 
     @Override
     public void runGame(Stage primaryStage) {
-
         Group root = new Group();
         Scene theScene = new Scene( root );
-        theScene.setFill(Color.BLACK);
+
 
 
         Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());

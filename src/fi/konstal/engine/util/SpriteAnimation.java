@@ -17,4 +17,9 @@ public class SpriteAnimation extends Animation implements Sprite {
     public Image getImage() {
         return cycleAnimation();
     }
+
+    @Override
+    public void setRotate(int rotation) {
+        //TODO: THIS
+    }
 }
