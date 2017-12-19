@@ -17,12 +17,11 @@ public class SpaceShip extends GameActor implements GameObservable {
     private List<GameObserver> observers;
     private int counter;
     private boolean isShooting;
-    private List<Projectile> projectiles;
     private Sprite missileSprite;
 
     public SpaceShip(int x, int y, int width, int height, Sprite sprite, int hp) {
         super(x, y, width, height, sprite, hp);
-        projectiles = new ArrayList<>();
+
         observers = new ArrayList<>();
         missileSprite = new SpriteAnimation(
                 "missile.png",
@@ -38,15 +37,6 @@ public class SpaceShip extends GameActor implements GameObservable {
 
     @Override
     public void update() {
-        //Remove projectiles if they're out of the map
-        for(Iterator it = projectiles.iterator(); it.hasNext();) {
-            Projectile pr = (Projectile) it.next();
-
-            if (pr.getY() < -50) {
-                it.remove();
-            }
-        }
-
         //shoot a missile every 6 frames
         if(isShooting && counter > 4) {
             fireMissile();
@@ -82,7 +72,7 @@ public class SpaceShip extends GameActor implements GameObservable {
         //If its going out of map in X-axis
         if (getX() + getxVelocity() > map.getWidth() || getX() + getxVelocity() < 0 ||
                 getX() + getWidth() + getxVelocity() > map.getWidth() || getX() + getxVelocity() + getWidth() < 0) {
-            System.out.println("Yli x!");
+            System.out.println("Over x!");
             setxVelocity(0);
         }
 
@@ -91,7 +81,7 @@ public class SpaceShip extends GameActor implements GameObservable {
                 getY() + getHeight() + getyVelocity() > map.getHeight() || getY() + getyVelocity() + getHeight() < 0) {
             setyVelocity(0);
             System.out.println(map.getHeight());
-            System.out.println("Yli y!");
+            System.out.println("Over y!");
         }
 
         setX(getX() + getxVelocity());
@@ -111,9 +101,6 @@ public class SpaceShip extends GameActor implements GameObservable {
         }
     }
 
-    public List<Projectile> getProjectiles() {
-        return projectiles;
-    }
 
     @Override
     public void addObserver(GameObserver o) {
