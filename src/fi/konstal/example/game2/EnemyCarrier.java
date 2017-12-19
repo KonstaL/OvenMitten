@@ -1,7 +1,6 @@
 package fi.konstal.example.game2;
 
 import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
@@ -9,6 +8,7 @@ import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.Projectile;
 import fi.konstal.engine.util.Sprite;
 import fi.konstal.engine.util.SpriteAnimation;
+import fi.konstal.example.game2.util.Missile;
 
 import java.util.List;
 
@@ -50,7 +50,6 @@ public class EnemyCarrier extends GameActor {
         if(getHp() <= 0) {
             setAlive(false);
         }
-        System.out.println("collision on enemy class");
     }
 
     public void fireProjectile() {

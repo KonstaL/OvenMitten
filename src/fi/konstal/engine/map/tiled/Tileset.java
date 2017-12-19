@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 
@@ -75,8 +76,7 @@ public class Tileset {
      * @param path the path where to get the tileset image
      */
     public Tileset(int firstGid, String name, int tileWidth, int tileHeight,
-                   String source, int imageWidth, int imageHeight,
-                   String path) {
+                   String source, int imageWidth, int imageHeight) {
         this.firstGid = firstGid;
         this.name = name;
         this.tileWidth = tileWidth;
@@ -86,7 +86,7 @@ public class Tileset {
         this.imageHeight = imageHeight;
         lastGid = (int) (Math.floor(imageWidth/tileWidth) * Math.floor
                 (imageHeight/tileHeight) + firstGid - 1);
-        loadImages(path);
+        loadImages();
     }
 
     /**
@@ -97,11 +97,10 @@ public class Tileset {
 
 
 
-        private void loadImages(String path) {
-            File file = new File(path + source);
+        private void loadImages() {
 
-            try (FileInputStream fis = new FileInputStream(file)) {
-                sourceImage = ImageIO.read(fis);
+            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(source)) {
+                sourceImage = ImageIO.read(is);
             } catch (IOException e) {
                 System.out.println("Could not load tileset image: " + name);
                 e.printStackTrace();

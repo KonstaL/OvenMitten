@@ -1,23 +1,13 @@
 package fi.konstal.example.game1;
 
 import fi.konstal.engine.core.Level;
-import fi.konstal.engine.gameobject.Decoration;
-import fi.konstal.engine.gameobject.Enemy;
-import fi.konstal.engine.gameobject.GameObject;
+import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
-import fi.konstal.engine.util.Fileloader;
-import fi.konstal.engine.util.Sprite;
-import fi.konstal.engine.util.SpriteAnimation;
-import fi.konstal.example.game1.util.Hero;
-import fi.konstal.example.game1.util.Trump;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import fi.konstal.engine.util.*;
+import fi.konstal.example.game1.util.*;
 
-import java.net.URI;
+import javafx.scene.media.*;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +24,13 @@ public class Level_1 implements Level {
 
     public void init() {
 
-
-        Media pick = new Media(Fileloader.getFileLocation("bgm.mp3"));
-        bgm = new MediaPlayer(pick);
+        try {
+            Media pick = new Media(this.getClass().getResource("/bgm.mp3").toURI().toString());
+            bgm = new MediaPlayer(pick);
+        } catch (MediaException | URISyntaxException e) {
+            System.out.println("Error while getting media in " + this.getClass());
+            e.printStackTrace();
+        }
 
 
         Sprite sp0 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 0,  8);
@@ -66,8 +60,6 @@ public class Level_1 implements Level {
         gameObjects.add(hero);
         gameObjects.add(trump);
         gameObjects.add(mitten);
-
-
     }
 
     @Override

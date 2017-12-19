@@ -2,21 +2,10 @@ package fi.konstal.example.game1;
 
 import fi.konstal.engine.*;
 import fi.konstal.engine.core.Level;
-import fi.konstal.engine.gameobject.Decoration;
-import fi.konstal.engine.gameobject.Enemy;
-import fi.konstal.engine.gameobject.GameActor;
-import fi.konstal.engine.gameobject.MainPlayer;
-import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.TiledMap;
-import fi.konstal.engine.util.*;
 import fi.konstal.example.game1.util.AdventureLoop;
-import fi.konstal.example.game1.util.Hero;
-import fi.konstal.example.game1.util.KeyInput;
 import fi.konstal.example.game1.util.MenuItem;
-import fi.konstal.example.game2.SpaceLoop;
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,7 +13,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -32,7 +20,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.util.Arrays;
@@ -46,9 +33,12 @@ public class Menu extends GameWindow {
     //Final size for the window
     final int WIDTH = 1280;
     final int HEIGHT = 720;
+    private Stage primaryStage;
+    private AdventureLoop gameLoop;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
+        this.primaryStage = primaryStage;
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
                 new Pair<String, Runnable>("Start GameWindow", ()-> runGame(primaryStage)),
@@ -125,14 +115,13 @@ public class Menu extends GameWindow {
         root.getChildren().add(canvas);
 
 
-        Map map = new TiledMap("src/fi/konstal/example/game1/resources/testTMX.tmx",
-                "src/fi/konstal/example/game1/resources/");
+        Map map = new TiledMap("testTMX.tmx");
 
 
         Level level = new Level_1(map);
 
 
-        AdventureLoop gl = new AdventureLoop(canvas, level, true, true);
+        gameLoop = new AdventureLoop(canvas, level, true, true);
 
 
 
@@ -140,7 +129,7 @@ public class Menu extends GameWindow {
 
         primaryStage.setScene( theScene );
         primaryStage.show();
-        gl.start();
+        gameLoop.start();
     }
 
     @Override

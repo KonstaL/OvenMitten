@@ -29,7 +29,7 @@ public class MenuWindow extends GameWindow implements GameObserver {
     final int WIDTH = 720;
     final int HEIGHT = 1000;
     private Stage primaryStage;
-    private SpaceLoop gameLoop;
+    private Loop gameLoop;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
@@ -115,7 +115,7 @@ public class MenuWindow extends GameWindow implements GameObserver {
         Level level2 = new Level_2();
         Level level3 = new Level_3();
 
-        this.gameLoop = new SpaceLoop(canvas, level1, true, true);
+        this.gameLoop = new Loop(canvas, level1, true, true);
         this.gameLoop.addLevel(level2);
         this.gameLoop.addLevel(level3);
 
@@ -155,6 +155,7 @@ public class MenuWindow extends GameWindow implements GameObserver {
                     this.gameLoop = null;
                     showMainMenu(primaryStage);
                     System.out.println("You WON!!");
+                    break;
                 default:
                     break;
             }

@@ -1,4 +1,4 @@
-package fi.konstal.example.game2;
+package fi.konstal.example.game2.util;
 
 
 import fi.konstal.engine.gameobject.Zone;
@@ -7,7 +7,6 @@ import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.Projectile;
 import fi.konstal.engine.util.Sprite;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class Missile extends Projectile {
@@ -30,7 +29,6 @@ public class Missile extends Projectile {
     @Override
     public void update() {
         if (getY() < -50 || getY() > 1000) {
-            //GameLoop.removeProjectile(this);
             setAlive(false);
         }
     }

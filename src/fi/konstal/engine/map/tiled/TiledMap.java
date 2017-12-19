@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +40,8 @@ public class TiledMap implements Map {
     private List<Layer> layers;
     private List<MapObjectLayer> objectLayers;
 
-    private String pathToTilesets;
 
-
-    public TiledMap(String pathToMap, String pathToTilesets) {
+    public TiledMap(String pathToMap) {
         tileImages = new ArrayList<>();
         tilesets = new ArrayList<>();
         layers = new ArrayList<>();
@@ -50,13 +49,11 @@ public class TiledMap implements Map {
 
 
 
-        this.pathToTilesets = pathToTilesets;
-        File tiledMap = new File(pathToMap);
-
         try {
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathToMap);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            doc = dBuilder.parse(tiledMap);
+            doc = dBuilder.parse(is);
             doc.getDocumentElement().normalize();
         } catch (Exception e) {
             System.out.println("Could not parse Tiled map tmx");
@@ -93,16 +90,14 @@ public class TiledMap implements Map {
                 Element d = (Element) tilesetNodes.item(i);
                 int firstgid =  Integer.parseInt(d.getAttribute("firstgid"));
 
-
-
                 File tsxFile = new File(d.getAttribute("source"));
-
 
                 Document doc = null;
                 try {
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                    doc = dBuilder.parse("src/fi/konstal/example/game1/resources/" + tsxFile);
+                    InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(tsxFile.getPath());
+                    doc = dBuilder.parse(is);
                     doc.getDocumentElement().normalize();
                 } catch (Exception e) {
                     System.out.println("Could not parse Tiled map tmx");
@@ -120,8 +115,8 @@ public class TiledMap implements Map {
                         Integer.parseInt(e.getAttribute("tileheight")),
                         image.getAttribute("source"),
                         Integer.parseInt(image.getAttribute("width")),
-                        Integer.parseInt(image.getAttribute("height")),
-                        pathToTilesets));
+                        Integer.parseInt(image.getAttribute("height"))
+                ));
             }
         }
     }

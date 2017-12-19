@@ -1,9 +1,8 @@
 package fi.konstal.engine.map.tiled;
 
-import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.gameobject.collider.Collider;
 import fi.konstal.engine.gameobject.collider.Rectangle;
-import javafx.geometry.Rectangle2D;
+
 
 /**
  * Created by e4klehti on 21.11.2017.
@@ -63,6 +62,5 @@ public class MapObject {
     public Collider getCollider() {
         return collider;
     }
-
 }
 

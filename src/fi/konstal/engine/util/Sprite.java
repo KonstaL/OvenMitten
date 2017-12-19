@@ -5,5 +5,4 @@ import javafx.scene.image.Image;
 
 public interface Sprite {
     Image getImage();
-    void setRotate(int rotation);
 }

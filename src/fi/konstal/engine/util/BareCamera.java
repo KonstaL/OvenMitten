@@ -1,7 +1,7 @@
 package fi.konstal.engine.util;
 
 
-public class BareCamera implements Camera{
+public class BareCamera implements Camera {
     private float xOffset;
     private float yOffset;
 

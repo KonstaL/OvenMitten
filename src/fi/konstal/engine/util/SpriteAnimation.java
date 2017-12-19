@@ -18,8 +18,4 @@ public class SpriteAnimation extends Animation implements Sprite {
         return cycleAnimation();
     }
 
-    @Override
-    public void setRotate(int rotation) {
-        //TODO: THIS
-    }
 }

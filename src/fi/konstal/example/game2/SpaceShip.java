@@ -3,11 +3,11 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
-import fi.konstal.engine.gameobject.collider.Rectangle;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
 import fi.konstal.engine.util.StateMessage;
+import fi.konstal.example.game2.util.Missile;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -40,8 +40,6 @@ public class Animation {
         this.cycleDuration = cycleDuration;
 
         parseSheet(path, xOffset, yOffset);
-        //int OFFSET_X =  18; //to implement
-        //int OFFSET_Y =  25;
     }
 
 

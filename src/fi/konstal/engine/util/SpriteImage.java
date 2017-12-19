@@ -23,11 +23,5 @@ public class SpriteImage implements Sprite {
         return sprite;
     }
 
-    @Override
-    public void setRotate(int rotation) {
-        ImageView temp = new ImageView(sprite);
-        temp.setRotate(rotation);
 
-        this.sprite = temp.getImage();
-    }
 }

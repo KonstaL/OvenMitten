@@ -1,25 +1,22 @@
 package fi.konstal.example.game2;
 
-import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.core.Level;
+import fi.konstal.engine.core.*;
 import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
-
 import fi.konstal.example.game2.util.KeyInput;
-import javafx.animation.AnimationTimer;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import java.util.*;
 
-public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservable, GameObserver {
-    private static List <GameObserver> observers = new ArrayList<>(); //temp testing
-
+public class Loop extends AnimationTimer implements GameLoop, GameObservable, GameObserver {
+    private List <GameObserver> observers;
     private List<Level> levels;
+    private List<MapObject> deniedAreas;
     private Level currentLevel;
     private Canvas mainCanvas;
-    private List<MapObject> deniedAreas;
     private int fps;
     private long fpsStart;
     private boolean showFps;
@@ -29,11 +26,13 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
     private Camera camera;
     private List<GameObject> gol;
 
-    public SpaceLoop(Canvas canvas, Level level, boolean showHitbox, boolean showFps) {
+    public Loop(Canvas canvas, Level level, boolean showHitbox, boolean showFps) {
+        this.observers = new ArrayList<>();
         this.mainCanvas = canvas;
         this.showHitbox = showHitbox;
         this.showFps = showFps;
         this.levels = new ArrayList<>();
+        this.deniedAreas = new ArrayList<>();
         this.gol = GameLoop.getGameObjects();
 
         levels.add(level);
@@ -44,7 +43,6 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
 
     public void init() {
         this.camera = new BareCamera();
-
 
         KeyboardInput input = new KeyInput((GameActor)gol.get(0));
         //input.setRestrictedMovement(false);
@@ -59,63 +57,61 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
     }
 
 
-    public void loadLevel() {
-        this.gol.addAll(currentLevel.getGameObjects());
-        this.map = currentLevel.getMap();
+    private void loadLevel() {
+        gol.addAll(currentLevel.getGameObjects());
+        map = currentLevel.getMap();
         currentLevel.getBgm().play();
     }
 
     @Override
     public void handle(long startTime) {
-        //If the time has been reset, get current time
-        if (fpsStart == 0 && showFps) {
-            fpsStart = System.nanoTime();
+        if(isRunning) {
+            //If the time has been reset, get current time
+            if (fpsStart == 0 && showFps) {
+                fpsStart = System.nanoTime();
+            }
+
+            //Clear the canvas
+            mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+
+            //Remove dead Game_actors
+            GameLoop.removeDeadGameActors();
+
+
+            //draw background map
+            map.draw(mainCanvas.getGraphicsContext2D(), camera);
+
+            //Center viewport
+            camera.move(0, 0);
+
+
+            //Draw and update GameObjects
+            for (GameObject go : gol) {
+                renderGameObject(go);
+            }
+
+            //Check win
+            checkLevelWin();
+
+
+            //If it's been over a second since last fps print, print fps and clear values
+            if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
+                System.out.println("FPS: " + fps);
+                fpsStart = 0;
+                fps = 0;
+            }
+
+            //Add fps per loop
+            if (showFps) {
+                fps++;
+            }
         }
-
-        //Clear the canvas
-        mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
-
-        //Remove dead Game_actors
-        GameLoop.removeDeadGameActors();
-
-
-        //draw background map
-        map.draw(mainCanvas.getGraphicsContext2D(), camera);
-
-        //Center viewport
-        camera.move(0, 0);
-
-
-
-        //Draw and update GameObjects
-        for (GameObject go : gol) {
-            renderGameObject(go);
-        }
-
-
-        //TODO: Clean this code
-
-        //Check win
-        checkLevelWin();
-
-
-        //If it's been over a second since last fps print, print fps and clear values
-        if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
-            System.out.println("FPS: " + fps);
-            fpsStart = 0;
-            fps = 0;
-        }
-
-        //Add fps per loop
-        if (showFps) {
-            fps++;
-        }
-
     }
 
 
 
     public void renderGameObject(GameObject go) {
+        //Updates every GameObject
         go.update();
 
         if(go instanceof Decoration) {
@@ -150,35 +146,37 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
         }
     }
 
-    public void checkCollision(GameObject go) {
-        go = (Projectile)go;
+    private void checkCollision(GameObject go) {
         for(GameObject go2 : gol) {
 
             //If its collideable and isn't the projectile itself
             if(go2 instanceof GameActor && !go2.equals(go)) {
+
                 //if it has a parent
                 if(((Projectile) go).getParent().isPresent()) {
+
+                    //If the projectile collides with something else than it's parent
                     if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
                             ((Projectile) go).getParent().get() != go2.getClass()) {
 
-                        if(go2 instanceof Projectile && ((Projectile) go).getParent().get() == ((Projectile)go2).getParent().get()) {
-                            //Do nothing
-                        } else {
+                        //If go2 is a projectile and is from the same parent class
+                        if (!(go2 instanceof Projectile) ||
+                                ((Projectile) go).getParent().get() != ((Projectile)go2).getParent().get()) {
+
+                            //Collide
                             ((Projectile) go).handleCollision((Zone)go2);
                             ((GameActor) go2).handleCollision((Zone)go);
+                        } else {
+                            //Do nothing
                         }
-
-
-
                     }
                 } else {
+                    //If it collides with any object
                     if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
-                        System.out.println("Collision");
                         ((Projectile) go).handleCollision((Zone)go2);
                         ((GameActor) go2).handleCollision((Zone)go);
                     }
                 }
-
             }
         }
     }
@@ -188,12 +186,6 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
             switchLevel();
         }
     }
-
-    public void addGameObject(GameObject go) {
-        gol.add(go);
-    }
-
-
 
     public Canvas getMainCanvas() {
         return mainCanvas;
@@ -255,16 +247,11 @@ public class SpaceLoop extends AnimationTimer implements GameLoop, GameObservabl
     @Override
     public void update(GameObservable o, StateMessage arg) {
         notifyObservers(arg);
-//        switch (arg) {
-//            case LEVEL_CLEARED:
-//                nextLevel()
-//        }
-
     }
 
     @Override
     public void removeLevel(Level level) {
-
+        levels.remove(level);
     }
 
     @Override

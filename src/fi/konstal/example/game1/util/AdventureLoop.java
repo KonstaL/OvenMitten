@@ -13,7 +13,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import java.util.*;
 
-public class AdventureLoop extends AnimationTimer implements GameLoop, GameObservable {
+public class AdventureLoop extends AnimationTimer implements GameLoop, GameObservable, GameObserver  {
 
     private static List <GameObserver> observers = new ArrayList<>(); //temp testing
 
@@ -39,28 +39,29 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
 
         levels.add(level);
         currentLevel = level;
+        loadLevel();
         init();
     }
 
     public void init() {
-        goList.addAll(currentLevel.getGameObjects());
-        this.map = currentLevel.getMap();
-        this.deniedAreas = ((TiledMap)map).getObjectLayer("Collision").getMapObjects();
         this.camera = new FollowCamera(goList.get(0), mainCanvas, map);
 
-
         KeyboardInput input = new KeyInput((GameActor) goList.get(0));
-        input.showInputs(true);
+        //input.showInputs(true);
         input.setRestrictedMovement(true);
 
         mainCanvas.setOnKeyPressed(input);
         mainCanvas.setOnKeyReleased(input);
         mainCanvas.setFocusTraversable(true);
 
-        currentLevel.getBgm().play();
-
-
         this.isRunning = true;
+    }
+
+    private void loadLevel() {
+        goList.addAll(currentLevel.getGameObjects());
+        map = currentLevel.getMap();
+        deniedAreas = ((TiledMap)map).getObjectLayer("Collision").getMapObjects();
+        currentLevel.getBgm().play();
     }
 
     @Override
@@ -83,15 +84,23 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         //Center viewport
         camera.move(0, 0);
 
-
+        //show denied areas
+        if(showHitbox) {
+            for (MapObject mo : deniedAreas) {
+                mainCanvas.getGraphicsContext2D().strokeRect(
+                        mo.getX() - camera.getXOffset(),
+                        mo.getY() - camera.getYOffset(),
+                        mo.getWidth(),
+                        mo.getHeight()
+                );
+            }
+        }
 
         //Draw and update GameObjects
         for (GameObject go : goList) {
             renderGameObject(go);
         }
 
-
-        //TODO: Clean this code
 
         //Check win
         checkLevelWin();
@@ -108,7 +117,6 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         if (showFps) {
             fps++;
         }
-
     }
 
 
@@ -135,7 +143,7 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
                         go.getWidth(),
                         go.getHeight());
 
-                //Testing
+
                 if(go instanceof Hero) {
                     for(GameObject go2 : goList) {
                         if(go2 instanceof GameActor && !(go2 instanceof Hero)) {
@@ -222,12 +230,8 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
 
 
     public void update(GameObservable o, StateMessage arg) {
+        //just pass it to the next observer
         notifyObservers(arg);
-//        switch (arg) {
-//            case LEVEL_CLEARED:
-//                nextLevel()
-//        }
-
     }
 
     public void nextLevel() {
@@ -255,6 +259,7 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
     public void clear() {
 
     }
+
 }
 
 
