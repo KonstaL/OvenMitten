@@ -1,33 +1,20 @@
 package fi.konstal.engine.map.tiled;
 
+
 /**
- * Created by e4klehti on 19.11.2017.
+ * A single Tile in the TileLayer.
  */
-
 public class Tile {
-
-    /**
-     * The tile's image coordinate in TiledMap's images array.
-     */
     private int imageCoordinate;
-
-    /**
-     * Position x on the map.
-     */
     private int x;
-
-    /**
-     * Position y on the map.
-     */
     private int y;
 
     /**
-     * Creates the tile.
+     * Instantiates a new Tile.
      *
-     * @param imageCoordinate a tile's image coordinate in TiledMap's
-     *                        images array
-     * @param x position x on the map
-     * @param y position y on the map
+     * @param imageCoordinate the image coordinate
+     * @param x               the x-coordinate
+     * @param y               the y-coordinate
      */
     public Tile(int imageCoordinate, int x, int y) {
         this.imageCoordinate = imageCoordinate;
@@ -35,28 +22,31 @@ public class Tile {
         this.y = y;
     }
 
+
     /**
-     * Returns tile's image's coordinate.
+     * Gets image coordinate.
      *
-     * @return tile's image's coordinate
+     * @return the image coordinate
      */
     public int getImageCoordinate() {
         return imageCoordinate;
     }
 
+
     /**
-     * Returns position x.
+     * Gets x-coordinate.
      *
-     * @return the position x on the map
+     * @return the x-coordinate
      */
     public int getX() {
         return x;
     }
 
+
     /**
-     * Returns position y.
+     * Gets y-coordinate.
      *
-     * @return the position y on the map
+     * @return the y-coordinate
      */
     public int getY() {
         return y;

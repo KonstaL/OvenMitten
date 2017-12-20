@@ -13,6 +13,13 @@ public class FollowCamera extends BareCamera {
     private Canvas mainCanvas;
     private int mapW, mapH;
 
+    /**
+     * Instantiates a new Follow camera.
+     *
+     * @param gameObject the game object which it's going to follow
+     * @param mainCanvas the canvas for centering
+     * @param map        the map
+     */
     public FollowCamera(GameObject gameObject, Canvas mainCanvas, Map map) {
         this.go = gameObject;
         this.mainCanvas = mainCanvas;
@@ -22,11 +29,17 @@ public class FollowCamera extends BareCamera {
         setYOffset(0);
     }
 
+    /**
+     * Just calls center()
+     */
     @Override
     public void move(float xAmount, float yAmount) {
         center();
     }
 
+    /**
+     * Centers on the tracked gameObject.
+     */
     public void center() {
         float xOffset = (float) mainCanvas.getWidth()/2 + go.getWidth()/2;
         float yOffset = (float) mainCanvas.getHeight()/2 + go.getHeight()/2;
@@ -41,11 +54,20 @@ public class FollowCamera extends BareCamera {
     }
 
 
-
+    /**
+     * Gets game tracked object.
+     *
+     * @return the game object
+     */
     public GameObject getGameObject() {
         return go;
     }
 
+    /**
+     * Sets game tracked object.
+     *
+     * @param go the go
+     */
     public void setGameObject(GameObject go) {
         this.go = go;
     }

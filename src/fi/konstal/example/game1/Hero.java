@@ -7,6 +7,7 @@ import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
 import fi.konstal.example.game1.util.DirectionState;
+import fi.konstal.example.game1.util.Fireball;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.List;
 
 /**
  * The main player of game 1
- *
+ * <p>
  * Extends the normal usability of a GameActor by adding directional spirites and observers
  *
  * @author Konsta Lehtinen
- * @version 20-12-2017
+ * @version 20 -12-2017
  */
 public class Hero extends GameActor implements GameObservable {
 
@@ -59,12 +60,12 @@ public class Hero extends GameActor implements GameObservable {
     /**
      * Initializes Hero
      *
-     * @param x x-coordinate on screen
-     * @param y y-coordinate on screen
-     * @param width Width of hero
+     * @param x      x-coordinate on screen
+     * @param y      y-coordinate on screen
+     * @param width  Width of hero
      * @param height Height of hero
      * @param sprite Sprite of hero
-     * @param hp Starting hitpoints
+     * @param hp     Starting hitpoints
      */
     public Hero(int x, int y, int width, int height, Sprite sprite, int hp) {
         super(x, y, width, height, sprite, hp);
@@ -171,6 +172,9 @@ public class Hero extends GameActor implements GameObservable {
         }
     }
 
+    /**
+     * Fire.
+     */
     public void fire() {
         Fireball toFire = new Fireball(
                 getX(),

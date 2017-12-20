@@ -6,15 +6,15 @@ import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by e4klehti on 22.11.2017.
+ * Creates an "Animation" from an image path
+ *
+ * @author Konsta Lehtinen
+ * @version 2017-12-20
  */
 public class Animation {
     private ImageView sheet;
@@ -28,6 +28,18 @@ public class Animation {
     private int counter;
 
 
+    /**
+     * Instantiates a new Animation.
+     *
+     * @param path          the path of the Image file
+     * @param rows          the amount of rows
+     * @param amount        the amount of images per row
+     * @param width         the width of a single image
+     * @param height        the height of a single image
+     * @param xOffset       the x offset
+     * @param yOffset       the y offset
+     * @param cycleDuration The frameDuration of a single image
+     */
     public Animation(String path, int rows, int amount, int width, int height,
                      int xOffset, int yOffset, int cycleDuration) {
         images = new ArrayList<>();
@@ -42,12 +54,18 @@ public class Animation {
         parseSheet(path, xOffset, yOffset);
     }
 
-    public Animation() {
+    /**
+     * Instantiates a new empty Animation.
+     */
+    public Animation() { }
 
-    }
-
-
-
+    /**
+     * Parse sheet.
+     *
+     * @param filename the filename of the sheet
+     * @param xOffset  the x offset
+     * @param yOffset  the y offset
+     */
     public void parseSheet(String filename, int xOffset, int yOffset) {
         BufferedImage img = null;
 
@@ -73,6 +91,11 @@ public class Animation {
 
     }
 
+    /**
+     * Cycle animation image.
+     *
+     * @return the current cycles image
+     */
     public Image cycleAnimation() {
         if(counter >= cycleDuration) {
             if(images.size()-1  <= images.indexOf(currentFrame)) {

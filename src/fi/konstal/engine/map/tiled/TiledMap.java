@@ -2,6 +2,7 @@ package fi.konstal.engine.map.tiled;
 
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.util.Camera;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -9,8 +10,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.image.BufferedImage;
@@ -20,6 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * The main TiledMap class which holds all the necessary data
+ *
+ * @author Konsta Lehtinen
+ * @version 2017-12-20
+ */
 public class TiledMap implements Map {
     private Document doc;
     private NodeList layerNodes;
@@ -41,7 +46,12 @@ public class TiledMap implements Map {
     private List<MapObjectLayer> objectLayers;
 
 
-    public TiledMap(String pathToMap) {
+    /**
+     * Instantiates a new Tiled map.
+     *
+     * @param fileName  the .tmx maps fileName
+     */
+    public TiledMap(String fileName) {
         tileImages = new ArrayList<>();
         tilesets = new ArrayList<>();
         tileLayers = new ArrayList<>();
@@ -50,7 +60,7 @@ public class TiledMap implements Map {
 
 
         try {
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathToMap);
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(is);
@@ -123,7 +133,7 @@ public class TiledMap implements Map {
 
 
     /**
-     * Creates layer objects with tile objects according to content data.
+     * Creates TileLayer objects with Tiles according to the map data.
      */
     private void createLayers() {
         for (int i = 0; i < layerNodes.getLength(); i++) {
@@ -187,7 +197,7 @@ public class TiledMap implements Map {
     }
 
     /**
-     * Creates objectLayer objects with corresponding tiledObjects.
+     * Creates MapObjectLayers with corresponding MapObjects.
      */
     private void createObjectLayers() {
         for (int i = 0; i < objectNodes.getLength(); i++) {
@@ -215,7 +225,14 @@ public class TiledMap implements Map {
         }
     }
 
-    //Returns a full MapObjectLayer if match is made
+    /**
+     * Searches for a MapObjectLayer by its name attribute
+     *
+     * if none is found, returns a null
+     *
+     * @param name the name of the MapObjectLayer
+     * @return the object layer
+     */
     public MapObjectLayer getObjectLayer(String name) {
         MapObjectLayer toReturn = null;
 
@@ -229,7 +246,14 @@ public class TiledMap implements Map {
     }
 
 
-    //Search object by ID
+    /**
+     * Searches for a single MapObject from all the MapObjectsLayers by its ID attribute.
+     *
+     * returns a null if nothing is found
+     *
+     * @param id the id of the searchable MapObject
+     * @return the MapObject
+     */
     public MapObject getObject(int id) {
         MapObject toReturn = null;
 
@@ -245,8 +269,14 @@ public class TiledMap implements Map {
 
         return toReturn;
     }
-
-    //Search object by name
+    /**
+     * Searches for a single MapObject from all the MapObjectsLayers by its name attribute.
+     *
+     * returns a null if nothing is found
+     *
+     * @param name the name of the searchable MapObject
+     * @return the MapObject
+     */
     public MapObject getObject(String name) {
         MapObject toReturn = null;
 
@@ -263,7 +293,14 @@ public class TiledMap implements Map {
         return toReturn;
     }
 
-    //return a layer if a match is made
+    /**
+     * Searches for a TileLayer bu its name attribute
+     *
+     * return null if nothing is found
+     *
+     * @param name The name of the TileLayer
+     * @return the TileLayer
+     */
     public TileLayer getLayer(String name) {
         TileLayer toReturn = null;
 
@@ -276,9 +313,10 @@ public class TiledMap implements Map {
         return toReturn;
     }
 
-
-
-    //Draws the map one layer at a time
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void draw(GraphicsContext gc, Camera c) {
         for (int i = 0; i < tileLayers.size(); i++) {
             for (int j = 0; j < tileLayers.get(i).getTiles().size(); j++) {
@@ -293,11 +331,17 @@ public class TiledMap implements Map {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getWidth() {
         return pixelWidth;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getHeight() {
         return pixelHeight;

@@ -1,15 +1,14 @@
 package fi.konstal.engine.map.tiled;
 
-/**
- * Created by e4klehti on 19.11.2017.
- */
-
-
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
- * The type TileLayer.
+ * The layer holding all the individual tiles
+ *
+ * @author Konsta Lehtinen
+ * @version 2017-12-20
  */
 public class TileLayer {
     private String name;
@@ -63,9 +62,9 @@ public class TileLayer {
     /**
      * Gets tiles.
      *
-     * @return the tiles
+     * @return a List of all tiles
      */
-    public ArrayList<Tile> getTiles() {
+    public List<Tile> getTiles() {
         return tiles;
     }
 }

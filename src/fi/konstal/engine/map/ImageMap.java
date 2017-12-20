@@ -5,20 +5,33 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * Created by konka on 28.11.2017.
+ * ImageMap is a alternative way to implement a map if all you need is a background with no
+ * functionality
  */
 public class ImageMap implements Map {
     private Image map;
 
+    /**
+     * Instantiates a new ImageMap from a Image.
+     *
+     * @param map The image
+     */
     public ImageMap(Image map) {
         this.map = map;
-
     }
 
+    /**
+     * Instantiates a new ImageMap from a path.
+     *
+     * @param path the path
+     */
     public ImageMap(String path) {
         map = new Image(path);
-
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(GraphicsContext gc, Camera c) {
         gc.drawImage(map,
@@ -29,11 +42,17 @@ public class ImageMap implements Map {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getWidth() {
         return map.getWidth();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getHeight() {
         return map.getHeight();

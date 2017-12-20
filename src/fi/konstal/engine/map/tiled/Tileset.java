@@ -1,79 +1,36 @@
 package fi.konstal.engine.map.tiled;
 
-
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 
 public class Tileset {
-
-    /**
-     * The index of the first tile image on the tileset.
-     */
+    //The index of the first tile image on the tileset.
     private int firstGid;
-
-    /**
-     * The index of the last tile image on the tileset.
-     */
     private int lastGid;
-
-    /**
-     * The name of the tileset.
-     */
     private String name;
-
-    /**
-     * The width of a single tile in the tileset.
-     */
     private int tileWidth;
-
-    /**
-     * The height of a single tile in the tileset.
-     */
     private int tileHeight;
-
-    /**
-     * The path to the tileset image from the tiled map.
-     */
     private String source;
-
-    /**
-     * The width of the tileset image.
-     */
     private int imageWidth;
-
-    /**
-     * The height of the tileset image.
-     */
     private int imageHeight;
-
-    /**
-     * The tileset image.
-     */
     private BufferedImage sourceImage;
-
-    /**
-     * The separated tile images of the tileset.
-     */
     private ArrayList<BufferedImage> tileImages = new ArrayList<>();
 
     /**
      * Creates the tileset.
      *
-     * @param firstGid the index of the first tile image on the tileset
-     * @param name the name of the tileset
-     * @param tileWidth the width of a single tile in the tileset
-     * @param tileHeight the height of a single tile in the tileset
-     * @param source the path to the tileset image from the tiled map
-     * @param imageWidth the width of the tileset image
+     * @param firstGid    the index of the first tile image on the tileset
+     * @param name        the name of the tileset
+     * @param tileWidth   the width of a single tile in the tileset
+     * @param tileHeight  the height of a single tile in the tileset
+     * @param source      the path to the tileset image from the tiled map
+     * @param imageWidth  the width of the tileset image
      * @param imageHeight the height of the tileset image
-     * @param path the path where to get the tileset image
+     * @param path        the path where to get the tileset image
      */
     public Tileset(int firstGid, String name, int tileWidth, int tileHeight,
                    String source, int imageWidth, int imageHeight) {
@@ -84,46 +41,41 @@ public class Tileset {
         this.source = source;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
-        lastGid = (int) (Math.floor(imageWidth/tileWidth) * Math.floor
-                (imageHeight/tileHeight) + firstGid - 1);
+        lastGid = (int) (Math.floor(imageWidth / tileWidth) * Math.floor
+                (imageHeight / tileHeight) + firstGid - 1);
         loadImages();
     }
 
     /**
-     * Reads tileset image and splits it into tiles.
-     *
-     * @param path the path where to get the tileset image
+     * Reads tileset image and splits it into individual tiles.
      */
+    private void loadImages() {
 
-
-
-        private void loadImages() {
-
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(source)) {
-                sourceImage = ImageIO.read(is);
-            } catch (IOException e) {
-                System.out.println("Could not load tileset image: " + name);
-                e.printStackTrace();
-            }
-
-            if (sourceImage != null) {
-                int rows = (int) Math.floor(sourceImage.getHeight() / tileHeight);
-                int cols = (int) Math.floor(sourceImage.getWidth() / tileWidth);
-                // Determines the image chunk's width and height.
-                int chunkWidth = sourceImage.getWidth() / cols;
-                int chunkHeight = sourceImage.getHeight() / rows;
-
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        tileImages.add(sourceImage.getSubimage(chunkWidth * j,
-                                chunkHeight * i, chunkWidth, chunkHeight));
-                    }
-                }
-
-                // No need to keep the source image in memory anymore.
-                sourceImage.flush();
-            }
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(source)) {
+            sourceImage = ImageIO.read(is);
+        } catch (IOException e) {
+            System.out.println("Could not load tileset image: " + name);
+            e.printStackTrace();
         }
+
+        if (sourceImage != null) {
+            int rows = (int) Math.floor(sourceImage.getHeight() / tileHeight);
+            int cols = (int) Math.floor(sourceImage.getWidth() / tileWidth);
+            // Determines the image chunk's width and height.
+            int chunkWidth = sourceImage.getWidth() / cols;
+            int chunkHeight = sourceImage.getHeight() / rows;
+
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    tileImages.add(sourceImage.getSubimage(chunkWidth * j,
+                            chunkHeight * i, chunkWidth, chunkHeight));
+                }
+            }
+
+            // No need to keep the source image in memory anymore.
+            sourceImage.flush();
+        }
+    }
 
     /**
      * Returns the tileset's tile images.
