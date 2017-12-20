@@ -37,14 +37,14 @@ public class TiledMap implements Map {
 
     private List<Image> tileImages;
     private List<Tileset> tilesets;
-    private List<Layer> layers;
+    private List<TileLayer> tileLayers;
     private List<MapObjectLayer> objectLayers;
 
 
     public TiledMap(String pathToMap) {
         tileImages = new ArrayList<>();
         tilesets = new ArrayList<>();
-        layers = new ArrayList<>();
+        tileLayers = new ArrayList<>();
         objectLayers = new ArrayList<>();
 
 
@@ -162,7 +162,7 @@ public class TiledMap implements Map {
                     }
                 }
 
-                layers.add(new Layer(e.getAttribute("name"),
+                tileLayers.add(new TileLayer(e.getAttribute("name"),
                         Integer.parseInt(e.getAttribute("width")),
                         Integer.parseInt(e.getAttribute("height")),
                         layerData));
@@ -264,12 +264,12 @@ public class TiledMap implements Map {
     }
 
     //return a layer if a match is made
-    public Layer getLayer(String name) {
-        Layer toReturn = null;
+    public TileLayer getLayer(String name) {
+        TileLayer toReturn = null;
 
-        for (int i = 0; i < layers.size(); i++) {
-            if (layers.get(i).getName().equals(name)) {
-                toReturn = layers.get(i);
+        for (int i = 0; i < tileLayers.size(); i++) {
+            if (tileLayers.get(i).getName().equals(name)) {
+                toReturn = tileLayers.get(i);
             }
         }
 
@@ -280,12 +280,12 @@ public class TiledMap implements Map {
 
     //Draws the map one layer at a time
     public void draw(GraphicsContext gc, Camera c) {
-        for (int i = 0; i < layers.size(); i++) {
-            for (int j = 0; j < layers.get(i).getTiles().size(); j++) {
+        for (int i = 0; i < tileLayers.size(); i++) {
+            for (int j = 0; j < tileLayers.get(i).getTiles().size(); j++) {
                 gc.drawImage(
-                        tileImages.get(layers.get(i).getTiles().get(j).getImageCoordinate()),
-                        layers.get(i).getTiles().get(j).getX() - c.getXOffset(),
-                        layers.get(i).getTiles().get(j).getY() - c.getYOffset(),
+                        tileImages.get(tileLayers.get(i).getTiles().get(j).getImageCoordinate()),
+                        tileLayers.get(i).getTiles().get(j).getX() - c.getXOffset(),
+                        tileLayers.get(i).getTiles().get(j).getY() - c.getYOffset(),
                         tileWidth,
                         tileHeight
                 );

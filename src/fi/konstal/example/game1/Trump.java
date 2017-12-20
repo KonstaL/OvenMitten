@@ -110,4 +110,9 @@ public class Trump extends Enemy {
         setHp(getHp()-1);
 
     }
+
+    @Override
+    public void init() {
+
+    }
 }

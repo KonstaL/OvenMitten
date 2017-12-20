@@ -5,7 +5,10 @@ import fi.konstal.engine.gameobject.collider.Rectangle;
 
 
 /**
- * Created by e4klehti on 21.11.2017.
+ * An object extracted from a tiledmaps object layer
+ *
+ * @author Konsta Lehtinen
+ * @version 2017-12-20
  */
 public class MapObject {
     private String name;
@@ -17,8 +20,16 @@ public class MapObject {
     private Collider collider;
 
 
-
-
+    /**
+     * Instantiates a new Map object.
+     *
+     * @param id     the id on tiledmap
+     * @param name   the name on tiledmap
+     * @param x      the x-coordinate
+     * @param y      the y-coordinate
+     * @param width  the width on tiledmap
+     * @param height the height on tiledmap
+     */
     public MapObject(int id, String name, int x, int y,
                      int width, int height) {
         this.id = id;
@@ -31,34 +42,69 @@ public class MapObject {
     }
 
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public int getId() {
         return id;
     }
 
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the x-coordinate.
+     *
+     * @return the x-coordinate
+     */
     public int getX() {
         return x;
     }
 
 
+    /**
+     * Gets y-coordinate.
+     *
+     * @return the y-coordinate.
+     */
     public int getY() {
         return y;
     }
 
 
+    /**
+     * Gets width.
+     *
+     * @return the width
+     */
     public int getWidth() {
         return width;
     }
 
 
+    /**
+     * Gets height.
+     *
+     * @return the height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Gets collider.
+     *
+     * @return the collider
+     */
     public Collider getCollider() {
         return collider;
     }
