@@ -42,6 +42,9 @@ public class Trump extends Enemy {
                 setSprite(sprites.get(3));
                 break;
         }
+        if(getHp() <= 0) {
+            setAlive(false);
+        }
     }
 
     @Override
@@ -104,12 +107,7 @@ public class Trump extends Enemy {
 
     @Override
     public void handleCollision(Zone c) {
-        System.out.println("collision on enemy class");
-
         setHp(getHp()-1);
 
-        if(getHp() <= 0) {
-            setAlive(false);
-        }
     }
 }

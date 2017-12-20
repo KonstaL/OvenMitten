@@ -4,15 +4,17 @@ import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.*;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+
 
 import java.util.List;
 
 
 /**
- * Created by konka on 15.11.2017.
+ * GameActor is a Zone with additional parameters that make it suitable for
+ * actice GameActors
+ *
+ * @author Konsta Lehtinen
+ * @version 2017-12-20
  */
 public abstract class GameActor extends Zone {
     private int hp;
@@ -20,7 +22,7 @@ public abstract class GameActor extends Zone {
     private int xVelocity;
     private int yVelocity;
     private transient Sprite sprite;
-    private KeyboardInput keyboardInputListener;
+
 
 
 
@@ -48,13 +50,6 @@ public abstract class GameActor extends Zone {
 
 
 
-    public KeyboardInput getInputlistener() {
-        return keyboardInputListener;
-    }
-
-    public void setInputlistener(KeyboardInput keyboardInputListener) {
-        this.keyboardInputListener = keyboardInputListener;
-    }
 
     public int getxVelocity() {
         return xVelocity;
