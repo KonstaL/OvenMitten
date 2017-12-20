@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by e4klehti on 14.11.2017.
  */
 public interface GameLoop {
-    static List<GameObject> gameObjects = new CopyOnWriteArrayList<>();
+    static List<? super GameObject> gameObjects = new CopyOnWriteArrayList<>();
 
     void init(); //Handle level initialization
     void handle(long startTime); // JavaFX Animationtimer uses this, extend your class from it
@@ -31,15 +31,7 @@ public interface GameLoop {
     void removeLevel(Level level);
     void switchLevel();
     void clear();
-
-
-
-    //public List<GameObject> getGol();
-    //public void setGol(ArrayList<GameObject> gol);
-    //public Canvas getMainCanvas();
-
-
-
+    void setRunning(boolean running);
 
     static void addGameObject(GameObject... gos) {
         for(GameObject go : gos){
@@ -47,31 +39,25 @@ public interface GameLoop {
         }
     }
 
-
-
     static void removeDeadGameActors() {
-//        //for normal List
-//        for(Iterator it = gol.iterator(); it.hasNext();) {
-//            GameActor pr = (GameActor) it.next();
-//
-//            if (!pr.isAlive()) {
-//                it.remove();
-//            }
-//        }
-
-        //For CopyOnWriteArraylist
-        for(GameObject go: gameObjects) {
-
-            if(go instanceof GameActor && !((GameActor)go).isAlive()) {
-                gameObjects.remove(go);
+        for(int i = 0; i < gameObjects.size(); i++) {
+            if(gameObjects.get(i) instanceof GameActor && !((GameActor)gameObjects.get(i)).isAlive()) {
+                gameObjects.remove(gameObjects.get(i));
             }
         }
+        //Old non-generic way
+//        for(GameObject go: gameObjects) {
+//
+//            if(go instanceof GameActor && !((GameActor)go).isAlive()) {
+//                gameObjects.remove(go);
+//            }
+//        }
     }
 
     static List<GameObject> getGameObjects() {
-        return gameObjects;
+        return (List<GameObject>) gameObjects;
     }
-    static void addAllGameObjects(List<GameObject> goList) {
+    static void addAllGameObjects(List<? extends GameObject> goList) {
         gameObjects.addAll(goList);
     }
 }

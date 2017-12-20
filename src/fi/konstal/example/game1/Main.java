@@ -5,7 +5,7 @@ package fi.konstal.example.game1;
  */
 public class Main {
     public static void main(String... args) {
-        Menu sd2000 = new Menu();
+        MenuWindow sd2000 = new MenuWindow();
         sd2000.launchThis();
     }
 }

@@ -2,6 +2,7 @@ package fi.konstal.example.game1.util;
 
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.util.KeyboardInput;
+import fi.konstal.example.game1.Hero;
 import javafx.scene.input.KeyCode;
 
 /**

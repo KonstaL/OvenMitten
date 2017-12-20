@@ -30,5 +30,6 @@ public class Fireball extends Projectile {
         setX(getX()+getxVelocity());
         setY(getY()+getyVelocity());
         getCollider().update(getX(), getY());
+
     }
 }

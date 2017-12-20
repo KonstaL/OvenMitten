@@ -27,6 +27,10 @@ public abstract class Projectile extends GameActor {
         this.parent = Optional.empty();
     }
 
+    public Projectile() {
+
+    }
+
     public int getDamage() {
         return damage;
     }

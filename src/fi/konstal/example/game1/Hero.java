@@ -1,20 +1,18 @@
-package fi.konstal.example.game1.util;
+package fi.konstal.example.game1;
 
 import fi.konstal.engine.core.GameLoop;
 import fi.konstal.engine.gameobject.GameActor;
-import fi.konstal.engine.gameobject.MainPlayer;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.util.Fireball;
-import fi.konstal.engine.util.Sprite;
-import fi.konstal.engine.util.SpriteAnimation;
-import fi.konstal.engine.util.SpriteImage;
+import fi.konstal.engine.util.*;
+import fi.konstal.example.game1.util.DirectionState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hero extends GameActor {
+public class Hero extends GameActor implements GameObservable {
+    private List<GameObserver> observers;
     private boolean isMoving;
     private List<Sprite> sprites;
     private DirectionState dir;
@@ -32,6 +30,7 @@ public class Hero extends GameActor {
     public Hero(int x, int y, int width, int height, Sprite sprite, int hp) {
         super(x, y, width, height, sprite, hp);
         this.sprites = new ArrayList<>();
+        this.observers = new ArrayList<>();
         isMoving = true;
         dir = DirectionState.DOWN;
 
@@ -109,6 +108,7 @@ public class Hero extends GameActor {
             System.out.println("test");
             setHp(0);
             setAlive(false);
+            notifyObservers(StateMessage.LOST);
         }
     }
 
@@ -138,6 +138,23 @@ public class Hero extends GameActor {
         }
 
         GameLoop.addGameObject(toFire);
+    }
+
+    @Override
+    public void addObserver(GameObserver o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(GameObserver o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(StateMessage arg) {
+        for(GameObserver o : observers) {
+            o.update(this, arg);
+        }
     }
 }
 

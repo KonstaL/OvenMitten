@@ -1,22 +1,21 @@
-package fi.konstal.example.game1.util;
+package fi.konstal.example.game1;
 
-import fi.konstal.engine.core.GameLoop;
-import fi.konstal.engine.core.Level;
+import fi.konstal.engine.core.*;
+
 import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.Map;
-import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.map.tiled.TiledMap;
+import fi.konstal.engine.map.tiled.*;
 import fi.konstal.engine.util.*;
 
 
+import fi.konstal.example.game1.util.KeyInput;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
+
 import java.util.*;
 
-public class AdventureLoop extends AnimationTimer implements GameLoop, GameObservable, GameObserver  {
-
-    private static List <GameObserver> observers = new ArrayList<>(); //temp testing
-
+public class Loop extends AnimationTimer implements GameLoop, GameObservable, GameObserver {
+    private static List<GameObserver> observers;
     private List<Level> levels;
     private Level currentLevel;
     private Canvas mainCanvas;
@@ -30,11 +29,12 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
     private Camera camera;
     private List<GameObject> goList;
 
-    public AdventureLoop(Canvas canvas, Level level, boolean showHitbox, boolean showFps) {
+    public Loop(Canvas canvas, Level level, boolean showHitbox, boolean showFps) {
         this.mainCanvas = canvas;
         this.showHitbox = showHitbox;
         this.showFps = showFps;
         this.levels = new ArrayList<>();
+        this.observers = new ArrayList<>();
         this.goList = GameLoop.getGameObjects();
 
         levels.add(level);
@@ -54,77 +54,80 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         mainCanvas.setOnKeyReleased(input);
         mainCanvas.setFocusTraversable(true);
 
+        ((Hero) gameObjects.get(0)).addObserver(this);
         this.isRunning = true;
     }
 
     private void loadLevel() {
         goList.addAll(currentLevel.getGameObjects());
         map = currentLevel.getMap();
-        deniedAreas = ((TiledMap)map).getObjectLayer("Collision").getMapObjects();
+        deniedAreas = ((TiledMap) map).getObjectLayer("Collision").getMapObjects();
         currentLevel.getBgm().play();
     }
 
     @Override
     public void handle(long startTime) {
-        //If the time has been reset, get current time
-        if (fpsStart == 0 && showFps) {
-            fpsStart = System.nanoTime();
-        }
+        if (isRunning) {
 
-        //Clear the canvas
-        mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+            //If the time has been reset, get current time
+            if (fpsStart == 0 && showFps) {
+                fpsStart = System.nanoTime();
+            }
 
-        //Remove dead Game_actors
-        GameLoop.removeDeadGameActors();
+            //Clear the canvas
+            mainCanvas.getGraphicsContext2D().clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+
+            //Remove dead Game_actors
+            GameLoop.removeDeadGameActors();
 
 
-        //draw background map
-        map.draw(mainCanvas.getGraphicsContext2D(), camera);
+            //draw background map
+            map.draw(mainCanvas.getGraphicsContext2D(), camera);
 
-        //Center viewport
-        camera.move(0, 0);
+            //Center viewport
+            camera.move(0, 0);
 
-        //show denied areas
-        if(showHitbox) {
-            for (MapObject mo : deniedAreas) {
-                mainCanvas.getGraphicsContext2D().strokeRect(
-                        mo.getX() - camera.getXOffset(),
-                        mo.getY() - camera.getYOffset(),
-                        mo.getWidth(),
-                        mo.getHeight()
-                );
+            //show denied areas
+            if (showHitbox) {
+                for (MapObject mo : deniedAreas) {
+                    mainCanvas.getGraphicsContext2D().strokeRect(
+                            mo.getX() - camera.getXOffset(),
+                            mo.getY() - camera.getYOffset(),
+                            mo.getWidth(),
+                            mo.getHeight()
+                    );
+                }
+            }
+
+            //Draw and update GameObjects
+            for (GameObject go : goList) {
+                renderGameObject(go);
+            }
+
+
+            //Check win
+            checkLevelWin();
+
+
+            //If it's been over a second since last fps print, print fps and clear values
+            if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
+                System.out.println("FPS: " + fps);
+                fpsStart = 0;
+                fps = 0;
+            }
+
+            //Add fps per loop
+            if (showFps) {
+                fps++;
             }
         }
-
-        //Draw and update GameObjects
-        for (GameObject go : goList) {
-            renderGameObject(go);
-        }
-
-
-        //Check win
-        checkLevelWin();
-
-
-        //If it's been over a second since last fps print, print fps and clear values
-        if (System.nanoTime() - fpsStart >= 1_000_000_000 && showFps) {
-            System.out.println("FPS: " + fps);
-            fpsStart = 0;
-            fps = 0;
-        }
-
-        //Add fps per loop
-        if (showFps) {
-            fps++;
-        }
     }
-
 
 
     public void renderGameObject(GameObject go) {
         go.update();
 
-        if(go instanceof Decoration) {
+        if (go instanceof Decoration) {
             mainCanvas.getGraphicsContext2D().drawImage(
                     ((Decoration) go).getSprite(),
                     go.getX() - camera.getXOffset(),
@@ -144,14 +147,22 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
                         go.getHeight());
 
 
-                if(go instanceof Hero) {
-                    for(GameObject go2 : goList) {
-                        if(go2 instanceof GameActor && !(go2 instanceof Hero)) {
+                if (go instanceof Hero) {
+                    for (GameObject go2 : goList) {
+                        if (go2 instanceof GameActor && !(go2 instanceof Hero)) {
                             if (((GameActor) go).collides(((GameActor) go2).getCollider())) {
 
-                                ((GameActor) go).handleCollision((Zone)go2);
-                                ((GameActor) go2).handleCollision((Zone)go);
+                                ((GameActor) go).handleCollision((Zone) go2);
+                                ((GameActor) go2).handleCollision((Zone) go);
                             }
+                        }
+                    }
+                }
+                if(go instanceof Trump) {
+                    for(GameObject go2 : goList) {
+                        if(go2 instanceof Projectile && ((Trump) go).collides(((GameActor) go2).getCollider())) {
+                            ((GameActor) go).handleCollision((Zone) go2);
+                            ((GameActor) go2).handleCollision((Zone) go);
                         }
                     }
                 }
@@ -164,9 +175,15 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
     }
 
     public void checkLevelWin() {
+        boolean levelWon = true;
+        for(GameObject go : goList) {
+            if(go instanceof Trump) {
+                levelWon = false;
+            }
+        }
 
-        if(GameLoop.getGameObjects().size() ==1) {
-            notifyObservers(StateMessage.WON);
+        if (levelWon) {
+            switchLevel();
         }
     }
 
@@ -216,30 +233,39 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
         observers.add(o);
     }
 
-
     public void removeObserver(GameObserver o) {
         observers.remove(o);
     }
 
+    public void setRunning(boolean running) {
+        this.isRunning = running;
+    }
 
+    @Override
     public void notifyObservers(StateMessage arg) {
-        for(GameObserver o : observers) {
+        for (GameObserver o : observers) {
             o.update(this, arg);
         }
     }
 
 
+    @Override
     public void update(GameObservable o, StateMessage arg) {
-        //just pass it to the next observer
+        //Pass the update
         notifyObservers(arg);
+
     }
 
-    public void nextLevel() {
+    @Override
+    public void switchLevel() {
         int levelIndex = levels.indexOf(currentLevel);
-        Level nextLevel = levels.get((levelIndex + 1));
-        if (nextLevel != null) {
-            currentLevel = nextLevel;
-            notifyObservers(StateMessage.PLAYING);
+        if (levels.size() > levelIndex + 1) {
+            currentLevel.setGameObjects(GameLoop.getGameObjects()); //Clones the state
+            currentLevel.getBgm().stop(); //Stop music
+
+            currentLevel = levels.get((levelIndex + 1)); //Switch level
+            loadLevel();
+            notifyObservers(StateMessage.LEVEL_CLEARED);
         } else {
             notifyObservers(StateMessage.WON);
         }
@@ -250,16 +276,12 @@ public class AdventureLoop extends AnimationTimer implements GameLoop, GameObser
 
     }
 
-    @Override
-    public void switchLevel() {
-
-    }
 
     @Override
     public void clear() {
-
+        currentLevel.getBgm().stop();
+        gameObjects.clear();
     }
-
 }
 
 

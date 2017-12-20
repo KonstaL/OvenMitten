@@ -9,14 +9,16 @@ import fi.konstal.example.game2.util.KeyInput;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
+
+import java.io.Serializable;
 import java.util.*;
 
-public class Loop extends AnimationTimer implements GameLoop, GameObservable, GameObserver {
+public class Loop extends AnimationTimer implements GameLoop, GameObservable, GameObserver, Serializable {
     private List <GameObserver> observers;
     private List<Level> levels;
     private List<MapObject> deniedAreas;
     private Level currentLevel;
-    private Canvas mainCanvas;
+    private transient Canvas mainCanvas; //needed for decoupling
     private int fps;
     private long fpsStart;
     private boolean showFps;
@@ -77,6 +79,7 @@ public class Loop extends AnimationTimer implements GameLoop, GameObservable, Ga
             //Remove dead Game_actors
             GameLoop.removeDeadGameActors();
 
+            //System.out.println(GameLoop.getGameObjects());
 
             //draw background map
             map.draw(mainCanvas.getGraphicsContext2D(), camera);
@@ -219,6 +222,10 @@ public class Loop extends AnimationTimer implements GameLoop, GameObservable, Ga
         this.camera = camera;
     }
 
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
     public List<Level> getLevels() {
         return levels;
     }
@@ -246,6 +253,11 @@ public class Loop extends AnimationTimer implements GameLoop, GameObservable, Ga
 
     @Override
     public void update(GameObservable o, StateMessage arg) {
+        if(arg == StateMessage.PAUSE) {
+            isRunning = false;
+            currentLevel.setGameObjects(GameLoop.getGameObjects()); //Clones the state
+        }
+        //Pass the update
         notifyObservers(arg);
     }
 
@@ -258,9 +270,10 @@ public class Loop extends AnimationTimer implements GameLoop, GameObservable, Ga
     public void switchLevel() {
         int levelIndex = levels.indexOf(currentLevel);
         if (levels.size() > levelIndex+1) {
-            currentLevel.getBgm().stop();
+            currentLevel.setGameObjects(GameLoop.getGameObjects()); //Clones the state
+            currentLevel.getBgm().stop(); //Stop music
 
-            currentLevel = levels.get((levelIndex + 1));
+            currentLevel = levels.get((levelIndex + 1)); //Switch level
             loadLevel();
             notifyObservers(StateMessage.LEVEL_CLEARED);
         } else {

@@ -19,7 +19,7 @@ public abstract class GameActor extends Zone {
     private boolean isAlive;
     private int xVelocity;
     private int yVelocity;
-    private Sprite sprite;
+    private transient Sprite sprite;
     private KeyboardInput keyboardInputListener;
 
 
@@ -36,6 +36,10 @@ public abstract class GameActor extends Zone {
         this.hp = hp;
         this.sprite = new SpriteImage();
         this.isAlive = true;
+    }
+
+    public GameActor() {
+        super(0,0, 50, 50);
     }
 
 
@@ -90,6 +94,11 @@ public abstract class GameActor extends Zone {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    @Override
+    public void init() {
+        //do nothing for now
     }
 
     public boolean goingToCollideX(Collider c) {

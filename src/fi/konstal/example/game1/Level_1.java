@@ -1,38 +1,24 @@
 package fi.konstal.example.game1;
 
-import fi.konstal.engine.core.Level;
+
 import fi.konstal.engine.gameobject.*;
-import fi.konstal.engine.map.Map;
+import fi.konstal.engine.map.tiled.TiledMap;
 import fi.konstal.engine.util.*;
-import fi.konstal.example.game1.util.*;
 
 import javafx.scene.media.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
 
-public class Level_1 implements Level {
-    private List<? super GameObject> gameObjects;
-    private Map map;
-    private MediaPlayer bgm;
 
-    public Level_1(Map map) {
-        this.map = map;
-        this.gameObjects = new ArrayList<>();
+public class Level_1 extends LevelTemplate {
+
+    public Level_1() {
+        setGameObjects(new ArrayList<>());
+        loadAssets();
         init();
     }
 
     public void init() {
-
-        try {
-            Media pick = new Media(this.getClass().getResource("/bgm.mp3").toURI().toString());
-            bgm = new MediaPlayer(pick);
-        } catch (MediaException | URISyntaxException e) {
-            System.out.println("Error while getting media in " + this.getClass());
-            e.printStackTrace();
-        }
-
-
         Sprite sp0 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 0,  8);
         Sprite sp1 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 64,  8);
         Sprite sp2 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 128,  8);
@@ -51,44 +37,27 @@ public class Level_1 implements Level {
         Sprite trSp3 = new SpriteAnimation("trump_run.png", 1, 6, 256, 256, 0, 768, 5);
 
 
-        Trump trump = new Trump(400, 600, 120, 120, trSp0, 40);
+        Trump trump = new Trump(400, 600, 120, 120, trSp0, 10);
         trump.setTarget(hero);
         trump.addSprites(trSp0, trSp1, trSp2, trSp3);
 
         Decoration mitten = new Decoration(500, 1500, 100, 50); //demonstrates default sprite
 
-        gameObjects.add(hero);
-        gameObjects.add(trump);
-        gameObjects.add(mitten);
+        getGameObjects().add(hero);
+        getGameObjects().add(trump);
+        getGameObjects().add(mitten);
     }
 
     @Override
-    public List<GameObject> getGameObjects() {
-        return (List<GameObject>) gameObjects;
-    }
+    public void loadAssets() {
+        setMap(new TiledMap("testTMX.tmx"));
 
-    @Override
-    public void setGameObjects(List<GameObject> gameObjects) {
-
-    }
-
-    @Override
-    public Map getMap() {
-        return map;
-    }
-
-    @Override
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
-    @Override
-    public MediaPlayer getBgm() {
-        return bgm;
-    }
-
-    @Override
-    public void setBgm(MediaPlayer bgm) {
-        this.bgm = bgm;
+        try {
+            Media pick = new Media(this.getClass().getResource("/bgm.mp3").toURI().toString());
+            setBgm(new MediaPlayer(pick));
+        } catch (MediaException | URISyntaxException e) {
+            System.out.println("Error while getting media in " + this.getClass());
+            e.printStackTrace();
+        }
     }
 }

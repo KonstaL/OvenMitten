@@ -42,6 +42,10 @@ public class Animation {
         parseSheet(path, xOffset, yOffset);
     }
 
+    public Animation() {
+
+    }
+
 
 
     public void parseSheet(String filename, int xOffset, int yOffset) {

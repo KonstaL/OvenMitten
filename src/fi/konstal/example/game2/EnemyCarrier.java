@@ -10,9 +10,10 @@ import fi.konstal.engine.util.Sprite;
 import fi.konstal.engine.util.SpriteAnimation;
 import fi.konstal.example.game2.util.Missile;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class EnemyCarrier extends GameActor {
+public class EnemyCarrier extends GameActor implements Serializable {
     private int counter;
     private Sprite missileSprite = new SpriteAnimation(
                 "enemyMissile.png",

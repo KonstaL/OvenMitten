@@ -3,6 +3,7 @@ package fi.konstal.example.game2;
 import fi.konstal.engine.*;
 import fi.konstal.engine.core.*;
 
+import fi.konstal.engine.gameobject.GameObject;
 import fi.konstal.engine.util.*;
 import fi.konstal.example.game2.util.*;
 
@@ -17,18 +18,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class MenuWindow extends GameWindow implements GameObserver {
-    final int WIDTH = 720;
-    final int HEIGHT = 1000;
-    private Stage primaryStage;
+public class MenuWindow extends GameWindow implements GameObserver, Serializable {
+    private final int WIDTH = 720;
+    private final int HEIGHT = 1000;
+    private transient Stage primaryStage;
+    private transient Group root;
+    private transient VBox pauseMenu;
+    
     private Loop gameLoop;
 
     @Override
@@ -41,7 +48,7 @@ public class MenuWindow extends GameWindow implements GameObserver {
                 new Pair<String, Runnable>("Quit to Desktop", Platform::exit)
         );
 
-        Pane root    = new Pane();
+        Pane rootPane  = new Pane();
         VBox menuBox = new VBox();
 
         //Set the background image
@@ -83,13 +90,13 @@ public class MenuWindow extends GameWindow implements GameObserver {
 
 
         //add all the elements to the root Pane
-        root.getChildren().add(imgv);
-        root.getChildren().add(text);
-        root.getChildren().add(line);
-        root.getChildren().add(menuBox);
+        rootPane.getChildren().add(imgv);
+        rootPane.getChildren().add(text);
+        rootPane.getChildren().add(line);
+        rootPane.getChildren().add(menuBox);
 
 
-        Scene sc = new Scene(root);
+        Scene sc = new Scene(rootPane);
         primaryStage.setScene(sc);
 
 
@@ -103,7 +110,7 @@ public class MenuWindow extends GameWindow implements GameObserver {
 
     @Override
     public void runGame(Stage primaryStage) {
-        Group root = new Group();
+        root = new Group();
         Scene gameScene = new Scene( root, Color.BLACK );
 
 
@@ -127,11 +134,67 @@ public class MenuWindow extends GameWindow implements GameObserver {
         gameLoop.start();
     }
 
-    @Override
-    public void stop() throws Exception {
-        super.stop();
-        System.out.println("Successfully stopped");
+    public void runFromSave(List<Level> levels) {
+        root = new Group();
+        Scene gameScene = new Scene( root, Color.BLACK );
+
+
+        Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
+        root.getChildren().add(canvas);
+
+        for(Level l : levels) {
+            l.loadAssets();
+            System.out.println(l.getGameObjects());
+        }
+        this.gameLoop = new Loop(canvas, levels.get(0), true, true);
+
+        for(Level l : levels) {
+            gameLoop.addLevel(l);
+        }
+
+
+        primaryStage.setScene( gameScene );
+        primaryStage.show();
+
+
+        gameLoop.addObserver(this);
+        gameLoop.start();
     }
+
+
+    public void showPauseScreen() {
+
+        List<Pair<String, Runnable>> pauseMenuData = Arrays.asList(
+                new Pair<String, Runnable>("Continue", ()-> {
+                    root.getChildren().remove(pauseMenu);
+                    gameLoop.setRunning(true);
+                }),
+                new Pair<String, Runnable>("Save", this::save),
+                new Pair<String, Runnable>("Quit to main menu", ()-> {
+                    gameLoop.stop();
+                    gameLoop.clear();
+                    gameLoop = null;
+                    showMainMenu(primaryStage);
+                })
+        );
+
+
+        pauseMenu = new VBox();
+
+        //Create a verticalBox containing all the menubuttons defined in menuData
+        pauseMenu.setTranslateX(WIDTH/3+5);
+        pauseMenu.setTranslateY(HEIGHT/3+50);
+        pauseMenuData.forEach(data -> {
+            MenuItem item = new MenuItem(data.getKey());
+            item.setOnAction(data.getValue());
+
+            pauseMenu.getChildren().addAll(item);
+        });
+
+        root.getChildren().add(pauseMenu);
+    }
+
+
 
 
     public void launchThis() {
@@ -156,10 +219,40 @@ public class MenuWindow extends GameWindow implements GameObserver {
                     showMainMenu(primaryStage);
                     System.out.println("You WON!!");
                     break;
+                case PAUSE:
+                    showPauseScreen();
                 default:
                     break;
             }
         }
+    }
+
+    public void save() {
+        try(FileOutputStream fout = new FileOutputStream("game1_save.dat");
+            ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+            oos.writeObject( gameLoop.getLevels());
+            System.out.println("Game saved!!");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void load() {
+        try(FileInputStream fin = new FileInputStream("game1_save.dat");
+            ObjectInputStream ois = new ObjectInputStream(fin)) {
+            List<Level> levels = (List<Level>) ois.readObject();
+            System.out.println("Game loaded!!");
+
+            runFromSave(levels);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        System.out.println("Successfully stopped");
     }
 }
 

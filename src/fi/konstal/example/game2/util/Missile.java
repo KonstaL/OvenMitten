@@ -7,9 +7,10 @@ import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.Projectile;
 import fi.konstal.engine.util.Sprite;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Missile extends Projectile {
+public class Missile extends Projectile implements Serializable {
     public Missile(int x, int y, int width, int height, Sprite sprite, int hp, int damage) {
         super(x, y, width, height, sprite, hp, damage);
     }

@@ -9,15 +9,19 @@ import fi.konstal.engine.util.*;
 import fi.konstal.engine.util.StateMessage;
 import fi.konstal.example.game2.util.Missile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class SpaceShip extends GameActor implements GameObservable {
+public class SpaceShip extends GameActor implements GameObservable, Serializable {
     private List<GameObserver> observers;
     private int counter;
     private boolean isShooting;
     private Sprite missileSprite;
+
+    public SpaceShip() {
+        super(0,0, 50, 50, new SpriteImage(), 20);
+    }
 
     public SpaceShip(int x, int y, int width, int height, Sprite sprite, int hp) {
         super(x, y, width, height, sprite, hp);

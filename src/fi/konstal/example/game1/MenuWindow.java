@@ -2,9 +2,9 @@ package fi.konstal.example.game1;
 
 import fi.konstal.engine.*;
 import fi.konstal.engine.core.Level;
-import fi.konstal.engine.map.Map;
-import fi.konstal.engine.map.tiled.TiledMap;
-import fi.konstal.example.game1.util.AdventureLoop;
+import fi.konstal.engine.util.GameObservable;
+import fi.konstal.engine.util.GameObserver;
+import fi.konstal.engine.util.StateMessage;
 import fi.konstal.example.game1.util.MenuItem;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -29,12 +29,14 @@ import java.util.List;
 /**
  * Created by e4klehti on 14.11.2017.
  */
-public class Menu extends GameWindow {
-    //Final size for the window
-    final int WIDTH = 1280;
-    final int HEIGHT = 720;
-    private Stage primaryStage;
-    private AdventureLoop gameLoop;
+public class MenuWindow extends GameWindow implements GameObserver {
+    private final int WIDTH = 1280;
+    private final int HEIGHT = 720;
+    private transient Stage primaryStage;
+    private transient Group root;
+    private transient VBox pauseMenu;
+
+    private Loop gameLoop;
 
     @Override
     public void showMainMenu(Stage primaryStage) {
@@ -42,11 +44,10 @@ public class Menu extends GameWindow {
 
         List<Pair<String, Runnable>> menuData = Arrays.asList(
                 new Pair<String, Runnable>("Start GameWindow", ()-> runGame(primaryStage)),
-                new Pair<String, Runnable>("Load GameWindow", this::load),
                 new Pair<String, Runnable>("Quit to Desktop", Platform::exit)
         );
 
-        Pane root    = new Pane();
+        Pane rootPane    = new Pane();
         VBox menuBox = new VBox();
 
         //Set the background image
@@ -87,15 +88,14 @@ public class Menu extends GameWindow {
 
 
 
-
         //add all the elements to the root Pane
-        root.getChildren().add(imgv);
-        root.getChildren().add(text);
-        root.getChildren().add(line);
-        root.getChildren().add(menuBox);
+        rootPane.getChildren().add(imgv);
+        rootPane.getChildren().add(text);
+        rootPane.getChildren().add(line);
+        rootPane.getChildren().add(menuBox);
 
 
-        Scene sc = new Scene(root);
+        Scene sc = new Scene(rootPane);
 
         primaryStage.setScene(sc);
         primaryStage.setResizable(false);
@@ -110,26 +110,43 @@ public class Menu extends GameWindow {
         Scene theScene = new Scene( root );
 
 
-
         Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
         root.getChildren().add(canvas);
 
+        Level level = new Level_1();
 
-        Map map = new TiledMap("testTMX.tmx");
-
-
-        Level level = new Level_1(map);
-
-
-        gameLoop = new AdventureLoop(canvas, level, true, true);
-
-
-
-
+        this.gameLoop = new Loop(canvas, level, true, true);
 
         primaryStage.setScene( theScene );
         primaryStage.show();
+
+        gameLoop.addObserver(this);
         gameLoop.start();
+    }
+
+
+    @Override
+    public void update(GameObservable o, StateMessage arg) {
+        if(arg instanceof StateMessage) {
+            switch (arg) {
+                case LOST:
+                    this.gameLoop.stop();
+                    this.gameLoop.clear();
+                    this.gameLoop = null;
+                    showMainMenu(primaryStage);
+                    System.out.println("You DIED!");
+                    break;
+                case WON:
+                    this.gameLoop.stop();
+                    this.gameLoop.clear();
+                    this.gameLoop = null;
+                    showMainMenu(primaryStage);
+                    System.out.println("You WON!!");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override

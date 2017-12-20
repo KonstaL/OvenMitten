@@ -2,6 +2,7 @@ package fi.konstal.example.game2.util;
 
 import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.util.KeyboardInput;
+import fi.konstal.engine.util.StateMessage;
 import fi.konstal.example.game2.SpaceShip;
 import javafx.scene.input.KeyCode;
 
@@ -35,6 +36,10 @@ public class KeyInput extends KeyboardInput {
             ((SpaceShip)getGameObject()).setShooting(true);
         } else {
             ((SpaceShip)getGameObject()).setShooting(false);
+        }
+
+        if (getInputs().contains(KeyCode.ESCAPE)) {
+            ((SpaceShip)getGameObject()).notifyObservers(StateMessage.PAUSE);
         }
 
         //If input contains opposite directions
