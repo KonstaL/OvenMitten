@@ -2,6 +2,7 @@ package fi.konstal.example.game1;
 
 import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.GameObject;
+import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
 import fi.konstal.engine.util.Sprite;
@@ -98,6 +99,17 @@ public class Trump extends Enemy {
     public void addSprites(Sprite... sprites) {
         for(Sprite sp : sprites) {
             this.sprites.add(sp);
+        }
+    }
+
+    @Override
+    public void handleCollision(Zone c) {
+        System.out.println("collision on enemy class");
+
+        setHp(getHp()-1);
+
+        if(getHp() <= 0) {
+            setAlive(false);
         }
     }
 }

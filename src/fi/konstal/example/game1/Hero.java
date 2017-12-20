@@ -11,11 +11,40 @@ import fi.konstal.example.game1.util.DirectionState;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * The main player of game 1
+ *
+ * Extends the normal usability of a GameActor by adding directional spirites and observers
+ *
+ * @author Konsta Lehtinen
+ * @version 20-12-2017
+ */
 public class Hero extends GameActor implements GameObservable {
+
+    /**
+     * Holds observers
+     */
     private List<GameObserver> observers;
+
+    /**
+     * Determines if the player is moving
+     */
     private boolean isMoving;
+
+    /**
+     * list of Sprites which the hero uses
+     */
     private List<Sprite> sprites;
+
+    /**
+     * Determines the direction in which the player is pointing
+     */
     private DirectionState dir;
+
+    /**
+     * A sprite from which all projectiles fired from Hero get their sprite
+     */
     private Sprite projectileSprite = new SpriteAnimation(
             "fireball.png",
             2,
@@ -27,17 +56,28 @@ public class Hero extends GameActor implements GameObservable {
             2
     );
 
+    /**
+     * Initializes Hero
+     *
+     * @param x x-coordinate on screen
+     * @param y y-coordinate on screen
+     * @param width Width of hero
+     * @param height Height of hero
+     * @param sprite Sprite of hero
+     * @param hp Starting hitpoints
+     */
     public Hero(int x, int y, int width, int height, Sprite sprite, int hp) {
         super(x, y, width, height, sprite, hp);
         this.sprites = new ArrayList<>();
         this.observers = new ArrayList<>();
         isMoving = true;
         dir = DirectionState.DOWN;
-
     }
 
 
-
+    /**
+     * Updates Hero every frame depending on it's state
+     */
     @Override
     public void update() {
         if(getxVelocity() == 0 && getyVelocity() == 0) {
@@ -71,6 +111,9 @@ public class Hero extends GameActor implements GameObservable {
         }
     }
 
+    /**
+     * Moves the Hero every frame
+     */
     @Override
     public void move(Map map, List<MapObject> deniedZones) {
             for(MapObject mo: deniedZones) {
@@ -88,19 +131,35 @@ public class Hero extends GameActor implements GameObservable {
             getCollider().update(getX(), getY());
     }
 
+    /**
+     * Returns the current direction
+     *
+     * @return current DirectionState
+     */
     public DirectionState getDirection() {
         return dir;
     }
 
+    /**
+     * Sets the direction
+     *
+     * @param dir the new direction
+     */
     public void setDirection(DirectionState dir) {
         this.dir = dir;
     }
 
+    /**
+     * Adds sprites to Hero's sprites array
+     *
+     * @param sprites sprites to add
+     */
     public void addSprites(Sprite... sprites) {
         for(Sprite sp : sprites) {
             this.sprites.add(sp);
         }
     }
+
 
     @Override
     public void handleCollision(Zone z) {

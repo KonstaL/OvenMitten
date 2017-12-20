@@ -188,14 +188,6 @@ public class Loop extends AnimationTimer implements GameLoop, GameObservable, Ga
     }
 
 
-    public Canvas getMainCanvas() {
-        return mainCanvas;
-    }
-
-    public void setMainCanvas(Canvas mainCanvas) {
-        this.mainCanvas = mainCanvas;
-    }
-
     public boolean isShowHitbox() {
         return showHitbox;
     }
