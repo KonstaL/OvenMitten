@@ -4,8 +4,8 @@ package fi.konstal.example.game2.util;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.util.Projectile;
-import fi.konstal.engine.util.Sprite;
+import fi.konstal.engine.gameobject.Projectile;
+import fi.konstal.engine.sprite.Sprite;
 
 import java.io.Serializable;
 import java.util.List;

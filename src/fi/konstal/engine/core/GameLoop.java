@@ -1,7 +1,7 @@
 package fi.konstal.engine.core;
 
+import fi.konstal.engine.camera.Camera;
 import fi.konstal.engine.gameobject.*;
-import fi.konstal.engine.util.*;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;

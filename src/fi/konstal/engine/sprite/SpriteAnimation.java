@@ -1,4 +1,4 @@
-package fi.konstal.engine.util;
+package fi.konstal.engine.sprite;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -8,23 +8,15 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Creates an "Animation" from an image path
- *
- * @author Konsta Lehtinen
- * @version 2017-12-20
- */
-public class Animation {
+
+public class SpriteAnimation extends Animation implements Sprite, Serializable {
     private ImageView sheet;
     private ArrayList<Image> images;
     private Image currentFrame;
     private int cycleDuration;
-    private int rows;
-    private int amount;
-    private int width;
-    private int height;
     private int counter;
 
 
@@ -40,37 +32,22 @@ public class Animation {
      * @param yOffset       the y offset
      * @param cycleDuration The frameDuration of a single image
      */
-    public Animation(String path, int rows, int amount, int width, int height,
-                     int xOffset, int yOffset, int cycleDuration) {
+    public SpriteAnimation(String filename, int rows, int amount, int width, int height, int xOffset, int yOffset, int cycleDuration) {
         images = new ArrayList<>();
         counter = 0;
 
-        this.rows = rows;
-        this.amount = amount;
-        this.width = width;
-        this.height = height;
+
         this.cycleDuration = cycleDuration;
 
-        parseSheet(path, xOffset, yOffset);
+        parseSheet(filename, f xOffset, yOffset);
     }
 
-    /**
-     * Instantiates a new empty Animation.
-     */
-    public Animation() { }
 
-    /**
-     * Parse sheet.
-     *
-     * @param filename the filename of the sheet
-     * @param xOffset  the x offset
-     * @param yOffset  the y offset
-     */
-    public void parseSheet(String filename, int xOffset, int yOffset) {
+    public void parseSheet(String filename,int rows, int perRow, int width, int height, int xOffset, int yOffset) {
         BufferedImage img = null;
 
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
-           img = ImageIO.read(is);
+            img = ImageIO.read(is);
         } catch (IOException e) {
             System.out.println("Could not load sprite sheet image: " + filename);
             e.printStackTrace();
@@ -108,4 +85,10 @@ public class Animation {
         counter++;
         return currentFrame;
     }
+
+    @Override
+    public Image getImage() {
+        return cycleAnimation();
+    }
+
 }

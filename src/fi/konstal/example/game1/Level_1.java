@@ -3,6 +3,8 @@ package fi.konstal.example.game1;
 
 import fi.konstal.engine.gameobject.*;
 import fi.konstal.engine.map.tiled.TiledMap;
+import fi.konstal.engine.sprite.Sprite;
+import fi.konstal.engine.sprite.SpriteAnimation;
 import fi.konstal.engine.util.*;
 
 import javafx.scene.media.*;
@@ -25,7 +27,6 @@ public class Level_1 extends LevelTemplate {
      */
     public Level_1() {
         setGameObjects(new ArrayList<>());
-        loadAssets();
         init();
     }
 
@@ -57,15 +58,13 @@ public class Level_1 extends LevelTemplate {
         getGameObjects().add(hero);
         getGameObjects().add(trump);
         getGameObjects().add(mitten);
-    }
 
-    @Override
-    public void loadAssets() {
-        setMap(new TiledMap("testTMX.tmx"));
+
+        setMap("map1", new TiledMap("testTMX.tmx"));
 
         try {
             Media pick = new Media(this.getClass().getResource("/bgm.mp3").toURI().toString());
-            setBgm(new MediaPlayer(pick));
+            setBgm("bgm1", new MediaPlayer(pick));
         } catch (MediaException | URISyntaxException e) {
             System.out.println("Error while getting media in " + this.getClass());
             e.printStackTrace();

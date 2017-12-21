@@ -1,7 +1,7 @@
 package fi.konstal.engine.map.tiled;
 
 import fi.konstal.engine.map.Map;
-import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.camera.Camera;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.GraphicsContext;

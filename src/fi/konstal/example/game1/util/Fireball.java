@@ -4,8 +4,8 @@ import fi.konstal.engine.gameobject.Enemy;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.util.Projectile;
-import fi.konstal.engine.util.Sprite;
+import fi.konstal.engine.gameobject.Projectile;
+import fi.konstal.engine.sprite.Sprite;
 
 import java.util.List;
 

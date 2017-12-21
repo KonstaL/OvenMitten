@@ -1,4 +1,4 @@
-package fi.konstal.engine;
+package fi.konstal.engine.core;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

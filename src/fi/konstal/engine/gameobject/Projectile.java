@@ -1,11 +1,7 @@
-package fi.konstal.engine.util;
+package fi.konstal.engine.gameobject;
 
-import fi.konstal.engine.gameobject.GameActor;
-import fi.konstal.engine.map.Map;
-import fi.konstal.engine.map.tiled.MapObject;
-import javafx.scene.image.Image;
+import fi.konstal.engine.sprite.Sprite;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

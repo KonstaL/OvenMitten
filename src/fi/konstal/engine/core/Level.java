@@ -34,11 +34,6 @@ public interface Level {
     void init();
 
     /**
-     * Loads the linked assets such as music and map
-     */
-    void loadAssets();
-
-    /**
      * Returns the Levels map
      *
      * @return levels map
@@ -50,7 +45,7 @@ public interface Level {
      *
      * @param map the map to set
      */
-    void setMap(Map map);
+    void setMap(String Key, Map map);
 
     /**
      * Return a MediaPlayer containing with the levels background music
@@ -64,5 +59,5 @@ public interface Level {
      *
      * @param bgm the mediaplayer to be set
      */
-    void setBgm(MediaPlayer bgm);
+    void setBgm(String key, MediaPlayer bgm);
 }

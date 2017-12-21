@@ -1,4 +1,4 @@
-package fi.konstal.engine.util;
+package fi.konstal.engine.camera;
 
 
 import java.io.Serializable;

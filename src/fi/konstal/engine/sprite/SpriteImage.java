@@ -1,4 +1,4 @@
-package fi.konstal.engine.util;
+package fi.konstal.engine.sprite;
 
 
 import javafx.scene.image.Image;

@@ -1,9 +1,7 @@
 package fi.konstal.example.game2;
 
-import fi.konstal.engine.*;
 import fi.konstal.engine.core.*;
 
-import fi.konstal.engine.gameobject.GameObject;
 import fi.konstal.engine.util.*;
 import fi.konstal.example.game2.util.*;
 
@@ -18,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -154,10 +151,7 @@ public class MenuWindow extends GameWindow implements GameObserver, Serializable
         Canvas canvas = new Canvas(primaryStage.getScene().getWidth(), primaryStage.getScene().getHeight());
         root.getChildren().add(canvas);
 
-        for(Level l : levels) {
-            l.loadAssets();
-            System.out.println(l.getGameObjects());
-        }
+
         this.gameLoop = new Loop(canvas, levels.get(0), true, true);
 
         for(Level l : levels) {

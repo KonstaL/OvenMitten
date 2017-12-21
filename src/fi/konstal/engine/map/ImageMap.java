@@ -1,6 +1,6 @@
 package fi.konstal.engine.map;
 
-import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.camera.Camera;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 

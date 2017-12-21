@@ -1,6 +1,6 @@
 package fi.konstal.example.game1;
 
-import fi.konstal.engine.*;
+import fi.konstal.engine.core.GameWindow;
 import fi.konstal.engine.core.Level;
 import fi.konstal.engine.util.GameObservable;
 import fi.konstal.engine.util.GameObserver;

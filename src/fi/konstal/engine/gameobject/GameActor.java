@@ -3,7 +3,8 @@ package fi.konstal.engine.gameobject;
 import fi.konstal.engine.gameobject.collider.*;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.util.*;
+import fi.konstal.engine.sprite.Sprite;
+import fi.konstal.engine.sprite.SpriteImage;
 
 import java.util.List;
 

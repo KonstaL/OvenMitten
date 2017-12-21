@@ -1,7 +1,7 @@
 package fi.konstal.engine.gameobject;
 
-import fi.konstal.engine.util.Sprite;
-import fi.konstal.engine.util.SpriteImage;
+import fi.konstal.engine.sprite.Sprite;
+import fi.konstal.engine.sprite.SpriteImage;
 import javafx.scene.image.Image;
 
 /**

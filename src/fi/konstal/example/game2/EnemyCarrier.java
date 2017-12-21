@@ -5,9 +5,9 @@ import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
-import fi.konstal.engine.util.Projectile;
-import fi.konstal.engine.util.Sprite;
-import fi.konstal.engine.util.SpriteAnimation;
+import fi.konstal.engine.gameobject.Projectile;
+import fi.konstal.engine.sprite.Sprite;
+import fi.konstal.engine.sprite.SpriteAnimation;
 import fi.konstal.example.game2.util.Missile;
 
 import java.io.Serializable;

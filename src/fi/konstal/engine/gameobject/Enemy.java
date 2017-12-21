@@ -1,6 +1,6 @@
 package fi.konstal.engine.gameobject;
 
-import fi.konstal.engine.util.Sprite;
+import fi.konstal.engine.sprite.Sprite;
 
 
 /**

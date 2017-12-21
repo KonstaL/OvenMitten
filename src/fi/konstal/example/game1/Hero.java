@@ -5,6 +5,8 @@ import fi.konstal.engine.gameobject.GameActor;
 import fi.konstal.engine.gameobject.Zone;
 import fi.konstal.engine.map.Map;
 import fi.konstal.engine.map.tiled.MapObject;
+import fi.konstal.engine.sprite.Sprite;
+import fi.konstal.engine.sprite.SpriteAnimation;
 import fi.konstal.engine.util.*;
 import fi.konstal.example.game1.util.DirectionState;
 import fi.konstal.example.game1.util.Fireball;

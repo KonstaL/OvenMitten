@@ -1,5 +1,6 @@
 package fi.konstal.engine.util;
 
+import fi.konstal.engine.assetmanager.AssetManager;
 import fi.konstal.engine.core.Level;
 import fi.konstal.engine.gameobject.GameObject;
 import fi.konstal.engine.map.Map;
@@ -18,8 +19,8 @@ import java.util.List;
  */
 public abstract class LevelTemplate implements Level, Serializable {
     private List<? super GameObject> gameObjects;
-    private transient Map map;
-    private transient MediaPlayer bgm;
+    private String mapKey;
+    private String bgmKey;
 
     /**
      * {@inheritDoc}
@@ -42,15 +43,16 @@ public abstract class LevelTemplate implements Level, Serializable {
      */
     @Override
     public Map getMap() {
-        return map;
+        return AssetManager.getAsset(mapKey, Map.class);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setMap(Map map) {
-        this.map = map;
+    public void setMap(String key, Map map) {
+        this.mapKey = key;
+        AssetManager.addAsset(key, map);
     }
 
     /**
@@ -58,15 +60,16 @@ public abstract class LevelTemplate implements Level, Serializable {
      */
     @Override
     public MediaPlayer getBgm() {
-        return bgm;
+        return AssetManager.getAsset(bgmKey, MediaPlayer.class);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setBgm(MediaPlayer bgm) {
-        this.bgm = bgm;
+    public void setBgm(String key, MediaPlayer bgm) {
+        this.bgmKey = key;
+        AssetManager.addAsset(key, bgm);
     }
 }
 

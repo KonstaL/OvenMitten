@@ -1,5 +1,7 @@
 package fi.konstal.example.game1;
 
+import fi.konstal.engine.camera.Camera;
+import fi.konstal.engine.camera.FollowCamera;
 import fi.konstal.engine.core.*;
 
 import fi.konstal.engine.gameobject.*;

@@ -1,7 +1,7 @@
 package fi.konstal.engine.gameobject;
 
 import fi.konstal.engine.gameobject.collider.*;
-import fi.konstal.engine.util.Camera;
+import fi.konstal.engine.camera.Camera;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
