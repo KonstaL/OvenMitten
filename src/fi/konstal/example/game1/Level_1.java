@@ -31,22 +31,22 @@ public class Level_1 extends LevelTemplate {
     }
 
     public void init() {
-        Sprite sp0 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 0,  8);
-        Sprite sp1 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 64,  8);
-        Sprite sp2 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 128,  8);
-        Sprite sp3 = new SpriteAnimation("Sprite_walk.png", 1, 5, 32, 64, 32, 192,  8);
-        Sprite sp4 = new SpriteAnimation("Sprite_walk.png", 1, 1, 32, 64, 0, 0,  8);
-        Sprite sp5 = new SpriteAnimation("Sprite_walk.png", 1, 1, 32, 64, 0, 64,  8);
-        Sprite sp6 = new SpriteAnimation("Sprite_walk.png", 1, 1, 32, 64, 0, 128,  8);
-        Sprite sp7 = new SpriteAnimation("Sprite_walk.png", 1, 1, 32, 64, 0, 192,  8);
+        Sprite sp0 = new SpriteAnimation("sp0", "Sprite_walk.png", 1, 5, 32, 64, 32, 0,  8);
+        Sprite sp1 = new SpriteAnimation("sp1","Sprite_walk.png", 1, 5, 32, 64, 32, 64,  8);
+        Sprite sp2 = new SpriteAnimation("sp2","Sprite_walk.png", 1, 5, 32, 64, 32, 128,  8);
+        Sprite sp3 = new SpriteAnimation("sp3","Sprite_walk.png", 1, 5, 32, 64, 32, 192,  8);
+        Sprite sp4 = new SpriteAnimation("sp4","Sprite_walk.png", 1, 1, 32, 64, 0, 0,  8);
+        Sprite sp5 = new SpriteAnimation("sp5","Sprite_walk.png", 1, 1, 32, 64, 0, 64,  8);
+        Sprite sp6 = new SpriteAnimation("sp6","Sprite_walk.png", 1, 1, 32, 64, 0, 128,  8);
+        Sprite sp7 = new SpriteAnimation("sp7","Sprite_walk.png", 1, 1, 32, 64, 0, 192,  8);
 
         Hero hero = new Hero(700,500,40, 70, sp1, 30);
         hero.addSprites(sp0, sp1, sp2, sp3, sp4, sp5, sp6, sp7);
 
-        Sprite trSp0 = new SpriteAnimation("trump_run.png", 1, 6, 256, 256, 0, 0, 5);
-        Sprite trSp1 = new SpriteAnimation("trump_run.png", 1, 6, 256, 256, 0, 256, 5);
-        Sprite trSp2 = new SpriteAnimation("trump_run.png", 1, 6, 256, 256, 0, 512, 5);
-        Sprite trSp3 = new SpriteAnimation("trump_run.png", 1, 6, 256, 256, 0, 768, 5);
+        Sprite trSp0 = new SpriteAnimation("trSp0", "trump_run.png", 1, 6, 256, 256, 0, 0, 5);
+        Sprite trSp1 = new SpriteAnimation("trSp1","trump_run.png", 1, 6, 256, 256, 0, 256, 5);
+        Sprite trSp2 = new SpriteAnimation("trSp2","trump_run.png", 1, 6, 256, 256, 0, 512, 5);
+        Sprite trSp3 = new SpriteAnimation("trSp3","trump_run.png", 1, 6, 256, 256, 0, 768, 5);
 
 
         Trump trump = new Trump(400, 600, 120, 120, trSp0, 10);

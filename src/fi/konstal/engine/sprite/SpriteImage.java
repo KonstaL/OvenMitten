@@ -1,6 +1,7 @@
 package fi.konstal.engine.sprite;
 
 
+import fi.konstal.engine.assetmanager.AssetManager;
 import javafx.scene.image.Image;
 
 
@@ -14,14 +15,16 @@ import javafx.scene.image.Image;
  */
 public class SpriteImage implements Sprite {
     private Image sprite;
+    private String assetKey;
 
     /**
      * Instantiates a new Sprite image.
      *
      * @param filename the filename
      */
-    public SpriteImage(String filename) {
-        sprite = new Image(filename);
+    public SpriteImage(String assetKey, String filename) {
+        this.assetKey = assetKey;
+        AssetManager.addAsset(assetKey, new Image(filename));
     }
 
 

@@ -1,5 +1,6 @@
 package fi.konstal.engine.sprite;
 
+import fi.konstal.engine.assetmanager.AssetManager;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,41 +11,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
-public class SpriteAnimation extends Animation implements Sprite, Serializable {
-    private ImageView sheet;
-    private ArrayList<Image> images;
-    private Image currentFrame;
+public class SpriteAnimation implements Sprite, Serializable {
     private int cycleDuration;
-    private int counter;
+    private int size;
+    private int frameCounter;
+    private int currentIndex;
+    private String assetKey;
 
 
-    /**
-     * Instantiates a new Animation.
-     *
-     * @param path          the path of the Image file
-     * @param rows          the amount of rows
-     * @param amount        the amount of images per row
-     * @param width         the width of a single image
-     * @param height        the height of a single image
-     * @param xOffset       the x offset
-     * @param yOffset       the y offset
-     * @param cycleDuration The frameDuration of a single image
-     */
-    public SpriteAnimation(String filename, int rows, int amount, int width, int height, int xOffset, int yOffset, int cycleDuration) {
-        images = new ArrayList<>();
-        counter = 0;
 
-
+    public SpriteAnimation(String assetKey, String filename, int rows, int perRow, int width, int height, int xOffset, int yOffset, int cycleDuration) {
+        this.currentIndex = 0;
+        this.frameCounter = 0;
+        this.assetKey = assetKey;
         this.cycleDuration = cycleDuration;
 
-        parseSheet(filename, f xOffset, yOffset);
+        parseSheet(filename, rows, perRow, width, height, xOffset, yOffset);
     }
 
 
     public void parseSheet(String filename,int rows, int perRow, int width, int height, int xOffset, int yOffset) {
         BufferedImage img = null;
+        List<Image> images = new ArrayList<>();
 
         try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
             img = ImageIO.read(is);
@@ -55,15 +47,15 @@ public class SpriteAnimation extends Animation implements Sprite, Serializable {
 
         if(img != null) {
             for(int i = 0; i < rows; i++) {
-                for (int y = 0; y < amount; y++) {
+                for (int y = 0; y < perRow; y++) {
                     images.add( SwingFXUtils.toFXImage(img.getSubimage(xOffset + (width * y) ,yOffset + (height * i), width, height), null));
                 }
             }
-            currentFrame = images.get(0);
-            System.out.println("Animointi spritesheet tehty!");
+            //add to AssetManager
+            this.size = images.size();
+            AssetManager.addAsset(assetKey, images);
         } else {
             System.out.println("Could not load sprite sheet image: " + filename);
-
         }
 
     }
@@ -74,16 +66,15 @@ public class SpriteAnimation extends Animation implements Sprite, Serializable {
      * @return the current cycles image
      */
     public Image cycleAnimation() {
-        if(counter >= cycleDuration) {
-            if(images.size()-1  <= images.indexOf(currentFrame)) {
-                currentFrame = images.get(0);
-            } else {
-                currentFrame = images.get(images.indexOf(currentFrame) + 1);
+        List<Image> images = (List<Image>) AssetManager.getAssetCollection(assetKey, Image.class);
+        if(frameCounter >= cycleDuration) {
+            currentIndex++;
+            if(size -1  < currentIndex) {
+                currentIndex = 0;
             }
-            counter = 0;
         }
-        counter++;
-        return currentFrame;
+        frameCounter++;
+        return images.get(currentIndex);
     }
 
     @Override

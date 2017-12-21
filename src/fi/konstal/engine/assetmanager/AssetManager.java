@@ -1,7 +1,6 @@
 package fi.konstal.engine.assetmanager;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AssetManager {
     private static Map<String, AssetContainer> assets = new HashMap<>();
@@ -9,7 +8,7 @@ public class AssetManager {
 
     public static <T> void addAsset(String name, T asset) {
         if (assets.containsKey(name)) {
-            throw new KeyExistsException("The key you gave already exists in AssetManager!");
+            System.out.println("Warning, The key you gave already exists in AssetManager. The key will point to the old asset");
         } else {
             assets.put(name, new AssetContainer(asset));
         }
@@ -22,6 +21,16 @@ public class AssetManager {
         }
 
         return assetContainer.getAsset(type);
+    }
+
+    public static synchronized <T> Collection<T> getAssetCollection(String name, Class<T> type) {
+        AssetContainer assetContainer = assets.get(name);
+        if (assets == null) {
+            throw new AssetNotFoundException("No asset was found with that key!");
+        }
+
+        Collection<T> toReturn = assetContainer.getAsset(Collection.class);
+        return toReturn;
     }
 
     public static void removeAsset(String name) {

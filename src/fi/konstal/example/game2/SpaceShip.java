@@ -52,6 +52,7 @@ public class SpaceShip extends GameActor implements GameObservable, Serializable
 
         observers = new ArrayList<>();
         missileSprite = new SpriteAnimation(
+                "MissileAnimation",
                 "missile.png",
                 1,
                 5,
