@@ -20,7 +20,7 @@ public abstract class GameActor extends Zone {
     private boolean isAlive;
     private int xVelocity;
     private int yVelocity;
-    private transient Sprite sprite;
+    private Sprite sprite;
 
 
     /**

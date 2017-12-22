@@ -1,11 +1,13 @@
 package fi.konstal.engine.gameobject.collider;
 
+import java.io.Serializable;
+
 /**
  * A rectangle shaped Collider
  *
  * If no collider is specified in a GameActor, Collider defaults to the Rectangle collider
  */
-public class Rectangle extends javafx.scene.shape.Rectangle implements Collider {
+public class Rectangle extends javafx.scene.shape.Rectangle implements Collider, Serializable {
 
     /**
      * Instantiates a new Rectangle.

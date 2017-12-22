@@ -1,12 +1,14 @@
 package fi.konstal.engine.gameobject.collider;
 
+import java.io.Serializable;
+
 /**
  * A circle shaped collider
  *
  * @author Konsta Lehtinen
  * @version 2017 -20-12
  */
-public class Circle extends javafx.scene.shape.Circle implements Collider {
+public class Circle extends javafx.scene.shape.Circle implements Collider, Serializable {
 
     /**
      * Instantiates a new Circle.

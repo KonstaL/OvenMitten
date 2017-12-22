@@ -173,29 +173,19 @@ public class Loop extends AnimationTimer implements GameLoop, GameObservable, Ga
             //If its collideable and isn't the projectile itself
             if(go2 instanceof GameActor && !go2.equals(go)) {
 
-                //if it has a parent
-                if(((Projectile) go).getParent().isPresent()) {
+                //If the projectile collides with something else than it's parent
+                if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
+                        ((Projectile) go).getParent() != go2.getClass()) {
 
-                    //If the projectile collides with something else than it's parent
-                    if (((Projectile) go).collides(((GameActor) go2).getCollider()) &&
-                            ((Projectile) go).getParent().get() != go2.getClass()) {
+                    //If go2 is a projectile and is from the same parent class
+                    if (!(go2 instanceof Projectile) ||
+                            ((Projectile) go).getParent() != ((Projectile)go2).getParent()) {
 
-                        //If go2 is a projectile and is from the same parent class
-                        if (!(go2 instanceof Projectile) ||
-                                ((Projectile) go).getParent().get() != ((Projectile)go2).getParent().get()) {
-
-                            //Collide
-                            ((Projectile) go).handleCollision((Zone)go2);
-                            ((GameActor) go2).handleCollision((Zone)go);
-                        } else {
-                            //Do nothing
-                        }
-                    }
-                } else {
-                    //If it collides with any object
-                    if (((Projectile) go).collides(((GameActor) go2).getCollider())) {
+                        //Collide
                         ((Projectile) go).handleCollision((Zone)go2);
                         ((GameActor) go2).handleCollision((Zone)go);
+                    } else {
+                        //Do nothing
                     }
                 }
             }

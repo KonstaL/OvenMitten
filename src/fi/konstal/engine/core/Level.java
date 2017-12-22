@@ -10,7 +10,7 @@ import java.util.List;
  * Level works as a template for all levels
  *
  * @author Konsta Lehtinen
- * @version 2017-12-20
+ * @version 2017 -12-20
  */
 public interface Level {
 
@@ -40,10 +40,12 @@ public interface Level {
      */
     Map getMap();
 
+
     /**
-     * Sets the map
+     * Sets the levels map by an asset reference
      *
-     * @param map the map to set
+     * @param Key the reference key
+     * @param map the map
      */
     void setMap(int Key, Map map);
 
@@ -54,10 +56,12 @@ public interface Level {
      */
     MediaPlayer getBgm();
 
+
     /**
-     * Sets the levels mediaplayer
+     * Saves an asset reference to the levels background music
      *
-     * @param bgm the mediaplayer to be set
+     * @param key the asset reference key
+     * @param bgm the background music
      */
     void setBgm(int key, MediaPlayer bgm);
 }

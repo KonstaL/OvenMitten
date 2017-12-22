@@ -1,13 +1,15 @@
 package fi.konstal.engine.gameobject;
 
 
+import java.io.Serializable;
+
 /**
  * The base GameObject from which all active GameObjects extend from
  *
  * @author Konsta Lehtinen
  * @version 2017-12-20
  */
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
     private int x;
     private int y;
     private int width;

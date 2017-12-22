@@ -144,7 +144,7 @@ public class MenuWindow extends GameWindow implements GameObserver, Serializable
      * @param levels the levels
      */
     public void runFromSave(List<Level> levels) {
-        root = new Group();
+        this.root = new Group();
         Scene gameScene = new Scene( root, Color.BLACK );
 
 

@@ -1,13 +1,15 @@
 package fi.konstal.engine.gameobject.collider;
 
 
+import java.io.Serializable;
+
 /**
  * An Ellipse shaped Collider.
  *
  * @author Konsta Lehtinen
  * @version 2017-12-20
  */
-public class Ellipse extends javafx.scene.shape.Ellipse implements Collider {
+public class Ellipse extends javafx.scene.shape.Ellipse implements Collider, Serializable {
 
     /**
      * Instantiates a new Ellipse.

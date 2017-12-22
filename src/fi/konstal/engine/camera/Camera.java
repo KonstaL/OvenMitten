@@ -2,7 +2,7 @@ package fi.konstal.engine.camera;
 
 
 /**
- * The interface Camera.
+ * The Camera interface.
  *
  * @author Konsta Lehtinen
  * @version 2017-12-20

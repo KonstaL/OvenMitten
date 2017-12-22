@@ -1,6 +1,7 @@
 package fi.konstal.engine.gameobject.collider;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Konsta Lehtinen
  * @version 2017-12-20
  */
-public class Polygon extends javafx.scene.shape.Polygon implements Collider{
+public class Polygon extends javafx.scene.shape.Polygon implements Collider, Serializable{
     private int x, y;
     private double[] origPoints;
 

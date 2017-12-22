@@ -14,7 +14,7 @@ import java.util.Optional;
  */
 public abstract class Projectile extends GameActor {
     private int damage;
-    private Optional<Class> parent;
+    private Class parent;
 
     /**
      * Instantiates a new Projectile.
@@ -30,7 +30,7 @@ public abstract class Projectile extends GameActor {
     public Projectile(int x, int y, int width, int height, Sprite sprite, int hp, int damage) {
         super(x, y, width, height, sprite, hp);
         this.damage = damage;
-        this.parent = Optional.empty();
+        this.parent = null;
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class Projectile extends GameActor {
     public Projectile(int x, int y, int width, int height, int hp, int damage) {
         super(x, y, width, height, hp);
         this.damage = damage;
-        this.parent = Optional.empty();
+        this.parent = null;
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class Projectile extends GameActor {
      * @param c the c
      */
     public void setParent(Class c) {
-        this.parent = Optional.ofNullable(c);
+        this.parent = c;
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class Projectile extends GameActor {
      *
      * @return the parent
      */
-    public Optional<Class> getParent() {
+    public Class getParent() {
         return parent;
     }
 }
