@@ -55,7 +55,7 @@ public class AssetManager {
     /**
      * Gets an Collection Asset
      *
-     * @param <T>  the type of Collection, for example: Collection<String>
+     * @param <T>  the type of the Collection
      * @param key  the key
      * @param type Used to cast the Collection back to it's type
      * @return the Collection of assets

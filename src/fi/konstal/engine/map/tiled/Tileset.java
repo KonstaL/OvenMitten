@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 
+/**
+ * Holds all the tiles generated from the SpriteSheet
+ */
 public class Tileset {
     //The index of the first tile image on the tileset.
     private int firstGid;
@@ -30,7 +33,6 @@ public class Tileset {
      * @param source      the path to the tileset image from the tiled map
      * @param imageWidth  the width of the tileset image
      * @param imageHeight the height of the tileset image
-     * @param path        the path where to get the tileset image
      */
     public Tileset(int firstGid, String name, int tileWidth, int tileHeight,
                    String source, int imageWidth, int imageHeight) {
@@ -80,7 +82,7 @@ public class Tileset {
     /**
      * Returns the tileset's tile images.
      *
-     * @return tileset's tile images
+     * @return tileset 's tile images
      */
     public ArrayList<BufferedImage> getTileImages() {
         return tileImages;
