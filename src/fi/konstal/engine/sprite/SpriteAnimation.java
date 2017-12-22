@@ -1,6 +1,8 @@
 package fi.konstal.engine.sprite;
 
 import fi.konstal.engine.assetmanager.AssetManager;
+import fi.konstal.engine.assetmanager.AssetReferenceNotFoundException;
+import fi.konstal.engine.util.Util;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,17 +22,38 @@ public class SpriteAnimation implements Sprite, Serializable {
     private int size;
     private int frameCounter;
     private int currentIndex;
-    private String assetKey;
+    private int assetKey;
+
+    public SpriteAnimation(String assetKeyRef, String filename, int rows, int perRow, int width, int height, int xOffset, int yOffset, int cycleDuration) {
+        if (AssetManager.containsRef(assetKeyRef)) {
+            this.assetKey = AssetManager.getAssetReference(assetKeyRef);
+        } else {
+            this.currentIndex = 0;
+            this.frameCounter = 0;
+            this.assetKey = Util.getUniqueID();
+            this.cycleDuration = cycleDuration;
+
+            parseSheet(filename, rows, perRow, width, height, xOffset, yOffset);
+            AssetManager.addAssetReference(assetKeyRef, assetKey);
+        }
+    }
 
 
-
-    public SpriteAnimation(String assetKey, String filename, int rows, int perRow, int width, int height, int xOffset, int yOffset, int cycleDuration) {
+    public SpriteAnimation(String filename, int rows, int perRow, int width, int height, int xOffset, int yOffset, int cycleDuration) {
         this.currentIndex = 0;
         this.frameCounter = 0;
-        this.assetKey = assetKey;
+        this.assetKey = Util.getUniqueID();
         this.cycleDuration = cycleDuration;
 
         parseSheet(filename, rows, perRow, width, height, xOffset, yOffset);
+    }
+
+    public SpriteAnimation(String assetKeyRef) {
+        if (AssetManager.containsRef(assetKeyRef)) {
+            this.assetKey = AssetManager.getAssetReference(assetKeyRef);
+        } else {
+            throw new AssetReferenceNotFoundException("Asset reference was not found!");
+        }
     }
 
 
@@ -72,6 +95,7 @@ public class SpriteAnimation implements Sprite, Serializable {
             if(size -1  < currentIndex) {
                 currentIndex = 0;
             }
+            frameCounter = 0;
         }
         frameCounter++;
         return images.get(currentIndex);

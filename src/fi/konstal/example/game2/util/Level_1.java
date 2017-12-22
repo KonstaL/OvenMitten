@@ -4,6 +4,7 @@ package fi.konstal.example.game2.util;
 import fi.konstal.engine.gameobject.collider.Polygon;
 import fi.konstal.engine.util.LevelTemplate;
 import fi.konstal.engine.sprite.SpriteImage;
+import fi.konstal.engine.util.Util;
 import fi.konstal.example.game2.EnemyCarrier;
 import fi.konstal.example.game2.SpaceShip;
 import javafx.scene.media.Media;
@@ -56,7 +57,7 @@ public class Level_1 extends LevelTemplate {
 
         for(int i = 0; i < 3; i++) {
             for(int y = 0; y < 1; y++) {
-                EnemyCarrier carrier = new EnemyCarrier(300*i, 100*y, 70, 70, new SpriteImage("carrier.png"), 20);
+                EnemyCarrier carrier = new EnemyCarrier(300*i, 100*y, 70, 70, new SpriteImage("carrierImage", "carrier.png"), 20);
                 getGameObjects().add(carrier);
             }
         }
@@ -65,12 +66,12 @@ public class Level_1 extends LevelTemplate {
         cv.setLineAmount(70);
 
         //sets the map
-        setMap("map1", cv);
+        setMap(Util.getUniqueID(), cv);
 
 
         try {
             Media pick = new Media(Level_1.class.getResource("/deepSpace.mp3").toURI().toString());
-            setBgm("bgm1", new MediaPlayer(pick));
+            setBgm(Util.getUniqueID(), new MediaPlayer(pick));
         } catch (Exception e) {
             System.out.println(e);
         }

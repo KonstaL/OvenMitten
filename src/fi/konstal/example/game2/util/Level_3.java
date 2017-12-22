@@ -2,6 +2,7 @@ package fi.konstal.example.game2.util;
 
 import fi.konstal.engine.util.LevelTemplate;
 import fi.konstal.engine.sprite.SpriteImage;
+import fi.konstal.engine.util.Util;
 import fi.konstal.example.game2.EnemyCarrier;
 
 import javafx.scene.media.Media;
@@ -29,7 +30,7 @@ public class Level_3 extends LevelTemplate {
     public void init() {
         for(int i = 0; i < 6; i++) {
             for(int y = 0; y < 7; y++) {
-                EnemyCarrier carrier = new EnemyCarrier(130*i, 80*y, 50, 50, new SpriteImage("carrier.png"), 20);
+                EnemyCarrier carrier = new EnemyCarrier(130*i, 80*y, 50, 50, new SpriteImage("carrierImage", "carrier.png"), 20);
                 getGameObjects().add(carrier);
             }
         }
@@ -37,11 +38,11 @@ public class Level_3 extends LevelTemplate {
         CanvasMap cv = new CanvasMap(700, 1000, Color.DARKRED);
         cv.setLineAmount(150);
 
-        setMap("map3", cv);
+        setMap(Util.getUniqueID(), cv);
 
         try {
             Media pick = new Media(this.getClass().getResource("/deepSpace.mp3").toURI().toString());
-            setBgm("bgm3", new MediaPlayer(pick));
+            setBgm(1, new MediaPlayer(pick));
         } catch (Exception e) {
             System.out.println(e);
         }

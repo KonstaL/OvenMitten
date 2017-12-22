@@ -45,7 +45,7 @@ public interface Level {
      *
      * @param map the map to set
      */
-    void setMap(String Key, Map map);
+    void setMap(int Key, Map map);
 
     /**
      * Return a MediaPlayer containing with the levels background music
@@ -59,5 +59,5 @@ public interface Level {
      *
      * @param bgm the mediaplayer to be set
      */
-    void setBgm(String key, MediaPlayer bgm);
+    void setBgm(int key, MediaPlayer bgm);
 }

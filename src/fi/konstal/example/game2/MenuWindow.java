@@ -154,8 +154,8 @@ public class MenuWindow extends GameWindow implements GameObserver, Serializable
 
         this.gameLoop = new Loop(canvas, levels.get(0), true, true);
 
-        for(Level l : levels) {
-            gameLoop.addLevel(l);
+        for(int i = 1; i < levels.size()-1; i++) {
+            gameLoop.addLevel(levels.get(i));
         }
 
 
@@ -242,6 +242,7 @@ public class MenuWindow extends GameWindow implements GameObserver, Serializable
     public void save() {
         try(FileOutputStream fout = new FileOutputStream("game1_save.dat");
             ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+            System.out.println(gameLoop.getLevels());
             oos.writeObject( gameLoop.getLevels());
             System.out.println("Game saved!!");
         } catch (Exception ex) {
@@ -254,6 +255,7 @@ public class MenuWindow extends GameWindow implements GameObserver, Serializable
             ObjectInputStream ois = new ObjectInputStream(fin)) {
             List<Level> levels = (List<Level>) ois.readObject();
             System.out.println("Game loaded!!");
+            System.out.println(levels);
 
             runFromSave(levels);
         } catch (Exception ex) {

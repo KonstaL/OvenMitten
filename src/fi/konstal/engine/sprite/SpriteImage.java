@@ -2,6 +2,7 @@ package fi.konstal.engine.sprite;
 
 
 import fi.konstal.engine.assetmanager.AssetManager;
+import fi.konstal.engine.util.Util;
 import javafx.scene.image.Image;
 
 
@@ -14,16 +15,24 @@ import javafx.scene.image.Image;
  * @version 2017-12-20
  */
 public class SpriteImage implements Sprite {
-    private Image sprite;
-    private String assetKey;
+    private int assetKey;
+
+    public SpriteImage(String assetKeyRef, String filename) {
+        if (AssetManager.containsRef(assetKeyRef)) {
+            this.assetKey = AssetManager.getAssetReference(assetKeyRef);
+        } else {
+            this.assetKey = Util.getUniqueID();
+            AssetManager.addAssetReference(assetKeyRef, assetKey, new Image(filename));
+        }
+    }
 
     /**
      * Instantiates a new Sprite image.
      *
      * @param filename the filename
      */
-    public SpriteImage(String assetKey, String filename) {
-        this.assetKey = assetKey;
+    public SpriteImage( String filename) {
+        this.assetKey = Util.getUniqueID();
         AssetManager.addAsset(assetKey, new Image(filename));
     }
 
@@ -32,13 +41,14 @@ public class SpriteImage implements Sprite {
      * Instantiates a new Sprite image.
      */
     public SpriteImage() {
-        sprite = new Image("OvenMitten.jpeg");
+        this.assetKey = Util.getUniqueID();
+        AssetManager.addAsset(assetKey, new Image("OvenMitten.jpeg"));
     }
 
 
     @Override
     public Image getImage() {
-        return sprite;
+        return AssetManager.getAsset(assetKey, Image.class);
     }
 
 

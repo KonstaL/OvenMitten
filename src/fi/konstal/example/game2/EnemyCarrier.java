@@ -24,7 +24,6 @@ import java.util.List;
 public class EnemyCarrier extends GameActor implements Serializable {
     private int counter;
     private Sprite missileSprite = new SpriteAnimation(
-            "enemyMissileAnimation",
             "enemyMissile.png",
                     1,
                     5,

@@ -46,7 +46,7 @@ public class KeyInput extends KeyboardInput {
             getGameObject().setxVelocity(2);
         }
 
-        //If input contains opposite directions
+        //If input containsAsset opposite directions
         if (!getInputs().contains(KeyCode.UP) && !getInputs().contains(KeyCode.DOWN) ||
                 getInputs().contains(KeyCode.UP) && getInputs().contains(KeyCode.DOWN)) {
             getGameObject().setyVelocity(0);

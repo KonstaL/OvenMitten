@@ -55,7 +55,7 @@ public class KeyInput extends KeyboardInput {
             ((SpaceShip)getGameObject()).notifyObservers(StateMessage.PAUSE);
         }
 
-        //If input contains opposite directions
+        //If input containsAsset opposite directions
         if (!getInputs().contains(KeyCode.W) && !getInputs().contains(KeyCode.S) ||
                 getInputs().contains(KeyCode.W) && getInputs().contains(KeyCode.S)) {
             getGameObject().setyVelocity(0);

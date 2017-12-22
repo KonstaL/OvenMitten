@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public interface GameLoop {
     /**
-     * A static list which contains all the GameObjects currently in play.
+     * A static list which containsAsset all the GameObjects currently in play.
      * As it is static, it can be accessed anywhere
      * <p>
      * CopyOnWriteArray is used to enable simultanious multi-threaded use

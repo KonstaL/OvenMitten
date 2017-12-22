@@ -49,7 +49,6 @@ public class Hero extends GameActor implements GameObservable {
      * A sprite from which all projectiles fired from Hero get their sprite
      */
     private Sprite projectileSprite = new SpriteAnimation(
-            "fireballAnimation",
             "fireball.png",
             2,
             6,

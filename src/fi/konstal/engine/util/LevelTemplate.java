@@ -19,8 +19,8 @@ import java.util.List;
  */
 public abstract class LevelTemplate implements Level, Serializable {
     private List<? super GameObject> gameObjects;
-    private String mapKey;
-    private String bgmKey;
+    private int mapKey;
+    private int bgmKey;
 
     /**
      * {@inheritDoc}
@@ -50,7 +50,7 @@ public abstract class LevelTemplate implements Level, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setMap(String key, Map map) {
+    public void setMap(int key, Map map) {
         this.mapKey = key;
         AssetManager.addAsset(key, map);
     }
@@ -67,7 +67,7 @@ public abstract class LevelTemplate implements Level, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void setBgm(String key, MediaPlayer bgm) {
+    public void setBgm(int key, MediaPlayer bgm) {
         this.bgmKey = key;
         AssetManager.addAsset(key, bgm);
     }

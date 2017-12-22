@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
  * @version 2017 -12-20
  */
 public class Decoration extends GameObject {
-    private transient Sprite sprite;
+    private Sprite sprite;
 
     /**
      * Instantiates a new Decoration.
