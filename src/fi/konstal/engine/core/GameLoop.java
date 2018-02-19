@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Holds all the necessary methods to implement a working gameloop
- * All Classes that implement this should also implement AnimationTimer from JavaFX
+ * All Classes that implement this should also extend AnimationTimer from JavaFX
  *
  * @author Konsta Lehtinen
  * @version 2017 -12-20
